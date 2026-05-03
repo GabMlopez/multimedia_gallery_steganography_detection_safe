@@ -1,0 +1,46 @@
+:root {
+  --primary: #1a5fb4;
+  --danger: #e01b24;
+  --warning: #f5c211;
+  --success: #2ec27e;
+  --dark: #241f31;
+  --light: #f6f5f4;
+}
+
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--light); color: var(--dark); }
+
+/* Header & Nav */
+.header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: var(--dark); color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.header nav a { color: #8ff0ff; margin-left: 20px; text-decoration: none; font-weight: 500; }
+.header nav a:hover { text-decoration: underline; }
+
+/* Grid Layouts */
+.main { padding: 2rem; min-height: 80vh; }
+.albums, .gallery, .quarantine-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+
+/* Cards */
+.album, .image-card, .quarantine-card { 
+  background: white; border-radius: 8px; padding: 1rem; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s;
+}
+.album:hover { transform: translateY(-5px); }
+
+/* Supervisor Panel Specifics */
+.supervisor-tabs { margin-bottom: 2rem; border-bottom: 2px solid #ddd; }
+.supervisor-tabs button { 
+  padding: 10px 20px; border: none; background: none; cursor: pointer; font-weight: bold; 
+}
+.supervisor-tabs button.active { border-bottom: 3px solid var(--primary); color: var(--primary); }
+
+.quarantine-card { border-left: 5px solid var(--danger); }
+.image-preview img { width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
+
+/* Buttons */
+button { cursor: pointer; padding: 8px 16px; border-radius: 4px; border: none; font-weight: 600; }
+.approve-btn { background: var(--success); color: white; margin-right: 8px; }
+.reject-btn { background: var(--danger); color: white; }
+.register button, .login-container button { background: var(--primary); color: white; width: 100%; padding: 12px; margin-top: 10px; }
+
+/* Messages */
+.message { padding: 10px; background: #d5f5e3; color: #186a3b; border-radius: 4px; margin-bottom: 1rem; }
