@@ -87,15 +87,15 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
   datasource:
-    url: jdbc:postgresql://localhost:5432/proyecto_seguro
-    username: postgres
-    password: postgres  # ¡CAMBIAR EN PROD!
+    url: jdbc:postgresql://(xxxx):(port)/(db_name)
+    username: (user_database)
+    password: (password_database)
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
 server:
-  port: 8080
+  port: (port)
 ```
 
 ### ClamAV
@@ -116,7 +116,7 @@ docker run -d --name clamav -p 3310:3310 clamav/clamav:latest clamd
 
 1. **DB Setup**:
    ```bash
-   createdb proyecto_seguro  # o CREATE DATABASE
+   createdb (name)  # o CREATE DATABASE
    ```
 
 2. **ClamAV**:
