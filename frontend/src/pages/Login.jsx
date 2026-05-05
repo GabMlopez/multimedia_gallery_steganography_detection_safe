@@ -31,115 +31,87 @@ export default function Login() {
     }
   };
 
-  // Estilos Modernos
-  const styles = {
-    wrapper: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '80vh',
-    },
-    card: {
-      width: '100%',
-      maxWidth: '400px',
-      padding: '40px',
-      background: '#fff',
-      borderRadius: '12px',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-      textAlign: 'center',
-    },
-    title: {
-      marginBottom: '10px',
-      color: '#1a5fb4',
-      fontSize: '24px',
-      fontWeight: 'bold',
-    },
-    subtitle: {
-      color: '#666',
-      marginBottom: '30px',
-      fontSize: '14px',
-    },
-    inputGroup: {
-      marginBottom: '20px',
-      textAlign: 'left',
-    },
-    input: {
-      width: '100%',
-      padding: '12px 15px',
-      borderRadius: '8px',
-      border: '1px solid #ddd',
-      fontSize: '16px',
-      boxSizing: 'border-box',
-      outline: 'none',
-      transition: 'border-color 0.3s',
-    },
-    button: {
-      width: '100%',
-      padding: '12px',
-      borderRadius: '8px',
-      border: 'none',
-      background: isLoading ? '#95a5a6' : '#1a5fb4',
-      color: 'white',
-      fontSize: '16px',
-      fontWeight: 'bold',
-      cursor: isLoading ? 'not-allowed' : 'pointer',
-      transition: 'background 0.3s',
-    },
-    errorBox: {
-      marginTop: '20px',
-      padding: '10px',
-      borderRadius: '6px',
-      background: '#f8d7da',
-      color: '#721c24',
-      fontSize: '13px',
-      border: '1px solid #f5c6cb',
-    }
-  };
-
   return (
-    <div style={styles.wrapper}>
-      <div style={styles.card}>
-        <div style={styles.title}>Login</div>
-        <p style={styles.subtitle}>Ingrese sus credenciales para continuar</p>
-        
-        <form onSubmit={handleLogin}>
-          <div style={styles.inputGroup}>
-            <label style={{display: 'block', marginBottom: '5px', fontWeight: '500'}}>Usuario</label>
-            <input 
-              style={styles.input}
-              placeholder="Ej: jmarciallo" 
-              onChange={e => setUsername(e.target.value)} 
-              required
-            />
-          </div>
+    <div className="login-view">
+      <section className="login-splash" aria-hidden="true">
+        <h2>Bienvenido a tu galería privada</h2>
+        <p>
+          Ingresa para gestionar imágenes, revisar contenido protegido y mantener tus archivos bajo control.
+        </p>
 
-          <div style={styles.inputGroup}>
-            <label style={{display: 'block', marginBottom: '5px', fontWeight: '500'}}>Contraseña</label>
-            <input 
-              style={styles.input}
-              type="password" 
-              placeholder="••••••••" 
-              autoComplete="current-password" 
-              onChange={e => setPassword(e.target.value)} 
-              required
-            />
+        <div className="login-splash__stats">
+          <div>
+            <strong>+50MB</strong>
+            <span>carga segura</span>
           </div>
+          <div>
+            <strong>JWT</strong>
+            <span>sesión protegida</span>
+          </div>
+          <div>
+            <strong>RBAC</strong>
+            <span>roles por usuario</span>
+          </div>
+        </div>
+      </section>
 
-          <button 
-            type="submit" 
-            style={styles.button}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
+      <section className="login-card" aria-label="Formulario de inicio de sesión">
+        <div className="login-card__header">
+          <span className="login-card__eyebrow">Multimedia Gallery</span>
+          <h1>Iniciar sesión</h1>
+          <p>Ingresa tus credenciales para continuar.</p>
+        </div>
+
+        <form className="login-form" onSubmit={handleLogin}>
+          <label className="field">
+            <span>Usuario</span>
+            <div className="field__control">
+              <span className="field__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                  <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" />
+                </svg>
+              </span>
+              <input
+                value={username}
+                placeholder="Ej: jmrciallo"
+                onChange={e => setUsername(e.target.value)}
+                autoComplete="username"
+                required
+              />
+            </div>
+          </label>
+
+          <label className="field">
+            <span>Contraseña</span>
+            <div className="field__control">
+              <span className="field__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                  <path d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-6 8.73V18a1 1 0 0 0 2 0v-1.27a2 2 0 1 0-2 0ZM10 8V6a2 2 0 0 1 4 0v2Z" />
+                </svg>
+              </span>
+              <input
+                value={password}
+                type="password"
+                placeholder="Escribe tu contraseña"
+                autoComplete="current-password"
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </label>
+
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? 'Verificando...' : 'Entrar'}
           </button>
         </form>
 
-        {error && (
-          <div style={styles.errorBox}>
-            {error}
-          </div>
-        )}
-      </div>
+        <div className="login-card__footer">
+          <span>¿No tienes cuenta?</span>
+          <a href="/register">Crear cuenta</a>
+        </div>
+
+        {error && <div className="login-alert">{error}</div>}
+      </section>
     </div>
   );
 }

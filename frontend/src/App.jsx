@@ -21,14 +21,17 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>Multimedia Gallery</h1>
+        <div className="brand-block">
+          <h1>Multimedia Gallery</h1>
+          <span>Galería segura y privada</span>
+        </div>
         <nav>
           <Link to="/">Inicio</Link>
           
           {!user && (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Registrarse</Link>
+              <Link to="/login">Acceder</Link>
+              <Link to="/register">Crear cuenta</Link>
             </>
           )}
 

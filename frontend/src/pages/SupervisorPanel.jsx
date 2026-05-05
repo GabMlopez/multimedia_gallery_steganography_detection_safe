@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { api, apiUrl } from '../lib/api';
 import ProtectedImage from '../pages/ProtectedImage';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function SupervisorPanel() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [mensaje, setMensaje] = useState('');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmData, setConfirmData] = useState(null);
 
   useEffect(() => {
     cargarSolicitudes();
@@ -20,14 +23,22 @@ export default function SupervisorPanel() {
   };
 
   const manejarAccionAlbum = async (id, accion) => {
-    if (!window.confirm(`¿Estás seguro de que deseas ${accion} este álbum completo?`)) return;
-    
+    // Mostrar modal de confirmación en lugar de confirm nativo
+    setConfirmData({ id, accion });
+    setConfirmOpen(true);
+  };
+
+  const ejecutarAccionAlbum = async () => {
+    const { id, accion } = confirmData || {};
+    setConfirmOpen(false);
+    if (!id || !accion) return;
+
     try {
       await api.get('/api/auth/csrf');
-      const res = accion === 'aprobar' 
+      const res = accion === 'aprobar'
         ? await api.post(`/api/admin/albums/${id}/aprobar`)
         : await api.delete(`/api/admin/albums/${id}/rechazar`);
-      
+
       mostrarMensaje(` ${res.data}`, 'success');
       cargarSolicitudes();
     } catch (err) {
@@ -69,6 +80,16 @@ export default function SupervisorPanel() {
           {mensaje.texto}
         </div>
       )}
+
+      <ConfirmModal
+        open={confirmOpen}
+        title="Confirmar acción"
+        message={`¿Estás seguro de que deseas ${confirmData?.accion || ''} este álbum completo?`}
+        onConfirm={ejecutarAccionAlbum}
+        onCancel={() => setConfirmOpen(false)}
+        confirmText="Aceptar"
+        cancelText="Cancelar"
+      />
 
       {solicitudes.length === 0 ? (
         <p style={{ fontSize: '1.1em', color: '#666' }}> No hay solicitudes de álbumes pendientes de revisión.</p>
