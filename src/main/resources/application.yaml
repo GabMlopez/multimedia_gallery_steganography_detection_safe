@@ -7,7 +7,7 @@ spring:
       max-request-size: 50MB
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/proyecto_seguro
+    url: jdbc:postgresql://localhost:5432/proyecto_seguro
     username: postgres
     password: postgres
 
@@ -20,4 +20,4 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 server:
-  port: 8081
+  port: 8080

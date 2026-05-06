@@ -14,17 +14,33 @@ export default function Login() {
     setIsLoading(true);
     setError(null);
 
+    // SANEAMIENTO: Limpiamos espacios antes de enviar al servidor
+    const cleanUsername = username.trim();
+    const cleanPassword = password.trim();
+
+    // VALIDACIÓN: Evitamos enviar campos vacíos tras el trim
+    if (!cleanUsername || !cleanPassword) {
+      setError('Por favor, rellena todos los campos.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       await api.get('/api/auth/csrf');
-      const res = await api.post('/api/auth/login', { username, password });
+      
+      // Enviamos los datos ya saneados
+      const res = await api.post('/api/auth/login', { 
+        username: cleanUsername, 
+        password: cleanPassword 
+      });
       
       localStorage.setItem('user', JSON.stringify(res.data));
       window.location.href = '/'; 
     } catch (err) {
       if (err.response && err.response.status === 429) {
-        setError("🚨 " + err.response.data);
+        setError(err.response.data);
       } else {
-        setError('❌ ' + (err.response?.data || 'Credenciales inválidas o error de conexión'));
+        setError((err.response?.data || 'Credenciales inválidas o error de conexión'));
       }
     } finally {
       setIsLoading(false);
@@ -33,6 +49,7 @@ export default function Login() {
 
   return (
     <div className="login-view">
+      {/* ... (Sección login-splash se mantiene igual) ... */}
       <section className="login-splash" aria-hidden="true">
         <h2>Bienvenido a tu galería privada</h2>
         <p>
@@ -40,18 +57,9 @@ export default function Login() {
         </p>
 
         <div className="login-splash__stats">
-          <div>
-            <strong>+50MB</strong>
-            <span>carga segura</span>
-          </div>
-          <div>
-            <strong>JWT</strong>
-            <span>sesión protegida</span>
-          </div>
-          <div>
-            <strong>RBAC</strong>
-            <span>roles por usuario</span>
-          </div>
+          <div><strong>+50MB</strong><span>carga segura</span></div>
+          <div><strong>JWT</strong><span>sesión protegida</span></div>
+          <div><strong>RBAC</strong><span>roles por usuario</span></div>
         </div>
       </section>
 

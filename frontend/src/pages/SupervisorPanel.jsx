@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { api, apiUrl } from '../lib/api';
-import ProtectedImage from '../pages/ProtectedImage';
 import ConfirmModal from '../components/ConfirmModal';
 
 export default function SupervisorPanel() {
@@ -23,7 +22,6 @@ export default function SupervisorPanel() {
   };
 
   const manejarAccionAlbum = async (id, accion) => {
-    // Mostrar modal de confirmación en lugar de confirm nativo
     setConfirmData({ id, accion });
     setConfirmOpen(true);
   };
@@ -54,7 +52,7 @@ export default function SupervisorPanel() {
         : await api.put(`/api/admin/image/${id}/reject`);
         
       mostrarMensaje(` ${res.data}`, 'success');
-      cargarSolicitudes(); // Recargamos para ver los cambios en la cuadrícula
+      cargarSolicitudes();
     } catch (err) {
       mostrarMensaje(` Error en imagen: ${err.response?.data || 'Error interno'}`, 'error');
     }
@@ -68,7 +66,7 @@ export default function SupervisorPanel() {
   return (
     <div className="supervisor-panel" style={{ padding: '20px', maxWidth: '1100px', margin: '0 auto' }}>
       <h2 style={{ borderBottom: '3px solid #2c3e50', paddingBottom: '10px', color: '#2c3e50' }}>
-       Centro de Control y Auditoría Perimetral
+        Centro de Control y Auditoría Perimetral
       </h2>
       
       {mensaje && (
@@ -118,7 +116,7 @@ export default function SupervisorPanel() {
 
               {tieneInfecciones && (
                 <div style={{ background: '#f8d7da', color: '#721c24', padding: '12px 20px', fontWeight: 'bold', borderBottom: '1px solid #f5c6cb' }}>
-                   ATENCIÓN: Se detectó archivos anómalos.
+                    ATENCIÓN: Se detectó archivos anómalos en este lote.
                 </div>
               )}
 
@@ -127,50 +125,49 @@ export default function SupervisorPanel() {
                 {album.imagenes.map(img => (
                   <div key={img.id} style={{ width: '200px', border: '1px solid #ddd', borderRadius: '6px', overflow: 'hidden', background: 'white', display: 'flex', flexDirection: 'column' }}>
                     
-                    {/* Visualizador de la imagen */}
                     <div style={{ height: '140px', background: '#e9ecef', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      {img.estado === 'QUARANTINE' && (
+                      {/* LÓGICA CORREGIDA: Si está en cuarentena, muestra reporte técnico */}
+                      {img.estado === 'QUARANTINE' ? (
                         <div style={{ 
-                          padding: '12px', 
-                          background: '#1e1e1e', // Fondo oscuro tipo terminal
-                          borderTop: '2px solid #dc3545',
-                          fontSize: '0.8em',
-                          textAlign: 'left',
-                          color: '#00ff00', // Texto verde tipo matrix/consola
-                          fontFamily: 'monospace'
+                          padding: '10px', 
+                          background: '#1e1e1e', 
+                          fontSize: '0.7em',
+                          color: '#00ff00', 
+                          fontFamily: 'monospace',
+                          width: '100%',
+                          height: '100%'
                         }}>
-                          <strong style={{ color: '#ff4d4d' }}>[DETECCION_ANOMALIA_REPORT]</strong>
-             
-                          
-                          <div style={{ marginBottom: '10px' }}>
-                            <span style={{ color: '#ffc107' }}>{img.motivoAlerta || "Inconsistencia estructural genérica"}</span>
-                          </div>
-                          
-                          <div style={{ borderTop: '1px solid #444', paddingTop: '8px' }}>
-                            <ul style={{ listStyle: 'none', padding: 0, margin: '5px 0' }}>
-                          
-                              <li> ESTEGANOGRAFIA_LSB: <span style={{color: '#ff4d4d'}}>DETECTADA</span></li>
-                              <li> DATA_POST_EOF: <span style={{color: '#ff4d4d'}}>TRUE</span></li>
-                              <li> Name of the file: <span style={{color: '#ff4d4d'}}>{img.nombreArchivo}</span></li>
-                            </ul>
-                          </div>
+                          <strong style={{ color: '#ff4d4d' }}>[DETECCION_ANOMALIA]</strong>
+                          <div style={{ marginTop: '5px', color: '#ffc107' }}>{img.motivoAlerta || "Inconsistencia estructural"}</div>
+                          <ul style={{ padding: 0, margin: '5px 0', listStyle: 'none' }}>
+                            <li> ESTEGANOGRAFIA_LSB: <span style={{color: '#ff4d4d'}}>DETECTADA</span></li>
+                            <li> DATA_POST_EOF: <span style={{color: '#ff4d4d'}}>TRUE</span></li>
+                            <li> Name of the file: <span style={{color: '#ff4d4d'}}>{img.nombreArchivo}</span></li>
+                          </ul>
                         </div>
+                      ) : (
+                        /* Si está limpia, muestra la imagen real */
+                        <img 
+                          src={apiUrl(`/api/public/view/${img.nombreArchivo}`)} 
+                          alt="Segura" 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                        />
                       )}
                     </div>
                     
-                    {/* Estado de Seguridad */}
+                    {/* Badge de Estado */}
                     <div style={{ padding: '8px', textAlign: 'center', fontSize: '0.85em', fontWeight: 'bold', background: img.estado === 'QUARANTINE' ? '#dc3545' : '#28a745', color: 'white' }}>
-                      {img.estado === 'QUARANTINE' ? ' CUARENTENA' : ' SEGURO'}
+                      {img.estado === 'QUARANTINE' ? '⚠ CUARENTENA' : '🛡 SEGURO'}
                     </div>
 
-                    {/* Acciones Individuales (Solo si está en cuarentena) */}
+                    {/* Acciones Individuales para archivos en cuarentena */}
                     {img.estado === 'QUARANTINE' && (
                       <div style={{ display: 'flex', padding: '10px', gap: '5px', background: '#f8f9fa' }}>
-                         <button onClick={() => manejarAccionImagen(img.id, 'aprobar')} style={{ flex: 1, background: '#ffc107', color: '#000', border: 'none', padding: '5px', borderRadius: '3px', fontSize: '0.8em', cursor: 'pointer' }} title="Ignorar alerta y aprobar">
-                           Aprobar
+                         <button onClick={() => manejarAccionImagen(img.id, 'aprobar')} style={{ flex: 1, background: '#ffc107', color: '#000', border: 'none', padding: '5px', borderRadius: '3px', fontSize: '0.8em', cursor: 'pointer' }}>
+                           Forzar
                          </button>
-                         <button onClick={() => manejarAccionImagen(img.id, 'rechazar')} style={{ flex: 1, background: '#343a40', color: 'white', border: 'none', padding: '5px', borderRadius: '3px', fontSize: '0.8em', cursor: 'pointer' }} title="Destruir esta imagen">
-                           Eliminar
+                         <button onClick={() => manejarAccionImagen(img.id, 'rechazar')} style={{ flex: 1, background: '#343a40', color: 'white', border: 'none', padding: '5px', borderRadius: '3px', fontSize: '0.8em', cursor: 'pointer' }}>
+                           Borrar
                          </button>
                       </div>
                     )}

@@ -67,7 +67,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest, HttpServletRequest request) {
-        String username = loginRequest.getUsername();
+        String username = (loginRequest.getUsername() != null) ? loginRequest.getUsername().trim() : "";
+        String password = (loginRequest.getPassword() != null) ? loginRequest.getPassword().trim() : "";
 
         // 1. Verificación de Defensa Perimetral (Rate Limiting)
         if (loginAttemptService.isBlocked(username)) {
@@ -76,12 +77,12 @@ public class AuthController {
         }
 
         try {
+            // Usamos el username ya limpio para la búsqueda en la DB
             User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new BadCredentialsException("Usuario o contraseña incorrectos"));
 
-            // 3. Verificar la contraseña con Argon2id
-            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                // AQUÍ ESTÁ LA CLAVE: Lanzamos la excepción para que el 'catch' la atrape y sume el fallo
+            // 3. Verificar la contraseña (también limpia) con Argon2id
+            if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Usuario o contraseña incorrectos");
             }
 
@@ -110,7 +111,6 @@ public class AuthController {
             return ResponseEntity.ok(response);
 
         } catch (BadCredentialsException e) {
-            // 7. AHORA SÍ: Si la clave está mal o el usuario no existe, esto se ejecuta y suma 1 intento.
             loginAttemptService.loginFailed(username);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña incorrectos");
         } catch (Exception e) {
