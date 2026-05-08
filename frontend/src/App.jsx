@@ -1,53 +1,99 @@
 import React from 'react';
-import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, NavLink, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Home';
 import Album from './pages/Album';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import SupervisorPanel from './pages/SupervisorPanel';
 import UserPanel from './pages/UserPanel';
-import { ProtectedRoute } from './pages/ProtectedRoute'; // Importante
+import { ProtectedRoute } from './pages/ProtectedRoute';
+
+// Inyectar estilos de animaciones
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+`;
+document.head.appendChild(style);
 
 export default function App() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user')); 
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    // Forzamos un reload o navegación para limpiar el estado de la app
-    window.location.href = '/login';
+    navigate('/login', { replace: true });
   };
 
   return (
-    <div className="app">
-      <header className="header">
-        <div className="brand-block">
-          <h1>Multimedia Gallery</h1>
-          <span>Galería segura y privada</span>
+    <div className="app-shell">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <header className="app-header">
+        <div className="brand-lockup">
+          <div className="brand-mark" aria-hidden="true">MG</div>
+          <div>
+            <h1>Multimedia Gallery</h1>
+            <p>Galería segura, privada y con control de acceso</p>
+          </div>
         </div>
-        <nav>
-          <Link to="/">Inicio</Link>
-          
+        <nav className="nav-list" aria-label="Navegación principal">
+          <NavLink to="/" className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`} end>
+            Inicio
+          </NavLink>
           {!user && (
             <>
-              <Link to="/login">Acceder</Link>
-              <Link to="/register">Crear cuenta</Link>
+              <NavLink to="/login" className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>
+                Acceder
+              </NavLink>
+              <NavLink to="/register" className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>
+                Crear cuenta
+              </NavLink>
             </>
           )}
-
-          {/* Validación visual de roles */}
-          {user?.role === 'ROLE_USER' && <Link to="/user-panel">Mi Panel</Link>}
-          {user?.role === 'ROLE_SUPERVISOR' && <Link to="/supervisor">Panel Supervisor</Link>}
-          
+          {user?.role === 'ROLE_USER' && (
+            <NavLink to="/user-panel" className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>
+              Mi panel
+            </NavLink>
+          )}
+          {user?.role === 'ROLE_SUPERVISOR' && (
+            <NavLink to="/supervisor" className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}>
+              Supervisor
+            </NavLink>
+          )}
+          {user && <span className="session-chip">{user.username}</span>}
+          {user && <span className="role-chip">{user.role?.replace('ROLE_', '')}</span>}
           {user && (
-            <button onClick={handleLogout} style={{marginLeft: '15px', background: '#e01b24', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer'}}>
-              Salir ({user.username})
+            <button onClick={handleLogout} className="logout-button">
+              Salir
             </button>
           )}
         </nav>
       </header>
 
-      <main className="main">
+      <main className="main app-main">
         <Routes>
           {/* RUTAS ABIERTAS: Cualquiera puede entrar aquí sin loguearse */}
           <Route path="/" element={<Home />} />

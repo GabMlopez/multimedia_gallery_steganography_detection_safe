@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../lib/api';
+import { notifySuccess, notifyError, notifyInfo } from '../lib/notifications';
+import { LoadingSpinner } from '../components/LoadingSpinner';
+import { FormCard, StatsSection } from '../components/UserPanelComponents';
 
 export default function UserPanel() {
   // --- Estados para Formulario 1: Crear Álbum en Lote ---
@@ -13,14 +16,12 @@ export default function UserPanel() {
   const [misAlbums, setMisAlbums] = useState([]);
   const [isSubmittingExtra, setIsSubmittingExtra] = useState(false);
 
-  // Mensajes de sistema
-  const [message, setMessage] = useState('');
-
   const cargarAlbums = () => {
     api.get('/api/albums/todos')
       .then(res => setMisAlbums(Array.isArray(res.data) ? res.data : []))
       .catch(err => {
         console.error('Error cargando albumes:', err);
+        notifyError('Error al cargar álbumes');
         setMisAlbums([]);
       });
   };
@@ -34,7 +35,6 @@ export default function UserPanel() {
   const crearAlbumEnLote = async (e) => {
     e.preventDefault();
     setIsSubmittingLote(true);
-    setMessage('');
     
     const formData = new FormData();
     formData.append('titulo', titulo);
@@ -49,14 +49,14 @@ export default function UserPanel() {
     try {
       await api.get('/api/auth/csrf');
       const res = await api.post('/api/albums/solicitar-lote', formData);
-      setMessage("✅ Éxito: " + res.data + " (si queda en revisión, aparecerá como destino cuando sea aprobado)");
+      notifySuccess('✅ Álbum creado. En revisión si incluye archivos.');
       
       // Limpiar formulario 1
       setTitulo(''); setDescripcion(''); setArchivosLote([]);
       document.getElementById('input-lote').value = null;
       cargarAlbums();
     } catch (err) {
-      setMessage("❌ Error al crear álbum: " + (err.response?.data || "Error de red"));
+      notifyError(err.response?.data || "Error al crear álbum");
     } finally {
       setIsSubmittingLote(false);
     }
@@ -65,12 +65,11 @@ export default function UserPanel() {
   const subirArchivoExtra = async (e) => {
     e.preventDefault();
     if (archivosExtra.length === 0 || !albumId) {
-      setMessage("⚠️ Selecciona un álbum y al menos un archivo");
+      notifyError('Selecciona un álbum y al menos un archivo');
       return;
     }
 
     setIsSubmittingExtra(true);
-    setMessage('');
 
     const formData = new FormData();
     // Iteramos para agregar todos los archivos seleccionados
@@ -81,155 +80,329 @@ export default function UserPanel() {
     try {
       await api.get('/api/auth/csrf');
       const res = await api.post(`/api/images/upload/${albumId}`, formData);
-      setMessage("✅ " + res.data);
+      notifySuccess('✅ Archivos subidos correctamente');
       
       // Limpiar formulario 2
       setArchivosExtra([]);
       document.getElementById('input-extra').value = null;
     } catch (err) {
       const errorMsg = err.response?.data || "Error al subir los archivos";
-      setMessage("❌ Error: " + errorMsg);
+      notifyError(errorMsg);
     } finally {
       setIsSubmittingExtra(false);
     }
   };
 
-  const hasMessageError = message.includes('Error') || message.includes('⚠️') || message.includes('❌');
-
   return (
-    <div className="user-panel">
-      <section className="user-panel__hero">
-        <div>
-          <span className="login-card__eyebrow">Área privada</span>
-          <h2>Panel de Usuario</h2>
-          <p>Administra tus álbumes, sube imágenes y organiza tu contenido en un espacio seguro.</p>
-        </div>
-        <div className="user-panel__hero-badges">
-          <div>
-            <strong>2 pasos</strong>
-            <span>crear o subir</span>
-          </div>
-          <div>
-            <strong>Multiarchivo</strong>
-            <span>carga en lote</span>
-          </div>
-          <div>
-            <strong>Protegido</strong>
-            <span>con sesión activa</span>
-          </div>
-        </div>
+    <div className="user-panel" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+      <section style={{ marginBottom: '40px' }}>
+        <span style={{
+          display: 'inline-block',
+          backgroundColor: 'rgba(20, 184, 166, 0.12)',
+          color: '#0f766e',
+          padding: '6px 16px',
+          borderRadius: '20px',
+          fontSize: '0.8em',
+          fontWeight: 'bold',
+          marginBottom: '16px',
+          textTransform: 'uppercase'
+        }}>
+          Área Privada
+        </span>
+        <h1 style={{
+          margin: '0 0 8px 0',
+          fontSize: '2.5em',
+          fontWeight: 'bold',
+          color: 'var(--text)'
+        }}>
+          Panel de Usuario
+        </h1>
+        <p style={{
+          margin: 0,
+          fontSize: '1.1em',
+          color: 'var(--muted)',
+          maxWidth: '600px'
+        }}>
+          Administra tus álbumes, sube imágenes y organiza tu contenido en un espacio seguro.
+        </p>
       </section>
 
-      {message && (
-        <div className={`message user-panel__message ${hasMessageError ? 'is-error' : 'is-success'}`}>
-          {message}
-        </div>
-      )}
+      <StatsSection />
 
-      <div className="user-panel__grid">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+        gap: '24px'
+      }}>
         
         {/* FORMULARIO 1: Lote */}
-        <section className="album user-panel__card">
-          <div className="user-panel__card-header">
-            <span className="user-panel__step">Paso 1</span>
-            <h3>Crear nuevo álbum</h3>
-            <p>Crea un álbum y opcionalmente adjunta múltiples imágenes.</p>
-          </div>
-
-          <form className="user-panel__form" onSubmit={crearAlbumEnLote}>
-            <label className="field">
-              <span>Título del álbum</span>
+        <FormCard stepNumber={1} title="Crear nuevo álbum" description="Crea un álbum y opcionalmente adjunta múltiples imágenes.">
+          <form className="user-panel__form" onSubmit={crearAlbumEnLote} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <label className="field" style={{ margin: 0 }}>
+              <span style={{ color: 'var(--muted-strong)', fontSize: '0.9em', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Título del álbum</span>
               <div className="field__control">
                 <input 
-                  type="text" placeholder="Ej: Viaje a la costa" required
-                  value={titulo} onChange={e => setTitulo(e.target.value)} 
+                  type="text" 
+                  placeholder="Ej: Viaje a la costa" 
+                  required
+                  value={titulo} 
+                  onChange={e => setTitulo(e.target.value)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.96)',
+                    border: '1px solid rgba(20, 184, 166, 0.18)',
+                    color: 'var(--text)',
+                    padding: '10px 12px',
+                    borderRadius: '12px',
+                    width: '100%',
+                    fontSize: '0.95em'
+                  }}
                 />
               </div>
             </label>
 
-            <label className="field">
-              <span>Descripción</span>
+            <label className="field" style={{ margin: 0 }}>
+              <span style={{ color: 'var(--muted-strong)', fontSize: '0.9em', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Descripción</span>
               <div className="field__control field__control--textarea">
                 <textarea 
-                  placeholder="Describe el contenido del álbum" required rows="4"
-                  value={descripcion} onChange={e => setDescripcion(e.target.value)} 
+                  placeholder="Describe el contenido del álbum" 
+                  required 
+                  rows="3"
+                  value={descripcion} 
+                  onChange={e => setDescripcion(e.target.value)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.96)',
+                    border: '1px solid rgba(20, 184, 166, 0.18)',
+                    color: 'var(--text)',
+                    padding: '10px 12px',
+                    borderRadius: '12px',
+                    width: '100%',
+                    fontSize: '0.95em',
+                    fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
                 />
               </div>
             </label>
 
-            <label className="user-panel__file-label">Archivos (Imágenes)</label>
-            <div className="user-panel__file-box">
-              <input 
-                id="input-lote" type="file" multiple 
-                accept="image/*,application/pdf"
-                onChange={e => setArchivosLote(e.target.files)} 
-              />
+            <div>
+              <label style={{ color: 'var(--muted-strong)', fontSize: '0.9em', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Archivos (Imágenes)</label>
+              <div style={{
+                border: '2px dashed rgba(20, 184, 166, 0.24)',
+                borderRadius: '16px',
+                padding: '20px',
+                textAlign: 'center',
+                backgroundColor: 'rgba(20, 184, 166, 0.04)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }} onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#14b8a6';
+                e.currentTarget.style.backgroundColor = 'rgba(20, 184, 166, 0.08)';
+              }} onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.24)';
+                e.currentTarget.style.backgroundColor = 'rgba(20, 184, 166, 0.04)';
+              }}>
+                <input 
+                  id="input-lote" 
+                  type="file" 
+                  multiple 
+                  accept="image/*"
+                  onChange={e => setArchivosLote(e.target.files)}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="input-lote" style={{ cursor: 'pointer' }}>
+                  <div style={{ color: 'var(--muted)', fontSize: '0.9em' }}>
+                    {archivosLote.length > 0 ? (
+                      <>
+                        <strong style={{ color: '#0f766e' }}>✓ {archivosLote.length} archivo(s) seleccionado(s)</strong>
+                        <div style={{ fontSize: '0.8em', marginTop: '4px' }}>Haz clic para cambiar</div>
+                      </>
+                    ) : (
+                      <>
+                        <div>Haz clic o arrastra archivos aquí</div>
+                        <div style={{ fontSize: '0.8em', marginTop: '4px' }}>PNG, JPG (opcional)</div>
+                      </>
+                    )}
+                  </div>
+                </label>
+              </div>
             </div>
 
-            <button type="submit" className="user-panel__button user-panel__button--primary" disabled={isSubmittingLote}>
-              {isSubmittingLote ? 'Procesando...' : 'Crear y Enviar a Revisión'}
+            <button 
+              type="submit" 
+              disabled={isSubmittingLote}
+              style={{
+                background: isSubmittingLote ? '#94a3b8' : 'linear-gradient(135deg, #14b8a6 0%, #0f9b8f 100%)',
+                color: 'white',
+                border: 'none',
+                padding: '12px 20px',
+                borderRadius: '12px',
+                fontWeight: 'bold',
+                cursor: isSubmittingLote ? 'not-allowed' : 'pointer',
+                fontSize: '0.95em',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (!isSubmittingLote) {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 12px rgba(16, 185, 129, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSubmittingLote) {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = 'none';
+                }
+              }}
+            >
+              {isSubmittingLote ? (
+                <>
+                  <LoadingSpinner /> Procesando...
+                </>
+              ) : (
+                '✓ Crear y Enviar a Revisión'
+              )}
             </button>
           </form>
-        </section>
+        </FormCard>
 
-        <section className="album user-panel__card">
-          <div className="user-panel__card-header">
-            <span className="user-panel__step user-panel__step--alt">Paso 2</span>
-            <h3>Agregar a álbum existente</h3>
-            <p>Sube múltiples imágenes a un álbum ya creado y aprobado.</p>
-            <button
-              type="button"
-              className="user-panel__button user-panel__button--secondary user-panel__button--small"
-              style={{ marginTop: '0.5rem' }}
-              onClick={cargarAlbums}
-              title="Recargar lista de álbumes aprobados"
-            >
-              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style={{ verticalAlign: 'middle', marginRight: '8px' }}>
-                <path fill="currentColor" d="M21 12a9 9 0 1 0-2.64 6.03l1.46-1.46A7 7 0 1 1 19 12h2z" />
-              </svg>
-              Recargar álbumes
-            </button>
-          </div>
-
-          <form className="user-panel__form" onSubmit={subirArchivoExtra}>
-            <label className="field">
-              <span>Álbum destino</span>
-              <div className="field__control">
-                <select
-                  value={albumId}
-                  onChange={e => setAlbumId(e.target.value)}
-                  required
+        <FormCard stepNumber={2} title="Agregar a álbum existente" description="Sube múltiples imágenes a un álbum ya creado y aprobado.">
+          <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={subirArchivoExtra}>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <label style={{ color: 'var(--muted-strong)', fontSize: '0.9em', fontWeight: '600' }}>Álbum destino</label>
+                <button
+                  type="button"
+                  onClick={cargarAlbums}
+                  title="Recargar lista de álbumes aprobados"
+                  style={{
+                    background: 'rgba(20, 184, 166, 0.08)',
+                    color: '#0f766e',
+                    border: '1px solid rgba(20, 184, 166, 0.18)',
+                    padding: '4px 8px',
+                    borderRadius: '999px',
+                    fontSize: '0.75em',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
                 >
-                  <option value="">-- Selecciona un álbum destino --</option>
-                  {misAlbums.map(a => (
-                    <option key={a.id} value={a.id}>{a.titulo || a.nombre || `Álbum ${a.id}`}</option>
-                  ))}
-                </select>
+                  🔄 Recargar
+                </button>
               </div>
+              <select
+                value={albumId}
+                onChange={e => setAlbumId(e.target.value)}
+                required
+                style={{
+                  background: 'rgba(255, 255, 255, 0.96)',
+                  border: '1px solid rgba(20, 184, 166, 0.18)',
+                  color: 'var(--text)',
+                  padding: '10px 12px',
+                  borderRadius: '12px',
+                  width: '100%',
+                  fontSize: '0.95em',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="">-- Selecciona un álbum --</option>
+                {misAlbums.map(a => (
+                  <option key={a.id} value={a.id}>{a.titulo || a.nombre || `Álbum ${a.id}`}</option>
+                ))}
+              </select>
               {misAlbums.length === 0 && (
-                <small style={{ color: '#64748b' }}>
-                  No hay álbumes aprobados disponibles todavía. Si acabas de crear uno, primero debe aprobarlo el supervisor.
+                <small style={{ color: 'var(--muted)', display: 'block', marginTop: '8px' }}>
+                  ℹ No hay álbumes aprobados. Crea uno en el Paso 1 y espera aprobación.
                 </small>
               )}
-            </label>
-
-            <label className="user-panel__file-label">Archivos (Imágenes)</label>
-            <div className="user-panel__file-box">
-              <input
-                id="input-extra"
-                type="file"
-                multiple
-                accept="image/*,application/pdf"
-                onChange={e => setArchivosExtra(e.target.files)}
-                required
-              />
             </div>
 
-            <button type="submit" className="user-panel__button user-panel__button--success" disabled={isSubmittingExtra}>
-              {isSubmittingExtra ? 'Subiendo Lote...' : 'Subir Archivos'}
+            <div>
+              <label style={{ color: 'var(--muted-strong)', fontSize: '0.9em', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Archivos (Imágenes)</label>
+              <div style={{
+                border: '2px dashed rgba(20, 184, 166, 0.24)',
+                borderRadius: '16px',
+                padding: '20px',
+                textAlign: 'center',
+                backgroundColor: 'rgba(20, 184, 166, 0.04)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }} onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#14b8a6';
+                e.currentTarget.style.backgroundColor = 'rgba(20, 184, 166, 0.08)';
+              }} onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(20, 184, 166, 0.24)';
+                e.currentTarget.style.backgroundColor = 'rgba(20, 184, 166, 0.04)';
+              }}>
+                <input
+                  id="input-extra"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={e => setArchivosExtra(e.target.files)}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="input-extra" style={{ cursor: 'pointer' }}>
+                  <div style={{ color: 'var(--muted)', fontSize: '0.9em' }}>
+                    {archivosExtra.length > 0 ? (
+                      <>
+                        <strong style={{ color: '#0f766e' }}>✓ {archivosExtra.length} archivo(s) seleccionado(s)</strong>
+                        <div style={{ fontSize: '0.8em', marginTop: '4px' }}>Haz clic para cambiar</div>
+                      </>
+                    ) : (
+                      <>
+                        <div>Haz clic o arrastra archivos aquí</div>
+                        <div style={{ fontSize: '0.8em', marginTop: '4px' }}>PNG, JPG (múltiples)</div>
+                      </>
+                    )}
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isSubmittingExtra}
+              style={{
+                background: isSubmittingExtra ? '#94a3b8' : 'linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)',
+                color: 'white',
+                border: 'none',
+                padding: '12px 20px',
+                borderRadius: '12px',
+                fontWeight: 'bold',
+                cursor: isSubmittingExtra ? 'not-allowed' : 'pointer',
+                fontSize: '0.95em',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (!isSubmittingExtra) {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 8px 12px rgba(2, 132, 199, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSubmittingExtra) {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = 'none';
+                }
+              }}
+            >
+              {isSubmittingExtra ? (
+                <>
+                  <LoadingSpinner /> Subiendo...
+                </>
+              ) : (
+                '⬆ Subir Archivos'
+              )}
             </button>
           </form>
-        </section>
+        </FormCard>
 
       </div>
     </div>

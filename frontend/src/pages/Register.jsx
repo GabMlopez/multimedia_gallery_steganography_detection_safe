@@ -1,22 +1,37 @@
 import React, { useState } from 'react'
 import { api } from '../lib/api'
+import { notifySuccess, notifyError } from '../lib/notifications'
+import { LoadingSpinner } from '../components/LoadingSpinner'
+import { PasswordValidator, isPasswordValid } from '../components/PasswordValidator'
 
 export default function Register() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [message, setMessage] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const submit = async (e) => {
     e.preventDefault();
+    
+    if (!isPasswordValid(password)) {
+      notifyError('La contraseña debe tener: mayúscula, carácter especial y 8+ caracteres');
+      return;
+    }
+    
+    setIsLoading(true)
     try {
       // Forzamos la obtención del token antes del POST
       await api.get('/api/auth/csrf');
       
       const res = await api.post('/api/auth/register', { username, password, role: 'ROLE_USER' });
-      setMessage("Registro exitoso: " + res.data);
+      notifySuccess('Registro exitoso. Redirigiendo a login...');
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
     } catch (err) {
       // Capturamos el mensaje de error de tu Regex (mayúsculas, etc.)
-      setMessage(err.response?.data?.message || err.response?.data || 'Error en validación');
+      notifyError(err.response?.data?.message || err.response?.data || 'Error en validación');
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -67,10 +82,18 @@ export default function Register() {
             </div>
           </label>
 
-          <button className="register-button" type="submit">Registrar</button>
-        </form>
+          {password && <PasswordValidator password={password} />}
 
-        {message && <p className="message register-message">{message}</p>}
+          <button className="register-button" type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <LoadingSpinner /> Registrando...
+              </>
+            ) : (
+              'Registrar'
+            )}
+          </button>
+        </form>
       </section>
     </div>
   )

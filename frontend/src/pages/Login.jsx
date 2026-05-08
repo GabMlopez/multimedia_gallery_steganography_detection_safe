@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
+import { notifySuccess, notifyError } from '../lib/notifications';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -12,7 +14,6 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null);
 
     // SANEAMIENTO: Limpiamos espacios antes de enviar al servidor
     const cleanUsername = username.trim();
@@ -20,7 +21,7 @@ export default function Login() {
 
     // VALIDACIÓN: Evitamos enviar campos vacíos tras el trim
     if (!cleanUsername || !cleanPassword) {
-      setError('Por favor, rellena todos los campos.');
+      notifyError('Por favor, rellena todos los campos.');
       setIsLoading(false);
       return;
     }
@@ -35,12 +36,15 @@ export default function Login() {
       });
       
       localStorage.setItem('user', JSON.stringify(res.data));
-      window.location.href = '/'; 
+      notifySuccess('¡Bienvenido! Redirigiendo...');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
     } catch (err) {
       if (err.response && err.response.status === 429) {
-        setError(err.response.data);
+        notifyError(err.response.data);
       } else {
-        setError((err.response?.data || 'Credenciales inválidas o error de conexión'));
+        notifyError(err.response?.data || 'Credenciales inválidas o error de conexión');
       }
     } finally {
       setIsLoading(false);
@@ -109,7 +113,13 @@ export default function Login() {
           </label>
 
           <button type="submit" className="login-button" disabled={isLoading}>
-            {isLoading ? 'Verificando...' : 'Entrar'}
+            {isLoading ? (
+              <>
+                <LoadingSpinner /> Verificando...
+              </>
+            ) : (
+              'Entrar'
+            )}
           </button>
         </form>
 
@@ -117,8 +127,6 @@ export default function Login() {
           <span>¿No tienes cuenta?</span>
           <a href="/register">Crear cuenta</a>
         </div>
-
-        {error && <div className="login-alert">{error}</div>}
       </section>
     </div>
   );

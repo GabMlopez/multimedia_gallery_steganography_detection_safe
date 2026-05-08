@@ -67,28 +67,28 @@ export default function Album() {
     }
   };
 
-  if (loading && !albumInfo) return <div style={{ padding: '20px' }}>⏳ Cargando evidencias...</div>;
-  if (error) return <div style={{ padding: '20px', color: '#721c24', background: '#f8d7da' }}>❌ {error}</div>;
+  if (loading && !albumInfo) return <div style={{ padding: '20px', color: 'var(--muted)' }}>⏳ Cargando evidencias...</div>;
+  if (error) return <div style={{ padding: '20px', color: '#7f1d1d', background: 'rgba(254, 226, 226, 0.92)', border: '1px solid rgba(239, 68, 68, 0.14)', borderRadius: '16px' }}>❌ {error}</div>;
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
+    <div className="album-page" style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
       
       {albumInfo && (
-        <div style={{ marginBottom: '20px', paddingBottom: '15px', borderBottom: '2px solid #eee' }}>
-          <h2 style={{ margin: '0 0 10px 0', color: '#2c3e50' }}>📂 {albumInfo.titulo}</h2>
-          <p style={{ margin: 0, color: '#555', fontSize: '1.1em' }}>{albumInfo.descripcion}</p>
+        <div className="album-page__top" style={{ marginBottom: '20px', paddingBottom: '15px', borderBottom: '1px solid rgba(15, 23, 42, 0.08)' }}>
+          <h2 style={{ margin: '0 0 10px 0', color: 'var(--text)' }}>📂 {albumInfo.titulo}</h2>
+          <p style={{ margin: 0, color: 'var(--muted)', fontSize: '1.1em' }}>{albumInfo.descripcion}</p>
         </div>
       )}
 
-      <h3 style={{ borderBottom: '2px solid #eee', paddingBottom: '10px' }}>Galería</h3>
+      <h3 style={{ borderBottom: '1px solid rgba(15, 23, 42, 0.08)', paddingBottom: '10px' }}>Galería</h3>
       
-      <div className="gallery" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
+      <div className="album-gallery" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
         {images.length === 0 ? (
-          <p style={{ color: '#666', fontStyle: 'italic' }}>Este álbum aún no tiene imágenes aprobadas.</p>
+          <p style={{ color: 'var(--muted)', fontStyle: 'italic' }}>Este álbum aún no tiene imágenes aprobadas.</p>
         ) : (
           images.map(img => (
-            <div className="image-card" key={img.id} style={{ width: '220px', border: '1px solid #ddd', borderRadius: '8px', overflow: 'hidden' }}>
-              <div style={{ height: '160px', background: '#e9ecef', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="image-card" key={img.id} style={{ width: '220px', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '18px', overflow: 'hidden' }}>
+              <div style={{ height: '160px', background: 'rgba(20, 184, 166, 0.05)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img 
                   src={apiUrl(`/api/public/view/${img.nombreArchivo}`)} 
                   alt={img.nombreArchivo} 
@@ -96,8 +96,8 @@ export default function Album() {
                 />
               </div>
               <div className="meta" style={{ padding: '12px' }}>
-                <p style={{ margin: '0 0 5px 0', fontSize: '0.85em', wordBreak: 'break-all' }}>📄 {img.nombreArchivo}</p>
-                <span style={{ color: '#137333', fontSize: '0.75em', fontWeight: 'bold' }}>✅ Inspección aprobada</span>
+                <p style={{ margin: '0 0 5px 0', fontSize: '0.85em', wordBreak: 'break-all', color: 'var(--text)' }}>📄 {img.nombreArchivo}</p>
+                <span style={{ color: '#0f766e', fontSize: '0.75em', fontWeight: 'bold' }}>✅ Inspección aprobada</span>
               </div>
             </div>
           ))

@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/proyecto_seguro
     username: postgres
-    password: postgres
+    password: 1234
 
   jpa:
     hibernate:
