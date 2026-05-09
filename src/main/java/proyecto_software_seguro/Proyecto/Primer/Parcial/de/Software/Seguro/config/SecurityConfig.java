@@ -39,14 +39,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        tokenRepository.setCookieCustomizer(customizer -> customizer.sameSite("None").secure(true));
+        // Configuramos el repositorio CSRF con SameSite=None para que la cookie
+        // XSRF-TOKEN viaje correctamente entre dominios distintos (Vercel → Render)
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+                .sameSite("None")   // Cross-site
+                .secure(true)        // Obligatorio con SameSite=None
+        );
+
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 // 1. Configuración de CSRF (Synchronizer Token Pattern)
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(tokenRepository)
+                        .csrfTokenRepository(csrfTokenRepository)
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 )
                 // 2. Filtro para forzar la generación de la cookie XSRF-TOKEN
@@ -77,8 +83,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001","https://galeria-segura-espe.vercel.app"));
-
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3001",
+                "https://galeria-segura-espe.vercel.app"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
 

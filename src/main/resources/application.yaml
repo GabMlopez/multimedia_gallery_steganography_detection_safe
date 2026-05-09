@@ -26,3 +26,8 @@ server:
   # Render inyecta automáticamente una variable de entorno llamada PORT.
   # Es buena práctica dejar que Render decida el puerto en producción.
   port: ${PORT:8080}
+  servlet:
+    session:
+      cookie:
+        same-site: none   # Permite envío de cookies entre dominios distintos (Vercel → Render)
+        secure: true  
