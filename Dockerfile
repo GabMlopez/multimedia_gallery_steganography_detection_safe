@@ -1,9 +1,9 @@
 
-FROM maven:3.8.5-eclipse-temurin-17 AS build
+FROM maven:3.8.5-eclipse-temurin-21 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 

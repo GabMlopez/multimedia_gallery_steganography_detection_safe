@@ -7,9 +7,11 @@ spring:
       max-request-size: 50MB
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/proyecto_seguro
-    username: postgres
-    password: 1234
+    # Si detecta las variables de entorno (en Render), las usa. 
+    # Si no (en tu compu), usa tu configuración local.
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/proyecto_seguro}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:1234}
 
   jpa:
     hibernate:
@@ -19,5 +21,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
 server:
-  port: 8080
+  # Render inyecta automáticamente una variable de entorno llamada PORT.
+  # Es buena práctica dejar que Render decida el puerto en producción.
+  port: ${PORT:8080}
