@@ -8,17 +8,19 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-# Creación de usuario no root por seguridad
-RUN addgroup -S spring && adduser -S spring -G spring
+# 1. Creamos el usuario
+# 2. Creamos la estructura de carpetas de tu proyecto
+# 3. Le damos al usuario 'spring' la propiedad de toda la carpeta /app
+RUN addgroup -S spring && adduser -S spring -G spring && \
+    mkdir -p /app/uploads/safe /app/uploads/quarantine && \
+    chown -R spring:spring /app
+
+# Ahora sí, cambiamos al usuario seguro
 USER spring:spring
 
-# Copiamos el .jar generado desde la etapa de construcción
-COPY --from=build /app/target/*.jar app.jar
+# Copiamos el .jar (usando --chown para mantener los permisos)
+COPY --chown=spring:spring --from=build /app/target/*.jar app.jar
 
 EXPOSE 8081
 
-# Inyectamos los límites de memoria directamente en el comando.
-# -Xmx256m: Límite máximo de Heap (Deja ~256MB libres para el sistema y la JVM).
-# -Xms128m: Memoria inicial asignada.
-# -XX:+UseContainerSupport: Optimiza el comportamiento de Java dentro de Docker.
 ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-XX:+UseContainerSupport", "-jar", "app.jar"]
