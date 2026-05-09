@@ -14,8 +14,15 @@ final class CsrfCookieFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        if (null != csrfToken && null != csrfToken.getHeaderName()) {
-            response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+        
+        if (null != csrfToken) {
+            // Esto obliga a Spring Security a generar y enviar la cookie XSRF-TOKEN
+            csrfToken.getToken(); 
+            
+            // Esto envía el token en la cabecera, como ya lo tenías
+            if (null != csrfToken.getHeaderName()) {
+                response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+            }
         }
         filterChain.doFilter(request, response);
     }
