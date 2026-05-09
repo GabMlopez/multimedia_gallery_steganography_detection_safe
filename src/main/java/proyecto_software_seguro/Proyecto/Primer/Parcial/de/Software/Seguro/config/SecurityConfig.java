@@ -39,12 +39,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        tokenRepository.setCookieCustomizer(customizer -> customizer.sameSite("None").secure(true));
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 // 1. Configuración de CSRF (Synchronizer Token Pattern)
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRepository(tokenRepository)
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 )
                 // 2. Filtro para forzar la generación de la cookie XSRF-TOKEN
