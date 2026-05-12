@@ -39,64 +39,90 @@ Proyecto (Backend Spring Boot)
 ```
 Proyecto/
 ├── README.md
-├── pom.xml (Spring Boot 4.0.6, Java 25)
+├── pom.xml (Spring Boot 4.0.6)
 ├── src/main/java/... (Controllers, Services, Entities)
 ├── src/main/resources/application.yaml
-├── frontend/
-│   ├── package.json (React 18, Vite 5.2)
-│   ├── src/components/ImageCard.jsx
-│   └── src/pages/ (Home.jsx, Login.jsx, SupervisorPanel.jsx...)
+├── frontend/ (React + Vite)
 ├── uploads/
-│   ├── safe/ (approved images)
+│   ├── safe/ (imágenes aprobadas)
 │   └── quarantine/ (SUSPECT_*.jpg)
 └── Dockerfile
 ```
 
 ## 🌐 **Frontend (React + Vite)**
 
-- **Framework**: React 18.2.0 + Vite 5.2.0
-- **Dependencies**: axios 1.6, react-router-dom 6.14
-- **Pages**: Home, Album, Login/Register, UserPanel, SupervisorPanel, ProtectedImage
-- **Components**: ImageCard, ProtectedRoute
-- **API**: lib/api.js (proxy /api -> backend)
-- **Dev**: `npm run dev` (port 3001)
-- **Build**: `npm run build` → dist/ (serve static)
+El frontend es una **SPA** (Single Page Application) que consume el backend mediante HTTP.
+
+- **Framework**: React 18 + Vite
+- **Router**: `react-router-dom`
+- **Páginas**: Home, Album, Login/Register, UserPanel, SupervisorPanel, ProtectedImage
+- **Componentes clave**: `ImageCard`, `ConfirmModal`, `LoadingSpinner`, `SkeletonLoader`, etc.
+- **Comunicación con API**: `frontend/src/lib/api.js`
+  - Usa el proxy de Vite para que las rutas `/api` apunten al backend (en dev: `http://localhost:8080`).
+
+### Ejecutar frontend (dev)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+- URL: **http://localhost:3001**
+
+### Build frontend
+```bash
+cd frontend
+npm run build
+```
+Se genera `dist/`.
 
 ## ⚙️ **Backend (Spring Boot)**
 
-- **Version**: Spring Boot 4.0.6, Java 25
+- **Framework**: Spring Boot 4.0.6
+- **Puertos**:
+  - **Dev**: `8080`
+  - **Docker**: `8081` (según `Dockerfile`)
 - **Key Modules**:
   | Module | Description |
   |--------|-------------|
   | Controllers | AuthController, ImageController, AlbumController, SupervisorController |
   | Services | AuditService, FileStorageService, LoginAttemptService |
-  | Entities | User (Role enum), Image (ImageStatus), Album, AuditLog |
+  | Entities/DTOs | User (Role), Image (ImageStatus), Album, AuditLog, request/response DTOs |
   | Config | SecurityConfig, CsrfCookieFilter |
   | Utils | XssSanitizer |
 - **Database**: PostgreSQL
 
 ## ⚙️ **Configuraciones Clave**
 
+
 ### application.yaml
+> Ajusta los valores entre paréntesis antes de ejecutar.
+
 ```yaml
 spring:
   application:
     name: Proyecto-Primer-Parcial-de-Software-Seguro
+
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+
   datasource:
-    url: jdbc:postgresql://(xxxx):(port)/(db_name)
+    url: jdbc:postgresql://(host):(port)/(db_name)
     username: (user_database)
     password: (password_database)
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
 server:
-  port: (port)
+  port: 8080
 ```
+
+> Docker expone el contenedor en **8081** (ver `Dockerfile`).
+
 
 ### ClamAV
 ```bash
@@ -108,7 +134,7 @@ docker run -d --name clamav -p 3310:3310 clamav/clamav:latest clamd
 ### Prerrequisitos
 | Requisito | Versión | Instalación |
 |-----------|---------|-------------|
-| Java | 25 | `winget install OpenJDK.25` (Win) / `apt install openjdk-25-jdk` (Linux) |
+| Java | 21 (Docker) / recomendado 21 | `winget install OpenJDK.21` (Win) / `apt install openjdk-21-jdk` (Linux) |
 | Node.js | 20+ | `winget install NodeJS` / `apt install nodejs npm` |
 | PostgreSQL | 14+ | Docker o local |
 | Docker | - | Para ClamAV |
@@ -145,7 +171,7 @@ docker run -d --name clamav -p 3310:3310 clamav/clamav:latest clamd
 | Rol | Email | Password |
 |-----|-------|----------|
 | User | user@test.com | password123 |
-| Supervisor | supervisor@test.com | supervisor123 |
+| Supervisor | supervisor@test.com | Supervisor123_ |
 
 ## 🧪 **Panel Supervisor**
 - Imágenes en cuarentena
@@ -165,6 +191,8 @@ docker run -p 8081:8081 -e DB_PASSWORD=newpass proyecto-seguro
 ## 📄 **Documentación Adicional**
 - [PLAN_ESTRATEGICO_SEGURIDAD.md](PLAN_ESTRATEGICO_SEGURIDAD.md)
 - [IMPLEMENTATION_LOG.md](IMPLEMENTATION_LOG.md)
+- [HELP.md](HELP.md) (nota sobre el package name usado en el proyecto)
+
 
 ---
 **ESPE - Software Seguro 2024**
