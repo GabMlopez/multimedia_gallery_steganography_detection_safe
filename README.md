@@ -121,8 +121,6 @@ server:
   port: 8080
 ```
 
-> Docker expone el contenedor en **8081** (ver `Dockerfile`).
-
 
 ### ClamAV
 ```bash
