@@ -43,7 +43,6 @@ public class GalleryController {
 
     @GetMapping("/view/{filename}")
     public ResponseEntity<Resource> serveImage(@PathVariable String filename) throws IOException {
-        // SEGURIDAD: Validar contra Path Traversal - rechazar caracteres peligrosos
         if (filename.contains("..") || filename.contains("/") || filename.contains("\\")) {
             return ResponseEntity.status(403).body(null);
         }
@@ -51,7 +50,6 @@ public class GalleryController {
         Path basePath = Paths.get("uploads/safe").toAbsolutePath();
         Path path = basePath.resolve(filename).normalize();
 
-        // Validar que el archivo resuelto esté dentro de basePath
         if (!path.startsWith(basePath)) {
             return ResponseEntity.status(403).body(null);
         }

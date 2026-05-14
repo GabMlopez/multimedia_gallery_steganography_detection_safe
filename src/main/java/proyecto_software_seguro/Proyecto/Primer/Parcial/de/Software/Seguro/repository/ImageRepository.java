@@ -15,4 +15,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     List<Image> findByAlbumIdAndEstado(Long albumId, ImageStatus estado);
     List<Image> findByAlbumId(Long albumId);
     long countByEstado(ImageStatus estado);
+    boolean existsByAlbumIdAndHash(Long albumId, String hash);
 }

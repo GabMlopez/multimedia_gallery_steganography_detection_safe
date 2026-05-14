@@ -33,47 +33,39 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Argon2id: El estándar más alto para protección contra hardware de cracking (GPUs/ASICs)
         return new Argon2PasswordEncoder(16, 32, 1, 65536, 3);
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Configuramos el repositorio CSRF con SameSite=None para que la cookie
-        // XSRF-TOKEN viaje correctamente entre dominios distintos (Vercel → Render)
         CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         csrfTokenRepository.setCookieCustomizer(cookie -> cookie
-                .sameSite("None")   // Cross-site
-                .secure(true)        // Obligatorio con SameSite=None
+                .sameSite("None")
+                .secure(true)
         );
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 1. Configuración de CSRF (Synchronizer Token Pattern)
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfTokenRepository)
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 )
-                // 2. Filtro para forzar la generación de la cookie XSRF-TOKEN
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
 
-                // 3. Cabeceras de Seguridad (RF05)
                 .headers(headers -> headers
                         .contentSecurityPolicy(csp -> csp
                                 .policyDirectives("default-src 'self'; img-src 'self' data:;"))
-                        .contentTypeOptions(Customizer.withDefaults()) // X-Content-Type-Options: nosniff
+                        .contentTypeOptions(Customizer.withDefaults())
                 )
 
-                // 4. Control de Acceso Perimetral
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/albums/publico/**").permitAll() // Cualquiera puede VER
-                        .requestMatchers("/api/public/view/**").permitAll()           // Cualquiera puede ver las FOTOS
+                        .requestMatchers(HttpMethod.GET, "/api/albums/publico/**").permitAll()
+                        .requestMatchers("/api/public/view/**").permitAll()
 
-                        // RESTRINGIMOS las acciones de modificación:
-                        .requestMatchers(HttpMethod.POST, "/api/albums/**").hasRole("USER") // Solo USER crea
-                        .requestMatchers("/api/admin/**").hasRole("SUPERVISOR")             // Solo SUPERVISOR audita
+                        .requestMatchers(HttpMethod.POST, "/api/albums/**").hasRole("USER")
+                        .requestMatchers("/api/admin/**").hasRole("SUPERVISOR")
 
                         .anyRequest().authenticated()
                 );
@@ -90,10 +82,8 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-XSRF-TOKEN"));
 
-        // 4. Cabeceras que el backend EXPONE al frontend (CRÍTICO para que Axios lea el token)
         configuration.setExposedHeaders(Arrays.asList("X-XSRF-TOKEN"));
 
-        // 5. Permitir el envío de cookies (JSESSIONID)
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

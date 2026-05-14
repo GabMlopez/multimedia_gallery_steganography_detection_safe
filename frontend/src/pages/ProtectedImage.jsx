@@ -6,10 +6,8 @@ export default function ProtectedImage({ url, alt, className }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // Usamos Axios para enviar las cookies de sesión automáticamente
     api.get(url, { responseType: 'blob' })
       .then(response => {
-        // Convertimos los bytes seguros en una URL local temporal que React puede mostrar
         const blobUrl = URL.createObjectURL(response.data);
         setImgSrc(blobUrl);
       })

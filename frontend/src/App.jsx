@@ -95,14 +95,14 @@ export default function App() {
 
       <main className="main app-main">
         <Routes>
-          {/* RUTAS ABIERTAS: Cualquiera puede entrar aquí sin loguearse */}
+          {/* RUTAS ABIERTAS*/}
           <Route path="/" element={<Home />} />
           <Route path="/album" element={<Album />} />
           <Route path="/album/:id" element={<Album />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* RUTAS PRIVADAS: Solo si hay sesión y el rol coincide */}
+          {/* RUTAS PRIVADAS */}
           <Route element={<ProtectedRoute allowedRoles={['ROLE_USER']} />}>
             <Route path="/user-panel" element={<UserPanel />} />
           </Route>

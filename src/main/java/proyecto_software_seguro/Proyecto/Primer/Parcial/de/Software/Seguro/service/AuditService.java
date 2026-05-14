@@ -15,9 +15,6 @@ public class AuditService {
     @Autowired
     private AuditLogRepository auditLogRepository;
 
-    /**
-     * Registra una acción en el log de auditoría
-     */
     public void logAction(String usuarioId, String accion, String recursoId, String recursoTipo, String detalles) {
         AuditLog log = new AuditLog();
         log.setUsuarioId(usuarioId);
@@ -30,9 +27,6 @@ public class AuditService {
         auditLogRepository.save(log);
     }
 
-    /**
-     * Obtiene la dirección IP del cliente
-     */
     private String getClientIpAddress() {
         try {
             ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

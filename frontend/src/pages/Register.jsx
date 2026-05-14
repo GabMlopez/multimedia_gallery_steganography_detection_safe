@@ -19,7 +19,7 @@ export default function Register() {
     
     setIsLoading(true)
     try {
-      // Forzamos la obtención del token antes del POST
+
       await api.get('/api/auth/csrf');
       
       const res = await api.post('/api/auth/register', { username, password, role: 'ROLE_USER' });
@@ -28,7 +28,7 @@ export default function Register() {
         window.location.href = '/login';
       }, 2000);
     } catch (err) {
-      // Capturamos el mensaje de error de tu Regex (mayúsculas, etc.)
+
       notifyError(err.response?.data?.message || err.response?.data || 'Error en validación');
     } finally {
       setIsLoading(false)

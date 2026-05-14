@@ -169,8 +169,8 @@ docker run -d --name clamav -p 3310:3310 clamav/clamav:latest clamd
 | Rol | Email | Password |
 |-----|-------|----------|
 | User | user@test.com | password123 |
-| Supervisor | supervisor@test.com | Supervisor123_ |
-
+| Supervisor | supervisor@test.com | Supervisor123! |
+jhordy_user_123 | Password@Fuerte@123!
 ## 🧪 **Panel Supervisor**
 - Imágenes en cuarentena
 - Auditoría logs

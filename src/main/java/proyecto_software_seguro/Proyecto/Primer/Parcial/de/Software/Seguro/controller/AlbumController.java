@@ -150,43 +150,18 @@ public class AlbumController {
             @RequestParam("descripcion") String descripcion,
             @RequestParam(value = "archivos", required = false) MultipartFile[] archivos) {
 
-
         try {
-            // 1. Guardar la metadata del álbum (Siempre entra como Pendiente)
+            // 1. Guardar la metadata del álbum (Siempre entra como Pendiente de aprobación general)
             Album album = new Album();
             album.setTitulo(titulo);
             album.setDescripcion(descripcion);
             album.setAprobado(false);
             Album albumGuardado = albumRepository.save(album);
 
-            // 2. Procesar el lote de archivos bajo los estándares de seguridad
+            // 2. Procesar el lote de archivos delegando la lógica al pipeline del servicio
             if (archivos != null && archivos.length > 0) {
-                for (MultipartFile archivo : archivos) {
-
-                    String report = fileService.getSteganographyReport(archivo);
-                    // Si el archivo no es válido (Magic Numbers), lo saltamos o podríamos lanzar error
-                    if (!fileService.isValidImage(archivo)) {
-                        continue;
-                    }
-
-                    // Análisis de Esteganografía
-                    boolean isSuspicious = fileService.detectSteganography(archivo);
-
-                    if (isSuspicious) {
-                        fileService.saveToQuarantine(archivo, albumGuardado.getId());
-                    } else {
-                        // Incluso si es "Clean", la imagen se asocia a un álbum que está "Pendiente"
-                        // por lo que el usuario público no la verá hasta que el álbum sea aprobado.
-                        fileService.saveCleanImage(archivo, albumGuardado.getId());
-                    }
-
-                    if (report != null) {
-                        // Si hay reporte, es sospechosa. Guardamos el porqué en 'motivoAlerta'
-                        fileService.saveToQuarantine(archivo, albumGuardado.getId());
-                    } else {
-                        fileService.saveCleanImage(archivo, albumGuardado.getId());
-                    }
-                }
+                // Este único método limpia, deduplica con SHA-256, analiza esteganografía y guarda.
+                fileService.guardarImagenesEnAlbum(albumGuardado.getId(), archivos);
             }
 
             return ResponseEntity.ok("Álbum y archivos enviados a revisión perimetral exitosamente.");

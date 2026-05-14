@@ -26,12 +26,10 @@ export default function UserPanel() {
       });
   };
 
-  // Cargar álbumes al iniciar para llenar el selector del Formulario 2
   useEffect(() => {
     cargarAlbums();
   }, []);
 
-  // --- Función 1: Crear Álbum (con o sin archivos) ---
   const crearAlbumEnLote = async (e) => {
     e.preventDefault();
     setIsSubmittingLote(true);
@@ -49,7 +47,7 @@ export default function UserPanel() {
     try {
       await api.get('/api/auth/csrf');
       const res = await api.post('/api/albums/solicitar-lote', formData);
-      notifySuccess('✅ Álbum creado. En revisión si incluye archivos.');
+      notifySuccess(' Álbum creado. En revisión si incluye archivos.');
       
       // Limpiar formulario 1
       setTitulo(''); setDescripcion(''); setArchivosLote([]);
@@ -72,15 +70,14 @@ export default function UserPanel() {
     setIsSubmittingExtra(true);
 
     const formData = new FormData();
-    // Iteramos para agregar todos los archivos seleccionados
     for (let i = 0; i < archivosExtra.length; i++) {
-      formData.append("archivos", archivosExtra[i]); // La llave ahora es "archivos"
+      formData.append("archivos", archivosExtra[i]); 
     }
 
     try {
       await api.get('/api/auth/csrf');
       const res = await api.post(`/api/images/upload/${albumId}`, formData);
-      notifySuccess('✅ Archivos subidos correctamente');
+      notifySuccess(' Archivos subidos correctamente');
       
       // Limpiar formulario 2
       setArchivosExtra([]);

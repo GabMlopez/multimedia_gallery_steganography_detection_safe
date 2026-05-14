@@ -30,7 +30,6 @@ public class Album {
     @PrePersist
     @PreUpdate
     public void sanitizeDescription() {
-        // RF02: Sanitizar descripción contra XSS
         if (this.descripcion != null) {
             this.descripcion = XssSanitizer.escapeHtml(this.descripcion);
         }

@@ -9,9 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LoginAttemptService {
 
     private final int MAX_ATTEMPTS = 5;
-    private final long LOCK_TIME_DURATION = 2 * 60 * 1000; // 15 minutos en milisegundos
+    private final long LOCK_TIME_DURATION = 2 * 60 * 1000;
 
-    // Almacena: Username -> Número de intentos fallidos
     private final ConcurrentHashMap<String, Integer> attemptsCache = new ConcurrentHashMap<>();
 
     private final ConcurrentHashMap<String, Long> lockCache = new ConcurrentHashMap<>();

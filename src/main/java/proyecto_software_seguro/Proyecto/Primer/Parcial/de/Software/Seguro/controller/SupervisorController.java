@@ -88,7 +88,6 @@ public class SupervisorController {
         Album album = albumRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Álbum no encontrado"));
 
-        // Limpieza física: Eliminar archivos asociados para evitar almacenamiento muerto
         List<Image> imagenes = imageRepository.findByAlbumId(id);
         for (Image img : imagenes) {
             try {
@@ -107,7 +106,6 @@ public class SupervisorController {
         return ResponseEntity.ok("Álbum y evidencias destruidas permanentemente.");
     }
 
-    // --- GESTIÓN DE IMÁGENES INDIVIDUALES Y CUARENTENA ---
 
     @GetMapping("/quarantine")
     @PreAuthorize("hasRole('SUPERVISOR')")
@@ -119,7 +117,6 @@ public class SupervisorController {
     @PreAuthorize("hasRole('SUPERVISOR')")
     public ResponseEntity<Resource> serveQuarantinedImage(@PathVariable String filename) {
         try {
-            // Mitigación de Path Traversal
             if (filename.contains("..") || filename.contains("/") || filename.contains("\\")) {
                 return ResponseEntity.status(403).build();
             }
@@ -178,8 +175,6 @@ public class SupervisorController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
-
-    // --- AUDITORÍA ---
 
     @GetMapping("/audit-log")
     @PreAuthorize("hasRole('SUPERVISOR')")

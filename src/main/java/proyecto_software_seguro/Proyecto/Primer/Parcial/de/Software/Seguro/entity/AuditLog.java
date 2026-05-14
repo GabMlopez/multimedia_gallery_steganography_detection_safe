@@ -12,13 +12,13 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String usuarioId;      // ID del Supervisor que realizó la acción
-    private String accion;         // "APROBAR_IMAGEN", "RECHAZAR_IMAGEN", etc.
-    private String recursoId;      // ID de la imagen o álbum
-    private String recursoTipo;    // "IMAGE", "ALBUM"
-    private String detalles;       // Descripción adicional
+    private String usuarioId;
+    private String accion;
+    private String recursoId;
+    private String recursoTipo;
+    private String detalles;
     private LocalDateTime timestamp;
-    private String ipAddress;      // IP desde la que se realizó la acción
+    private String ipAddress;
 
     @PrePersist
     protected void onCreate() {

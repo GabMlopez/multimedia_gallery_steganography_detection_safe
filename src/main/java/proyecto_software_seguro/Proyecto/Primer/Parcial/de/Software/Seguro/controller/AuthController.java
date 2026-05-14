@@ -44,21 +44,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDTO dto) {
-        // 1. Verificar si el usuario ya existe (Buenas prácticas de seguridad)
         if (userRepository.existsByUsername(dto.getUsername())) {
             return ResponseEntity.badRequest().body("Error: El nombre de usuario ya está en uso.");
         }
 
-        // 2. Mapear los datos del DTO a la Entidad física
         User user = new User();
         user.setUsername(dto.getUsername());
 
-        // 3. ENCRIPTAR: Aquí pasamos de la contraseña plana del DTO al hash seguro
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         user.setRole(dto.getRole());
 
-        // 4. Persistencia en la base de datos de Render
         userRepository.save(user);
 
         return ResponseEntity.ok("Usuario registrado exitosamente bajo estándares de Software Seguro.");
@@ -70,23 +66,19 @@ public class AuthController {
         String username = (loginRequest.getUsername() != null) ? loginRequest.getUsername().trim() : "";
         String password = (loginRequest.getPassword() != null) ? loginRequest.getPassword().trim() : "";
 
-        // 1. Verificación de Defensa Perimetral (Rate Limiting)
         if (loginAttemptService.isBlocked(username)) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
                     .body("Cuenta bloqueada temporalmente por múltiples intentos fallidos. Intente de nuevo en unos minutos.");
         }
 
         try {
-            // Usamos el username ya limpio para la búsqueda en la DB
             User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new BadCredentialsException("Usuario o contraseña incorrectos"));
 
-            // 3. Verificar la contraseña (también limpia) con Argon2id
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Usuario o contraseña incorrectos");
             }
 
-            // 4. Crear la autenticación manualmente para Spring Security
             List<SimpleGrantedAuthority> authorities = Collections.singletonList(
                     new SimpleGrantedAuthority(user.getRole().name())
             );
@@ -96,11 +88,9 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            // 5. Forzar la creación de la sesión para que persista en las siguientes peticiones
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
-            // 6. ¡Éxito! Limpiamos el historial de fallos
             loginAttemptService.loginSucceeded(username);
 
             Map<String, String> response = new HashMap<>();
@@ -139,12 +129,9 @@ public class AuthController {
 
     @GetMapping("/csrf")
     public void getCsrfToken(HttpServletRequest request, HttpServletResponse response) {
-        // Obtenemos el token desde el repositorio
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 
-        // Esto fuerza la resolución del token y escribe la cookie XSRF-TOKEN
         if (csrfToken != null) {
-            // Al acceder a .getToken(), Spring genera el valor y lo envía en la cabecera/cookie
             String tokenValue = csrfToken.getToken();
             System.out.println("CSRF Token generado con éxito: " + tokenValue);
         }

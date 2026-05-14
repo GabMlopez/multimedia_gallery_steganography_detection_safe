@@ -37,7 +37,7 @@ export default function SupervisorPanel() {
         ? await api.post(`/api/admin/albums/${id}/aprobar`)
         : await api.delete(`/api/admin/albums/${id}/rechazar`);
 
-      notifySuccess(`✅ ${res.data}`);
+      notifySuccess(` ${res.data}`);
       cargarSolicitudes();
     } catch (err) {
       notifyError(err.response?.data || 'No se pudo completar la acción');
@@ -51,7 +51,7 @@ export default function SupervisorPanel() {
         ? await api.put(`/api/admin/image/${id}/approve`)
         : await api.put(`/api/admin/image/${id}/reject`);
         
-      notifySuccess(`✅ ${res.data}`);
+      notifySuccess(` ${res.data}`);
       cargarSolicitudes();
     } catch (err) {
       notifyError(err.response?.data || 'Error interno');
@@ -83,7 +83,6 @@ export default function SupervisorPanel() {
           return (
             <div key={album.id} style={{ background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '18px', marginBottom: '30px', boxShadow: '0 14px 28px rgba(15,23,42,0.06)', overflow: 'hidden' }}>
               
-              {/* Cabecera del Álbum */}
               <div style={{ background: tieneInfecciones ? 'rgba(254, 243, 199, 0.8)' : 'rgba(20, 184, 166, 0.05)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(15, 23, 42, 0.08)' }}>
                 <div>
                   <h3 style={{ margin: '0 0 8px 0', color: 'var(--text)' }}> {album.titulo}</h3>
@@ -105,13 +104,11 @@ export default function SupervisorPanel() {
                 </div>
               )}
 
-              {/* Cuadrícula de Archivos */}
               <div style={{ padding: '20px', display: 'flex', flexWrap: 'wrap', gap: '20px', background: 'rgba(248, 251, 252, 0.92)' }}>
                 {album.imagenes.map(img => (
                   <div key={img.id} style={{ width: '200px', border: '1px solid rgba(15, 23, 42, 0.08)', borderRadius: '16px', overflow: 'hidden', background: 'rgba(255,255,255,0.96)', display: 'flex', flexDirection: 'column' }}>
                     
                     <div style={{ height: '140px', background: 'rgba(20, 184, 166, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      {/* LÓGICA CORREGIDA: Si está en cuarentena, muestra reporte técnico */}
                       {img.estado === 'QUARANTINE' ? (
                         <div style={{ 
                           padding: '10px', 
@@ -131,7 +128,6 @@ export default function SupervisorPanel() {
                           </ul>
                         </div>
                       ) : (
-                        /* Si está limpia, muestra la imagen real */
                         <img 
                           src={apiUrl(`/api/public/view/${img.nombreArchivo}`)} 
                           alt="Segura" 
@@ -140,12 +136,10 @@ export default function SupervisorPanel() {
                       )}
                     </div>
                     
-                    {/* Badge de Estado */}
                     <div style={{ padding: '8px', textAlign: 'center', fontSize: '0.85em', fontWeight: 'bold', background: img.estado === 'QUARANTINE' ? '#ef4444' : '#14b8a6', color: 'white' }}>
                       {img.estado === 'QUARANTINE' ? '⚠ CUARENTENA' : '🛡 SEGURO'}
                     </div>
 
-                    {/* Acciones Individuales para archivos en cuarentena */}
                     {img.estado === 'QUARANTINE' && (
                       <div style={{ display: 'flex', padding: '10px', gap: '5px', background: 'rgba(248, 251, 252, 0.92)' }}>
                          <button onClick={() => manejarAccionImagen(img.id, 'aprobar')} style={{ flex: 1, background: '#7dd3fc', color: '#0f172a', border: 'none', padding: '5px', borderRadius: '999px', fontSize: '0.8em', cursor: 'pointer' }}>

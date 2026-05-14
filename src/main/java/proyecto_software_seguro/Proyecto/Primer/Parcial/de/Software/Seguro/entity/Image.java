@@ -20,4 +20,7 @@ public class Image {
 
     @ManyToOne
     private Album album;
+
+    @Column(name = "hash_sha256")
+    private String hash;
 }

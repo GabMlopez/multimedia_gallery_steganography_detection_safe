@@ -15,11 +15,9 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-    // SANEAMIENTO: Limpiamos espacios antes de enviar al servidor
     const cleanUsername = username.trim();
     const cleanPassword = password.trim();
 
-    // VALIDACIÓN: Evitamos enviar campos vacíos tras el trim
     if (!cleanUsername || !cleanPassword) {
       notifyError('Por favor, rellena todos los campos.');
       setIsLoading(false);
@@ -29,7 +27,6 @@ export default function Login() {
     try {
       await api.get('/api/auth/csrf');
       
-      // Enviamos los datos ya saneados
       const res = await api.post('/api/auth/login', { 
         username: cleanUsername, 
         password: cleanPassword 
@@ -53,7 +50,6 @@ export default function Login() {
 
   return (
     <div className="login-view">
-      {/* ... (Sección login-splash se mantiene igual) ... */}
       <section className="login-splash" aria-hidden="true">
         <h2>Bienvenido a tu galería privada</h2>
         <p>

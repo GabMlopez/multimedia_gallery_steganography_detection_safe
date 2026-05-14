@@ -12,10 +12,6 @@ public class XssSanitizer {
             .onElements("a")
             .toFactory();
 
-    /**
-     * Sanitiza texto para prevenir XSS
-     * Permite solo elementos HTML seguros (b, i, em, strong, p, br, a)
-     */
     public static String sanitize(String input) {
         if (input == null || input.trim().isEmpty()) {
             return "";
@@ -23,10 +19,6 @@ public class XssSanitizer {
         return POLICY.sanitize(input);
     }
 
-    /**
-     * Escapa caracteres HTML sin permitir ningún tag
-     * Más restrictivo que sanitize()
-     */
     public static String escapeHtml(String input) {
         if (input == null) {
             return "";
