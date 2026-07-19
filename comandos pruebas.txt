@@ -1,0 +1,80 @@
+Backend (JUnit) — Cada prueba 1 a 1
+# Primero: setear JAVA_HOME (solo una vez por sesión)
+$env:JAVA_HOME = "C:\Java\jdk-25.0.1"
+$env:Path = "$env:JAVA_HOME\bin;" + $env:Path
+cd "C:\Users\gmlop\Desktop\ESPE\Septimo\aseguramiento\parcial 3\multimedia_gallery_steganography_detection_safe"
+CP01 — Contenido oculto no dañino (EOF)
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withValidJPEG_returnsTrue
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#detectSteganography_withEOFAnomaly_returnsTrue
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#detectSteganography_withCleanJPEG_returnsFalse
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#hasEOFAnomaly_withSmallDataAfterEOF_returnsFalse
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#hasEOFAnomaly_withNoDataAfterEOF_returnsFalse
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#getSteganographyReport_withEOFAnomaly_returnsReport
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#getSteganographyReport_withCleanJPEG_returnsNull
+CP02 — Contenido oculto dañino (Zip/EXE)
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#detectSteganography_withPKZipSignature_returnsTrue
+CP03 — Validación de archivos
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withValidJPEG_returnsTrue
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withEmptyFile_returnsFalse
+.\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withInvalidFile_returnsFalse
+CP04 — Gestión de cuarentena (Approve/Reject)
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#approveImage_validId_returnsOk
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#approveImage_invalidId_returnsNotFound
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#rejectImage_validId_returnsOk
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#rejectImage_invalidId_returnsNotFound
+CP05 — Seguridad (Auth + Path Traversal)
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#getQuarantineGallery_withoutAuth_returnsForbidden
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#getQuarantineGallery_withSupervisorRole_returnsList
+.\mvnw.cmd test -Dtest=SupervisorControllerTest#serveQuarantinedImage_pathTraversal_returnsForbidden
+CP06 — Consultas de BD
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#findByEstado_quarantine_returnsOnlyQuarantineImages
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#findByAlbumIdAndEstado_clean_returnsOnlyCleanImages
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#countByEstado_quarantine_returnsCorrectCount
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#existsByAlbumIdAndHash_duplicate_returnsTrue
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#existsByAlbumIdAndHash_notFound_returnsFalse
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#findByAlbumId_returnsAllImagesInAlbum
+.\mvnw.cmd test -Dtest=ImageRepositoryTest#rejectedStatus_worksCorrectly
+O ejecutar toda una clase completa
+.\mvnw.cmd test -Dtest=FileStorageServiceTest
+.\mvnw.cmd test -Dtest=SupervisorControllerTest
+.\mvnw.cmd test -Dtest=ImageRepositoryTest
+O todos los tests de golpe
+.\mvnw.cmd test
+Frontend (Cypress) — Pruebas E2E
+Requisito: Backend corriendo en localhost:8080 + Frontend en localhost:3001
+cd frontend
+
+# Instalar Cypress (1ra vez)
+npm install
+
+# Abrir Cypress en modo interactivo (seleccionar test manualmente)
+npx cypress open
+
+# Ejecutar solo el test de contenido no dañino
+npx cypress run --spec "cypress/e2e/quarantine-harmless.cy.js"
+
+# Ejecutar solo el test de contenido dañino
+npx cypress run --spec "cypress/e2e/quarantine-harmful.cy.js"
+
+# Ejecutar TODOS los tests E2E
+npx cypress run
+Otras herramientas
+# JaCoCo (reporte de cobertura)
+.\mvnw.cmd verify
+# Abrir target\site\jacoco\index.html
+
+# SonarQube (requiere Docker)
+docker compose -f docker-compose.sonar.yml up -d
+.\mvnw.cmd sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
+
+# OWASP ZAP (requiere backend en :8080)
+.\zap-api-scan.bat
+
+# JMeter
+docker run --rm -v "%cd%/jmeter:/tests" justb4/jmeter:latest -n -t /tests/quarantine-load-test.jmx
+
+# npm audit
+cd frontend && npm audit --audit-level=high
+
+# Lighthouse
+cd frontend && npm run build && npx lhci collect && npx lhci assert

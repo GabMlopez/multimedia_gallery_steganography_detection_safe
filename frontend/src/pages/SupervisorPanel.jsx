@@ -118,9 +118,9 @@ export default function SupervisorPanel() {
                           fontFamily: 'monospace',
                           width: '100%',
                           height: '100%'
-                        }}>
+                        }} data-cy="quarantine-card">
                           <strong style={{ color: '#f87171' }}>[DETECCION_ANOMALIA]</strong>
-                          <div style={{ marginTop: '5px', color: '#fbbf24' }}>{img.motivoAlerta || "Inconsistencia estructural"}</div>
+                          <div style={{ marginTop: '5px', color: '#fbbf24' }} data-cy="quarantine-motivo">{img.motivoAlerta || "Inconsistencia estructural"}</div>
                           <ul style={{ padding: 0, margin: '5px 0', listStyle: 'none' }}>
                             <li> ESTEGANOGRAFIA_LSB: <span style={{color: '#f87171'}}>DETECTADA</span></li>
                             <li> DATA_POST_EOF: <span style={{color: '#f87171'}}>TRUE</span></li>

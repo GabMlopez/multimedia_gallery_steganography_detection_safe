@@ -5,7 +5,12 @@
   "scripts": {
     "dev": "vite --port 3001",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit": "npm audit --audit-level=high",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "lighthouse": "lhci collect && lhci assert",
+    "test:all": "npm run audit && npm run cypress:run && npm run lighthouse"
   },
   "dependencies": {
     "@fontsource/plus-jakarta-sans": "^5.2.8",
@@ -17,6 +22,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.0",
-    "vite": "5.2.0"
+    "vite": "5.2.0",
+    "cypress": "^14.0.0",
+    "@lhci/cli": "^0.14.0"
   }
 }
