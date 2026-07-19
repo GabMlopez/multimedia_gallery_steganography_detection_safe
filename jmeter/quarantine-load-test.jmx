@@ -1,107 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.2">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Plan de Carga - Modulo Cuarentena" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Plan de Carga - Modulo Cuarentena">
       <stringProp name="TestPlan.comments">Prueba de carga para el modulo de cuarentena: subida de imagenes, aprobacion y rechazo de archivos sospechosos.</stringProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.tearDownOnShutdown">true</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables de Usuario" enabled="true">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables de Usuario">
         <collectionProp name="Arguments.arguments">
           <elementProp name="BASE_URL" elementType="Argument">
             <stringProp name="Argument.name">BASE_URL</stringProp>
             <stringProp name="Argument.value">http://localhost:8080</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="AUTH_TOKEN" elementType="Argument">
-            <stringProp name="Argument.name">AUTH_TOKEN</stringProp>
-            <stringProp name="Argument.value">${__UUID}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </elementProp>
     </TestPlan>
     <hashTree>
-      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
         <collectionProp name="CookieManager.cookies"/>
-        <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+        <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+        <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Usuarios Concurrentes - Subida Imagenes" enabled="true">
+      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Registro Detallado (solo errores)">
+        <boolProp name="ResultCollector.error_logging">true</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>true</responseData>
+            <samplerData>true</samplerData>
+            <xml>true</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>true</responseHeaders>
+            <requestHeaders>true</requestHeaders>
+            <responseDataOnError>true</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">/tests/results/detailed-errors.xml</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Usuarios Concurrentes - Subida Imagenes">
+        <intProp name="ThreadGroup.num_threads">10</intProp>
+        <intProp name="ThreadGroup.ramp_time">5</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">5</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">5</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">10</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">5</stringProp>
-        <longProp name="ThreadGroup.start_time">0</longProp>
-        <longProp name="ThreadGroup.end_time">0</longProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Supervisor)" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
-          <stringProp name="HTTPSampler.port">8080</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{"username":"supervisor@test.com","password":"Supervisor123!"}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-        </HTTPSamplerProxy>
-        <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token">
           <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
           <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract CSRF Cookie" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="script">def hdrs = prev.getResponseHeaders()
-def token = (hdrs =~ /X-XSRF-TOKEN:\s*(\S+)/).findResult { it[1] }
-if (token) vars.put("csrfToken", token)</stringProp>
+def token = (hdrs =~ /XSRF-TOKEN=([^;]+)/).findResult { it[1] }
+if (token) vars.put(&quot;csrfToken&quot;, token)
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
           </JSR223PostProcessor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Subir Imagen (potencialmente peligrosa)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Usuario)">
           <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.path">/api/images/upload/1</stringProp>
+          <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_multipart_form_data">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="archivos" elementType="HTTPArgument">
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
+              <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.name">archivos</stringProp>
+                <stringProp name="Argument.value">{&quot;username&quot;:&quot;user@test.com&quot;,&quot;password&quot;:&quot;User123!Pass&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject CSRF Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
           <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="CSRF Header" enabled="true">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
@@ -110,23 +131,129 @@ if (token) vars.put("csrfToken", token)</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Cookie</stringProp>
-                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Respuesta Exitosa" enabled="true">
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract Login Session" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">def hdrs = prev.getResponseHeaders()
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Login OK" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1138360779">200</stringProp>
-              <stringProp name="-1138360779">201</stringProp>
+              <stringProp name="49586">200</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Reporte Resumido" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token (post-login)">
+          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Cookie Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract CSRF (post-login)" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">def hdrs = prev.getResponseHeaders()
+def token = (hdrs =~ /XSRF-TOKEN=([^;]+)/).findResult { it[1] }
+if (token) vars.put(&quot;csrfToken&quot;, token)
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Subir Imagen (potencialmente peligrosa)">
+          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/api/images/upload/1</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="CSRF Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">X-XSRF-TOKEN</stringProp>
+                <stringProp name="Header.value">${csrfToken}</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Upload OK">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Reporte Resumido">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -147,9 +274,9 @@ if (token) vars.put("csrfToken", token)</stringProp>
               <samplerData>false</samplerData>
               <xml>false</xml>
               <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
+              <responseHeaders>true</responseHeaders>
+              <requestHeaders>true</requestHeaders>
+              <responseDataOnError>true</responseDataOnError>
               <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
               <assertionsResultsToSave>0</assertionsResultsToSave>
               <bytes>true</bytes>
@@ -164,56 +291,150 @@ if (token) vars.put("csrfToken", token)</stringProp>
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Aprobacion/Rechazo Concurrente" enabled="true">
+        <intProp name="ThreadGroup.num_threads">5</intProp>
+        <intProp name="ThreadGroup.ramp_time">3</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">3</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">3</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">5</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">3</stringProp>
-        <longProp name="ThreadGroup.start_time">0</longProp>
-        <longProp name="ThreadGroup.end_time">0</longProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Supervisor)" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
-          <stringProp name="HTTPSampler.port">8080</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{"username":"supervisor@test.com","password":"Supervisor123!"}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-        </HTTPSamplerProxy>
-        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token" enabled="true">
           <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
           <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract CSRF Cookie" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="script">def hdrs = prev.getResponseHeaders()
-def token = (hdrs =~ /X-XSRF-TOKEN:\s*(\S+)/).findResult { it[1] }
-if (token) vars.put("csrfToken", token)</stringProp>
+def token = (hdrs =~ /XSRF-TOKEN=([^;]+)/).findResult { it[1] }
+if (token) vars.put(&quot;csrfToken&quot;, token)
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Supervisor)" enabled="true">
+          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;username&quot;:&quot;supervisor@test.com&quot;,&quot;password&quot;:&quot;Supervisor123!&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject CSRF Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="CSRF Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">X-XSRF-TOKEN</stringProp>
+                <stringProp name="Header.value">${csrfToken}</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract Login Session" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">def hdrs = prev.getResponseHeaders()
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Login OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token (post-login)" enabled="true">
+          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Cookie Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract CSRF (post-login)" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">def hdrs = prev.getResponseHeaders()
+def token = (hdrs =~ /XSRF-TOKEN=([^;]+)/).findResult { it[1] }
+if (token) vars.put(&quot;csrfToken&quot;, token)
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
           </JSR223PostProcessor>
           <hashTree/>
         </hashTree>
@@ -223,10 +444,25 @@ if (token) vars.put("csrfToken", token)</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/admin/image/${__Random(1,50)}/approve</stringProp>
           <stringProp name="HTTPSampler.method">PUT</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
           <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="CSRF Header" enabled="true">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
@@ -235,20 +471,20 @@ if (token) vars.put("csrfToken", token)</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Cookie</stringProp>
-                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Codigo 200 o 404" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1138360779">200</stringProp>
-              <stringProp name="-1138360779">404</stringProp>
-              <stringProp name="-1138360779">500</stringProp>
+              <stringProp name="49586">200</stringProp>
+              <stringProp name="51512">404</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
@@ -258,10 +494,25 @@ if (token) vars.put("csrfToken", token)</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/admin/image/${__Random(1,50)}/reject</stringProp>
           <stringProp name="HTTPSampler.method">PUT</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
           <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="CSRF Header" enabled="true">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
@@ -270,23 +521,25 @@ if (token) vars.put("csrfToken", token)</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Cookie</stringProp>
-                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Codigo 200 o 404" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1138360779">200</stringProp>
-              <stringProp name="-1138360779">404</stringProp>
+              <stringProp name="49586">200</stringProp>
+              <stringProp name="51512">404</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Grafico de Resultados" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
             <value class="SampleSaveConfiguration">
@@ -306,9 +559,9 @@ if (token) vars.put("csrfToken", token)</stringProp>
               <samplerData>false</samplerData>
               <xml>false</xml>
               <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
+              <responseHeaders>true</responseHeaders>
+              <requestHeaders>true</requestHeaders>
+              <responseDataOnError>true</responseDataOnError>
               <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
               <assertionsResultsToSave>0</assertionsResultsToSave>
               <bytes>true</bytes>
@@ -323,57 +576,104 @@ if (token) vars.put("csrfToken", token)</stringProp>
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consultar Galeria Cuarentena" enabled="true">
+        <intProp name="ThreadGroup.num_threads">3</intProp>
+        <intProp name="ThreadGroup.ramp_time">2</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">true</boolProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
           <stringProp name="LoopController.loops">10</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">3</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
-        <longProp name="ThreadGroup.start_time">0</longProp>
-        <longProp name="ThreadGroup.end_time">0</longProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
       </ThreadGroup>
       <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token">
+          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract CSRF Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">def hdrs = prev.getResponseHeaders()
+def token = (hdrs =~ /XSRF-TOKEN=([^;]+)/).findResult { it[1] }
+if (token) vars.put(&quot;csrfToken&quot;, token)
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PostProcessor>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Supervisor)" enabled="true">
           <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{"username":"supervisor@test.com","password":"Supervisor123!"}</stringProp>
+                <stringProp name="Argument.value">{&quot;username&quot;:&quot;supervisor@test.com&quot;,&quot;password&quot;:&quot;Supervisor123!&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
         </HTTPSamplerProxy>
-        <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
-          <stringProp name="HTTPSampler.port">8080</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
-          <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-        </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract CSRF Cookie" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject CSRF Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="CSRF Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">X-XSRF-TOKEN</stringProp>
+                <stringProp name="Header.value">${csrfToken}</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Extract Login Session" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="script">def hdrs = prev.getResponseHeaders()
-def token = (hdrs =~ /X-XSRF-TOKEN:\s*(\S+)/).findResult { it[1] }
-if (token) vars.put("csrfToken", token)</stringProp>
+def session = (hdrs =~ /JSESSIONID=([^;]+)/).findResult { it[1] }
+if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
           </JSR223PostProcessor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Login OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+          </ResponseAssertion>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Imagenes en Cuarentena" enabled="true">
@@ -382,21 +682,47 @@ if (token) vars.put("csrfToken", token)</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/admin/quarantine</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
+String session = vars.get(&quot;jsessionId&quot;);
+StringBuilder cookie = new StringBuilder();
+if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
+if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
+if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">false</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Cookie Header" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Respuesta OK" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1138360779">200</stringProp>
+              <stringProp name="49586">200</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">16</intProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
         <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Estadisticas" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
             <value class="SampleSaveConfiguration">
@@ -416,9 +742,9 @@ if (token) vars.put("csrfToken", token)</stringProp>
               <samplerData>false</samplerData>
               <xml>false</xml>
               <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
+              <responseHeaders>true</responseHeaders>
+              <requestHeaders>true</requestHeaders>
+              <responseDataOnError>true</responseDataOnError>
               <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
               <assertionsResultsToSave>0</assertionsResultsToSave>
               <bytes>true</bytes>
@@ -432,43 +758,6 @@ if (token) vars.put("csrfToken", token)</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Reporte General" enabled="true">
-        <boolProp name="ResultCollector.error_logging">true</boolProp>
-        <objProp>
-          <name>saveConfig</name>
-          <value class="SampleSaveConfiguration">
-            <time>true</time>
-            <latency>true</latency>
-            <timestamp>true</timestamp>
-            <success>true</success>
-            <label>true</label>
-            <code>true</code>
-            <message>true</message>
-            <threadName>true</threadName>
-            <dataType>true</dataType>
-            <encoding>false</encoding>
-            <assertions>true</assertions>
-            <subresults>true</subresults>
-            <responseData>false</responseData>
-            <samplerData>false</samplerData>
-            <xml>false</xml>
-            <fieldNames>true</fieldNames>
-            <responseHeaders>false</responseHeaders>
-            <requestHeaders>false</requestHeaders>
-            <responseDataOnError>false</responseDataOnError>
-            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-            <assertionsResultsToSave>0</assertionsResultsToSave>
-            <bytes>true</bytes>
-            <sentBytes>true</sentBytes>
-
-            <threadCounts>true</threadCounts>
-            <idleTime>true</idleTime>
-            <connectTime>true</connectTime>
-          </value>
-        </objProp>
-        <stringProp name="filename">results/global-summary.csv</stringProp>
-      </ResultCollector>
-      <hashTree/>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>

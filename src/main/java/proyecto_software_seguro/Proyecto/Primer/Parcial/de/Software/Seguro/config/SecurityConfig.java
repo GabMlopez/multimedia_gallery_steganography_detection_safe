@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/auth/**")
                         .csrfTokenRepository(csrfTokenRepository)
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 )
@@ -77,6 +78,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3001",
+                "http://localhost:4173",
                 "https://galeria-segura-espe.vercel.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

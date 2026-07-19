@@ -1,0 +1,53 @@
+[
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "errors-in-console",
+    "level": "warn",
+    "url": "http://localhost:3001/supervisor",
+    "auditTitle": "Browser errors were logged to the console",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "unused-css-rules",
+    "level": "warn",
+    "url": "http://localhost:3001/supervisor",
+    "auditTitle": "Reduce unused CSS",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "unused-javascript",
+    "level": "warn",
+    "url": "http://localhost:3001/supervisor",
+    "auditTitle": "Reduce unused JavaScript",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/"
+  }
+]

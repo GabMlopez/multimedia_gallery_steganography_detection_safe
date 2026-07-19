@@ -1,0 +1,1 @@
+{"preset":"desktop","throttlingMethod":"simulate","onlyCategories":["performance","accessibility","best-practices","seo"],"chromeFlags":" --headless=new --headless=new --headless=new"}

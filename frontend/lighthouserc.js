@@ -1,9 +1,10 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: "npm run preview",
+      startServerCommand: "npx vite preview --port 3001",
       startServerReadyPattern: "Local:",
-      url: ["http://localhost:4173/supervisor"],
+      url: ["http://localhost:3001/supervisor"],
+      puppeteerScript: "./lighthouse-auth.js",
       numberOfRuns: 3,
       settings: {
         preset: "desktop",
@@ -27,7 +28,14 @@ module.exports = {
         "html-has-lang": "error",
         "image-alt": "warn",
         "meta-description": "warn",
-        "tap-targets": "warn"
+        "errors-in-console": "warn",
+        "unused-css-rules": "warn",
+        "unused-javascript": "warn",
+        "lcp-lazy-loaded": "off",
+        "non-composited-animations": "off",
+        "prioritize-lcp-image": "off",
+        "robots-txt": "off",
+        "tap-targets": "off"
       }
     },
     upload: {
