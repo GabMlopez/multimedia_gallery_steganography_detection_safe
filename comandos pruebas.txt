@@ -71,7 +71,10 @@ docker compose -f docker-compose.sonar.yml up -d
 .\zap-api-scan.bat
 
 # JMeter
+//cmd
 docker run --rm -v "%cd%/jmeter:/tests" justb4/jmeter:latest -n -t /tests/quarantine-load-test.jmx
+//powershell
+docker run --rm -v "${PWD}/jmeter:/tests" justb4/jmeter:latest -n -t /tests/quarantine-load-test.jmx     
 
 # npm audit
 cd frontend && npm audit --audit-level=high
