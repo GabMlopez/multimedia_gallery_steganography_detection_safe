@@ -12,6 +12,8 @@
           </elementProp>
         </collectionProp>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
@@ -216,7 +218,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
 String session = vars.get(&quot;jsessionId&quot;);
@@ -242,7 +244,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Upload OK">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Upload OK" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
             </collectionProp>
@@ -301,7 +303,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token">
           <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -575,7 +577,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consultar Galeria Cuarentena" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consultar Galeria Cuarentena">
         <intProp name="ThreadGroup.num_threads">3</intProp>
         <intProp name="ThreadGroup.ramp_time">2</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -586,7 +588,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token" enabled="true">
           <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
