@@ -1,0 +1,1615 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{charter}
+
+\geometry{letterpaper, margin=1in}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\large\bfseries}{}{0em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    \includegraphics[width=0.3\textwidth]{logo-espe.png}\\
+    \vspace{0.5cm}
+    {\large \textbf{UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE}}\\
+    \vspace{0.2cm}
+    {\large Departamento de Ciencias de la Computación}\\
+    \vspace{0.2cm}
+    {\large \textbf{Av. Gral. Rumiñahui S/N, 171103 Sangolquí}}\\
+    \vspace{0.2cm}
+    {\large Aprobado para distribución pública; distribución ilimitada}\\
+    \vspace{2cm}
+    
+    {\Huge \textbf{SOFTWARE QUALITY ASSURANCE PLAN}}\\
+    \vspace{0.3cm}
+    {\Large \textbf{V1.0}}\\
+    \vspace{0.3cm}
+    {\Large 20/07/2026}\\
+    \vspace{0.3cm}
+    {\Large \textbf{Grupo 4}}\\
+    \vspace{0.5cm}
+    \includegraphics[width=0.6\textwidth]{logo-proyecto.png}\\
+    \vspace{2cm}
+    
+    {\large \textbf{Multimedia gallery steganography detection safe}}\\
+    
+    \vfill
+    \begin{flushleft}
+        \textbf{SQA Plan Approvals:}\\
+        \vspace{0.3cm}
+        \underline{\hspace{4cm}} \hspace{1cm} \underline{22/07/2026}\\
+        SQA Manager \hspace{2.8cm} Date\\
+        \vspace{0.3cm}
+        \underline{\hspace{4cm}} \hspace{1cm} \underline{22/07/2026}\\
+        Project Manager \hspace{2.4cm} Date\\
+        \vspace{0.3cm}
+        \underline{\hspace{4cm}} \hspace{1cm} \underline{22/07/2026}\\
+        Program Manager \hspace{2.3cm} Date\\
+    \end{flushleft}
+\end{titlepage}
+
+\section*{PREFACIO}
+Este documento contiene el Plan de Aseguramiento de la Calidad del Software (SQA) para el proyecto \textit{Multimedia gallery steganography detection safe}. Las actividades de SQA descritas en este plan son consistentes con el Plan de Desarrollo de Software (o Plan de Gestión del Proyecto) y otros documentos de planificación del proyecto. Este documento ha sido adaptado de la Plantilla del Plan SQA, TM-SQA-01, v2.0.
+
+La \[Código/Proyecto/Oficina\] asume la responsabilidad de este documento y lo actualiza, según sea necesario, para satisfacer las necesidades del proyecto. Los usuarios de este documento pueden reportar deficiencias o correcciones utilizando la Solicitud de Cambio de Documento que se encuentra al final del documento. Las actualizaciones de este documento se realizarán, al menos anualmente, de acuerdo con el \[Proceso de Gestión de Configuración del Proyecto\].
+
+\newpage
+
+\section*{REGISTRO DE CAMBIOS}
+\noindent \textbf{A} - AÑADIDO \hspace{1cm} \textbf{M} - MODIFICADO \hspace{1cm} \textbf{D} - ELIMINADO
+
+\begin{longtable}{|p{2cm}|p{2.5cm}|p{3.5cm}|p{1.5cm}|p{4cm}|p{2.5cm}|}
+\hline
+\textbf{Versión} & \textbf{Fecha} & \textbf{Número de Figura, Tabla o Párrafo} & \textbf{A/M/D} & \textbf{Título o Descripción Breve} & \textbf{Solicitud de Cambio} \\
+\hline
+1.0 & 17/07/26 & Documento Completo & & Generación del documento inicial del sistema & \\
+\hline
+\end{longtable}
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{SECCIÓN 1. PROPÓSITO}
+
+El presente Plan de Aseguramiento de la Calidad está orientado a una Galería de Imágenes Segura desarrollada con Spring Boot, React y PostgreSQL, cuya principal característica es la detección de contenido oculto mediante técnicas de análisis de esteganografía. Con este documento se establece el alcance, la estrategia de las pruebas, los criterios de aceptación, las herramientas a utilizarse y la gestión de riesgos asociados al sistema, con el propósito de garantizar su correcto funcionamiento, fortalecer su nivel de seguridad y asegurar una experiencia confiable para los usuarios finales a través de un proceso estructurado de validación y mejora continua.
+
+\subsection{1.1 ALCANCE}
+El sistema bajo prueba (SUT) es una Galería de Imágenes Segura (backend Spring Boot 4.0.6 / Java 21 + frontend React 18 + Vite, persistencia en PostgreSQL). Sus principales módulos a probar son: Gestión de autenticación de usuarios, carga y almacenamiento de imágenes, organización en álbumes, detección de esteganografía basada en análisis de anomalías LSB (bits menos significativos) y metadatos EXIF, cuarentena de archivos sospechosos, y un panel de supervisor para auditoría.
+
+Se realizará una identificación de puntos clave del sistema, herramientas y definición de mediciones para la correcta evaluación de las funcionalidades. Finalmente, se presentará un reporte de los hallazgos y posibles mejoras dentro del sistema.
+
+\subsection{1.2 VISIÓN GENERAL DEL SISTEMA}
+El sistema \[Nombre del Sistema\] \textit{completar la oración proporcionando una descripción del sistema y el uso previsto}. El sistema incluye \[número de subsistemas, ej., 4\] subsistema(s) dentro del sistema. La Figura 1-1 identifica los CI dentro de cada subsistema y destaca aquellos a los que se aplica este Plan SQA.
+
+\begin{table}[H]
+\centering
+\caption{Actividades del Ciclo de Vida del Software}
+\label{tab:lifecycle}
+\begin{tabular}{|c|}
+\hline
+\textbf{ACTIVIDAD DEL CICLO DE VIDA DEL SOFTWARE} \\
+\hline
+Planificación y Supervisión del Proyecto \\
+Entorno de Desarrollo de Software \\
+Análisis de Requisitos del Sistema \\
+Diseño del Sistema \\
+Análisis de Requisitos del Software \\
+Diseño del Software \\
+Implementación del Software y Pruebas Unitarias \\
+Pruebas de Integración de Unidades \\
+Pruebas de Calificación de CI \\
+Pruebas de Integración CI/CIHW y del Sistema \\
+Pruebas de Calificación del Sistema \\
+Preparación para el Uso del Software \\
+Preparación para la Transición del Software \\
+Mantenimiento del Ciclo de Vida \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Nomenclatura/Identificación de CI}
+\label{tab:ci}
+\begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{NOMENCLATURA} & \textbf{ACRÓNIMO} & \textbf{NÚMERO DE CI} \\
+\hline
+\[[Nombre del CI]] & \[[Acrónimo]] & \[[ID del CI]] \\
+\[[Nombre del CI]] & \[[Acrónimo]] & \[[ID del CI]] \\
+\[[Nombre del CI]] & \[[Acrónimo]] & \[[ID del CI]] \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{1.3 VISTA GENERAL DEL DOCUMENTO}
+Este documento identifica las organizaciones y procedimientos que se utilizarán para realizar las actividades relacionadas con el programa SQA del proyecto, según lo especificado en el estándar IEEE Std 730-1998, \textit{IEEE Standard for Software Quality Assurance Plans}, referencia (c), y IEEE Std 730.1-1995, \textit{IEEE Guide for SQA Planning}, referencia (d).
+
+La Sección 1 identifica el sistema al que se aplica este Plan SQA; proporciona una visión general del sistema y sus funciones de software; resume el propósito y el contenido del Plan SQA; describe la relación del Plan SQA con otros planes de gestión y enumera todos los documentos referenciados en este Plan SQA.
+
+La Sección 2 describe cada elemento principal de la organización que influye en la calidad del software.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{imagen1.png}
+\caption{Software de \[[Título del Sistema]]}
+\label{fig:system}
+\end{figure}
+
+La Sección 3 describe las diversas tareas de SQA.
+La Sección 4 enumera los documentos base producidos y mantenidos por el proyecto.
+La Sección 5 identifica los estándares, prácticas y convenciones.
+La Sección 6 describe la participación de SQA en las pruebas.
+La Sección 7 describe el reporte de problemas y la acción correctiva.
+La Sección 8 describe las herramientas, técnicas y metodologías de SQA.
+La Sección 9 describe la herramienta de gestión de configuración utilizada para el control del código.
+La Sección 10 describe la evaluación de SQA del control de medios.
+La Sección 11 describe el control del software de proveedores.
+La Sección 12 describe los procedimientos de SQA para la recopilación, mantenimiento y retención de registros.
+La Sección 13 describe los requisitos de capacitación de SQA.
+La Sección 14 describe la revisión de SQA del proceso de Gestión de Riesgos.
+El Apéndice A proporciona una lista de acrónimos.
+El Apéndice B proporciona listas de verificación que se utilizarán o adaptarán para verificar el cumplimiento de las mejores prácticas generales de ingeniería de software.
+
+\subsection{1.6 DOCUMENTOS DE REFERENCIA}
+\begin{enumerate}
+    \item SSC San Diego Software Quality Assurance Policy, Version 1.1, October 1997.
+    \item IEEE/EIA Standard 12207 Series - Standard for Information Technology – Software life cycle processes, March 1998.
+    \item IEEE-Std-730-1998, IEEE Standard for Software Quality Assurance Plans, June 1998.
+    \item IEEE-Std-730.1-1995, IEEE Guide for Software Quality Assurance Planning, December 1995.
+    \item \[[Nombre del Proyecto]] Software Development Plan, \[[Identificación del Documento]], \[[Fecha del Documento]].
+    \item \[[Nombre del Proyecto]] Software Configuration Management Plan, \[[Identificación del Documento]], \[[Fecha del Documento]].
+    \item Software Engineering Process Policy, SPAWARSYSCEN SAN DIEGO INST 5234.1, July 2000.
+    \item \[[Título del Programa]] Program Plan, \[[Identificación del Documento]], \[[Fecha del Documento]].
+    \item Software Quality Assurance Process, PR-SQA-02.
+    \item Software Quality Assurance Plan Template, TM-SQA-01.
+    \item A Description of the Space and Naval Warfare System Center San Diego Software Process Assets, PR-OPD-03.
+    \item MIL-STD-1521, Technical Reviews and Audits for Systems, Equipments, and Computer Software.
+    \item MIL-STD-973, Configuration Management. NOTA: Esta norma ha sido reemplazada por EIA-649, el Estándar de Consenso para la Gestión de Configuración, pero las disposiciones de MIL-STD-973 se consideran útiles como guía para desarrollar actividades de Gestión de Configuración de Software.
+    \item Peer Review Process, PR-PR-02.
+    \item Military Standard (MIL-STD)-498, Software Development and Documentation, Data Item Descriptions (DIDs). NOTA: Aunque MIL-STD-498 ha sido reemplazado por IEEE Std 12207, los DIDs para MIL-STD-498 todavía se consideran aplicables para el apoyo al desarrollo de procedimientos de ingeniería de software y documentación de soporte.
+    \item IEEE Std 1045-1992, IEEE Standard for Software Productivity Metrics, September 1992.
+    \item IEEE Std 1061-1992, IEEE Standard for a Software Quality Metrics Methodology, December 1992.
+    \item IEEE Std 982.1-1988, IEEE Standard Dictionary of Measures to Produce Reliable Software, June 1988.
+    \item Std 982.2-1988, IEEE Guide for the Use of IEEE Standard Dictionary of Measures to Produce Reliable Software, September 1988.
+\end{enumerate}
+
+\section{SECCIÓN 2. GESTIÓN}
+Esta sección describe cada elemento principal de la organización que influye en la calidad del software.
+
+\subsection{2.1 ORGANIZACIÓN}
+La buena práctica del software requiere un cierto grado de independencia para el grupo SQA. Esta independencia proporciona una fortaleza clave a SQA; es decir, SQA tiene la libertad, si la calidad del producto está en peligro, de informar esta posibilidad directamente por encima del nivel del proyecto. Aunque en la práctica esto rara vez ocurre, ya que casi todos los problemas se abordan correctamente a nivel de proyecto, el hecho de que el grupo SQA pueda ir por encima del nivel del proyecto le da la capacidad de mantener muchos de estos problemas a nivel del proyecto.
+
+La Figura 2-1 muestra la organización SQA en relación con la organización del proyecto.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{imagen2.png}
+\caption{Organización de \[[Nombre del Proyecto]]}
+\label{fig:org}
+\end{figure}
+
+SQA es responsable de asegurar el cumplimiento de los requisitos de SQA delineados en este Plan SQA. La organización SQA asegura la calidad del software entregable y su documentación, el software no entregable, y los procesos de ingeniería utilizados para producir software.
+
+A continuación se describen los grupos funcionales que influyen y controlan la calidad del software.
+
+\begin{enumerate}
+    \item \underline{Gestión del Programa/Gestión de Línea (Patrocinador)} es responsable de:
+    \begin{enumerate}
+        \item Establecer un programa de calidad comprometiendo al proyecto a implementar la Política de Procesos de Ingeniería de Software, referencia (g), y referencia (a).
+        \item Revisar y aprobar el Plan SQA del proyecto.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA.
+        \item Identificar a un individuo o grupo independiente del proyecto para auditar e informar sobre la función SQA del proyecto.
+        \item Identificar los factores de calidad a implementar en el sistema y el software.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Gestión del Proyecto} es responsable de:
+    \begin{enumerate}
+        \item Implementar el programa de calidad de acuerdo con las referencias (g) y (a).
+        \item Identificar las actividades SQA a ser realizadas por SQA.
+        \item Revisar y aprobar el Plan SQA del proyecto.
+        \item Identificar y financiar a un individuo o grupo independiente del proyecto para realizar las funciones SQA.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA.
+        \item Identificar y asegurar los factores de calidad a implementar en el sistema y el software.
+        \item Identificar, desarrollar y mantener documentos de planificación como el Plan de Gestión del Programa, referencia (h), referencias (e) y (f), Planes de Prueba, y este Plan SQA.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Ingeniería de Sistemas} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con este Plan SQA.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA relacionado con las actividades de ingeniería de software.
+        \item Identificar, implementar y evaluar los factores de calidad a implementar en el sistema (software y hardware).
+        \item Implementar las prácticas, procesos y procedimientos de ingeniería definidos en la referencia (e) y otros documentos de planificación del programa/proyecto.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Diseño/Desarrollo de Software} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con este Plan SQA.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA relacionado con el diseño y desarrollo del software.
+        \item Identificar, implementar y evaluar los factores de calidad a implementar en el software.
+        \item Implementar las prácticas, procesos y procedimientos de diseño/desarrollo de software definidos en la referencia (e) y otros documentos de planificación del programa/proyecto.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Pruebas de Software} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con este Plan SQA.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA relacionado con las pruebas de software.
+        \item Verificar que los factores de calidad se implementen en el sistema, específicamente en el software.
+        \item Implementar las prácticas, procesos y procedimientos de prueba de software definidos en la referencia (e) y otros documentos de planificación del programa/proyecto.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Pruebas de Sistemas} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con este Plan SQA.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA relacionado con las pruebas de sistemas.
+        \item Verificar que los factores de calidad se implementen en el sistema (software y hardware).
+        \item Implementar las prácticas, procesos y procedimientos de prueba de sistemas definidos en la referencia (e) y otros documentos de planificación del programa/proyecto.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Logística} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con este Plan SQA.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Gestión de Configuración del Software (SCM)} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con este Plan SQA.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA relacionado con SCM.
+        \item Asegurar que los factores de calidad se implementen en el software relacionado con SCM.
+        \item Implementar las prácticas, procesos y procedimientos de SCM definidos en la referencia (e) y otros documentos de planificación del programa/proyecto.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Verificación y Validación Independiente (IV\&V)} es responsable de:
+    \begin{enumerate}
+        \item Revisar y comentar el Plan SQA del proyecto.
+        \item Implementar el programa de calidad de acuerdo con el Plan SQA del proyecto.
+        \item Resolver y dar seguimiento a cualquier problema de calidad planteado por SQA.
+        \item Verificar que los factores de calidad se implementen en el sistema (hardware y software).
+        \item Implementar las prácticas, procesos y procedimientos definidos para IV\&V en la referencia (e) y otros documentos de planificación del programa/proyecto.
+        \item \textit{completar responsabilidades funcionales adicionales.}
+    \end{enumerate}
+    
+    \item \underline{Oficina de Procesos de Ingeniería de Sistemas (SEPO)} es responsable de:
+    \begin{enumerate}
+        \item Mantener actualizadas las referencias (a) y (g).
+        \item Mantener el Proceso SQA, referencia (i), y la Plantilla del Plan SQA, referencia (j).
+        \item Asegurar la disponibilidad de capacitación SQA, ya sea por parte del proveedor o de SEPO.
+        \item Proporcionar asistencia en ingeniería de procesos de software y mejora de procesos de software.
+        \item Mantener la \textit{Descripción de los Activos de Procesos de Software del Centro de Sistemas Space and Naval Warfare San Diego}, referencia (k), que describe muchos artefactos utilizados para apoyar las actividades de verificación de SQA.
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{2.2 RECURSOS}
+
+\subsubsection{2.2.1 Instalaciones y Equipos}
+SQA tendrá acceso a las instalaciones y equipos descritos en la referencia (e). SQA tendrá acceso a recursos informáticos para realizar funciones SQA, como evaluaciones y auditorías de procesos y productos.
+
+\subsubsection{2.2.2 Personal}
+El esfuerzo SQA para este proyecto es \textit{esfuerzo en años-persona o indicar la cantidad de esfuerzo si es menos del 100\% - asegurarse de que el esfuerzo coincida con la Estructura de Desglose de Trabajo del proyecto.}
+
+\textit{Identificar los requisitos de calificación del Gerente de SQA.}
+
+El Gerente de SQA estará familiarizado y podrá aplicar los estándares y pautas enumerados en la Sección 1.6. Además, el Gerente de SQA estará familiarizado con la calidad del software, las actividades relacionadas con el desarrollo de software y el análisis estructurado, diseño, codificación y pruebas.
+
+\section{SECCIÓN 3. TAREAS DE SQA}
+El SQA se encargará de evaluar la calidad del sistema tanto en la capa de presentación como en los endpoints del sistema, con mediciones de rendimiento, eficiencia, seguridad, efectividad y corrección.
+
+\subsection{3.1 TAREA: REVISIÓN DE PRODUCTOS DE SOFTWARE}
+Dentro del sistema evaluado, se encontró poca documentación para analizar; apenas se definen las funciones principales, las tecnologías utilizadas y la configuración inicial del sistema. No tiene pruebas definidas para comprobar la total funcionalidad del sistema, por lo que la mayoría de las pruebas y evaluaciones se realizarán a partir de las pruebas adaptadas al software entregado a través del plan generado para dichas pruebas.
+
+\subsection{3.2 TAREA: REVISIÓN DE HERRAMIENTAS DE SOFTWARE}
+Se definirán las herramientas utilizadas para las mediciones, tanto en qué parte del proceso se utilizarán como para qué tipos de prueba se usarán. Todas estas pruebas serán nuevas en el proyecto al no tener definido inicialmente antes del análisis. Cada una está pensada para el testeo en el ambiente en el que el sistema fue desarrollado, como son Java y TypeScript, que definen el servicio web.
+
+\subsection{3.3 TAREA: EVALUAR PROCESO DE REVISIÓN DE PRODUCTOS DE SOFTWARE}
+Esta tarea de SQA asegura que los procesos de revisión de calidad estén establecidos para todos los productos de software, que pueden incluir representaciones de información distintas a los documentos tradicionales en papel, y que estos productos hayan pasado por evaluación, pruebas y acciones correctivas según lo requiera el estándar.
+
+SQA verificará que los productos de software listos para revisión sean revisados, que los resultados se reporten y que los problemas reportados se resuelvan de acuerdo con la referencia (e).
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7 y se proporcionarán a la gestión del proyecto. La recomendación de SQA para la acción correctiva requiere la disposición de la gestión del proyecto y se procesará de acuerdo con la guía en la Sección 7.
+
+\subsection{3.4 TAREA: EVALUAR PROCESOS DE PLANIFICACIÓN, MONITOREO Y SUPERVISIÓN DE PROYECTOS}
+La planificación, seguimiento y supervisión del proyecto implica que la gestión del proyecto desarrolle y documente planes para el Desarrollo de Software, Pruebas de CI y Sistemas, Instalación de Software y Transición de Software. La Sección 1.6 enumera los planes del programa/proyecto. Para los documentos del proyecto que se desarrollarán, SQA ayudará a identificar las pautas, estándares o Descripciones de Elementos de Datos (DIDs) apropiados, y ayudará con la adaptación de esas pautas, estándares o DIDs para satisfacer las necesidades del proyecto.
+
+SQA evaluará que el proyecto realice las actividades relevantes establecidas en los planes del Programa y del Proyecto. Para verificar que estas actividades se realicen según lo planificado, SQA auditará los procesos que definen la actividad y utilizará la referencia (e) u otro documento de planificación como medida de cumplimiento.
+
+SQA utilizará las listas de verificación de auditoría en las Figuras B-1 y B-2 como guías para realizar la evaluación.
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7. Cualquier cambio recomendado a esos planes requerirá actualización y aprobación por parte de la gestión del proyecto de acuerdo con el procedimiento de gestión de configuración descrito en el Plan SCM del proyecto.
+
+\subsection{3.6 TAREA: EVALUAR PROCESOS DE ANÁLISIS DE REQUISITOS DEL SISTEMA}
+El análisis de requisitos establece un entendimiento común de los requisitos del cliente entre el cliente y el equipo del proyecto de software. Se establece y mantiene un acuerdo con el cliente sobre los requisitos para el proyecto de software. Este acuerdo se conoce como la asignación de requisitos del sistema al software y al hardware. La Sección 4 enumera los documentos de requisitos del sistema.
+
+Las actividades de SQA se enumeran a continuación:
+\begin{enumerate}
+    \item Verificar que los participantes correctos estén involucrados en el proceso de análisis de requisitos del sistema para identificar todas las necesidades del usuario.
+    \item Verificar que los requisitos sean revisados para determinar si son factibles de implementar, están claramente establecidos y son consistentes.
+    \item Verificar que los cambios en los requisitos asignados, los productos de trabajo y las actividades sean identificados, revisados y rastreados hasta su cierre.
+    \item Verificar que el personal del proyecto involucrado en el proceso de análisis de requisitos del sistema esté capacitado en los procedimientos y estándares necesarios aplicables a su área de responsabilidad para hacer el trabajo correctamente.
+    \item Verificar que los compromisos resultantes de los requisitos asignados sean negociados y acordados por los grupos afectados.
+    \item Verificar que los compromisos estén documentados, comunicados, revisados y aceptados.
+    \item Verificar que los requisitos asignados identificados como potencialmente problemáticos sean revisados con el grupo responsable de analizar los requisitos y documentos del sistema, y que se realicen los cambios necesarios.
+    \item Verificar que se sigan y documenten los procesos prescritos para definir, documentar y asignar requisitos.
+    \item Confirmar que existe un proceso de gestión de configuración para controlar y gestionar la línea base.
+    \item Verificar que los requisitos estén documentados, gestionados, controlados y rastreados (preferiblemente mediante una matriz).
+    \item Verificar que los requisitos acordados se aborden en el SDP.
+\end{enumerate}
+
+SQA puede utilizar la lista de verificación de auditoría en la Figura B-3 como guía para realizar la evaluación.
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7 y se proporcionarán a la gestión del proyecto. La recomendación de SQA para la acción correctiva requiere la disposición de la gestión del proyecto y se procesará de acuerdo con la guía en la Sección 7.
+
+\subsection{3.7 TAREA: EVALUAR PROCESOS DE ANÁLISIS DE REQUISITOS DE SOFTWARE}
+El propósito del análisis de requisitos de software es formular, documentar y gestionar la línea base de requisitos de software; responder a solicitudes de aclaración, corrección o cambio; analizar impactos; revisar la especificación de requisitos de software; y gestionar el proceso de análisis y cambio de requisitos de software. La Sección 4 enumera los documentos de requisitos de software.
+
+Las actividades de SQA se enumeran a continuación:
+\begin{enumerate}
+    \item Verificar que el proceso de análisis de requisitos de software y las revisiones de requisitos asociadas se realicen de acuerdo con los estándares y procedimientos establecidos por el proyecto y descritos en el SDP.
+    \item Verificar que los elementos de acción resultantes de las revisiones del análisis de requisitos de software se resuelvan de acuerdo con estos estándares y procedimientos.
+\end{enumerate}
+
+SQA puede utilizar la lista de verificación de auditoría en la Figura B-5 como guía para realizar la evaluación.
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7 y se proporcionarán a la gestión del proyecto. La recomendación de SQA para la acción correctiva requiere la disposición de la gestión del proyecto y se procesará de acuerdo con la guía en la Sección 7.
+
+\subsection{3.8 TAREA: EVALUAR PROCESOS DE PRUEBAS UNITARIAS E IMPLEMENTACIÓN DEL SISTEMA}
+La implementación o codificación del software es el punto en el ciclo de desarrollo del software en el que el diseño finalmente se implementa. El proceso incluye pruebas unitarias del código de software.
+
+Las actividades de SQA se enumeran a continuación:
+\begin{enumerate}
+    \item Verificar que el proceso de codificación, las revisiones de código asociadas y las pruebas unitarias de software se realicen de acuerdo con los estándares y procedimientos establecidos por el proyecto y descritos en el SDP.
+    \item Verificar que los elementos de acción resultantes de las revisiones del código se resuelvan de acuerdo con estos estándares y procedimientos.
+    \item Verificar que el SDF utilizado para rastrear y documentar el desarrollo de una unidad de software esté implementado y se mantenga actualizado.
+\end{enumerate}
+
+SQA puede utilizar la lista de verificación de auditoría en la Figura B-7 como guía para realizar la evaluación.
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7 y se proporcionarán a la gestión del proyecto. La recomendación de SQA para la acción correctiva requiere la disposición de la gestión del proyecto y se procesará de acuerdo con la guía en la Sección 7.
+
+\subsection{3.9 TAREA: EVALUAR PROCESOS DE PRUEBAS UNITARIAS Y DE INTEGRACIÓN, PRUEBAS DE CALIFICACIÓN DE CI, PRUEBAS DE INTEGRACIÓN CI/HWCI Y PRUEBAS DE CALIFICACIÓN DEL SISTEMA.}
+Las actividades de integración y prueba del software combinan componentes desarrollados individualmente en el entorno de desarrollo para verificar que funcionan juntos para completar la funcionalidad del software y del sistema. Para el desarrollo conjunto de hardware y software, la integración requiere una sincronización estrecha del hardware y el software para cumplir con los hitos de integración y prueba designados.
+
+En la fase de integración y prueba del ciclo de vida del desarrollo, el enfoque de las pruebas cambia de la corrección de un componente individual al funcionamiento adecuado de las interfaces entre componentes, el flujo de información a través del sistema y el cumplimiento de los requisitos del sistema.
+
+Las actividades de SQA se enumeran a continuación:
+\begin{enumerate}
+    \item Verificar que las actividades de prueba de software estén identificadas, que los entornos de prueba estén definidos y que se hayan diseñado pautas para las pruebas. SQA verificará que el proceso de integración de software, las actividades de prueba de integración de software y las actividades de prueba de rendimiento del software se realicen de acuerdo con el SDP, el diseño del software, el plan de pruebas de software y los estándares y procedimientos de software establecidos.
+    \item Verificar que cualquier transferencia de control del código al personal que realiza las pruebas de integración de software o las pruebas de rendimiento del software se realice de acuerdo con los estándares y procedimientos de software establecidos.
+    \item Verificar que se presencien tantas pruebas de integración de software como sea necesario y todas las pruebas de rendimiento del software para verificar que se sigan los procedimientos de prueba aprobados, que se mantengan registros precisos de los resultados de las pruebas, que todas las discrepancias descubiertas durante las pruebas se informen correctamente, que se analicen los resultados de las pruebas y que se completen los informes de prueba asociados.
+    \item Verificar que las discrepancias descubiertas durante las pruebas de integración y rendimiento del software se identifiquen, analicen, documenten y corrijan; que las pruebas unitarias y de integración del software se vuelvan a ejecutar según sea necesario para validar las correcciones realizadas al código; y que el diseño, código y prueba de la unidad de software se actualicen en función de los resultados de las pruebas de integración de software, las pruebas de rendimiento del software y el proceso de acción correctiva.
+    \item Verificar que las pruebas de rendimiento del software produzcan resultados que permitan determinar los parámetros de rendimiento del software.
+    \item Verificar que la responsabilidad de las pruebas y de la presentación de informes sobre los resultados se haya asignado a un elemento organizativo específico.
+    \item Verificar que se hayan establecido procedimientos para monitorear las pruebas informales.
+    \item Revisar el Plan de Pruebas de Software y las Descripciones de Pruebas de Software para verificar el cumplimiento de los requisitos y estándares.
+    \item Verificar que el software sea probado.
+    \item Monitorear las actividades de prueba, presenciar pruebas y certificar los resultados de las pruebas.
+    \item Verificar que se hayan establecido requisitos para la certificación o calibración de todo el software o hardware de soporte utilizado durante las pruebas.
+\end{enumerate}
+
+SQA puede utilizar las listas de verificación de auditoría en las Figuras B-8 y B-9 como guías para realizar estas evaluaciones.
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7 y se proporcionarán a la gestión del proyecto. La recomendación de SQA para la acción correctiva requiere la disposición de la gestión del proyecto y se procesará de acuerdo con la guía en la Sección 7.
+
+\subsection{3.20 TAREA: EVALUAR PROCESOS DE CONTROL DE LIBRERÍAS DE DESARROLLO DE SOFTWARE}
+La SDL funciona como el punto de control principal para SCM. Una SDL contiene todas las unidades de código desarrolladas para los CI en evolución del proyecto, así como listados cuidadosamente identificados, parches, erratas, cintas magnéticas y paquetes de discos de CI y del sistema, y flujos de control de trabajos para operar o construir sistemas de software. La SDL también contiene versiones anteriores del sistema de software operativo en forma de cintas magnéticas o paquetes de discos.
+
+Las actividades de SQA se enumeran a continuación:
+\begin{enumerate}
+    \item Verificar el establecimiento de la SDL y los procedimientos para gobernar su operación.
+    \item Verificar que la documentación y los materiales del programa informático estén aprobados y colocados bajo control de la biblioteca.
+    \item Verificar el establecimiento de procedimientos de liberación formal para la documentación y versiones de software aprobadas por SCM.
+    \item Verificar que los controles de la biblioteca prevengan cambios no autorizados en el software controlado y verificar la incorporación de todos los cambios aprobados.
+\end{enumerate}
+
+SQA puede utilizar la lista de verificación de auditoría en la Figura B-18 como guía para realizar esta evaluación.
+
+Los resultados de esta tarea se documentarán utilizando el Formulario de Auditoría de Procesos descrito en la Sección 7 y se proporcionarán a la gestión del proyecto. La recomendación de SQA para la acción correctiva requiere la disposición de la gestión del proyecto y se procesará de acuerdo con la guía en la Sección 7.
+
+SQA reports, together with the corrective action records, software test reports, and software product evaluation records can constitute the required evidence for certifying the software performs its intended functions.
+
+\subsection{3.22 TAREA: VERIFICAR REVISIONES DE PROCESOS Y AUDITORÍAS}
+\textit{Definir las revisiones técnicas y de gestión y las auditorías que se llevarán a cabo. Indicar cómo se realizarán las revisiones y auditorías. Indicar qué acciones adicionales se requieren y cómo se implementarán y verificarán. El tipo y alcance de las revisiones técnicas depende en gran medida del tamaño, alcance, riesgo y criticidad del proyecto de software. Las revisiones y auditorías identificadas aquí deben ser las mismas que se especifican en la referencia (e).}
+
+La Tabla 3-1 identifica las revisiones y auditorías requeridas para las fases de desarrollo del sistema y del software.
+
+\subsubsection{3.22.1 Tarea: Verificar Revisiones Técnicas}
+Un componente principal de la ingeniería de calidad en el software es la realización de revisiones técnicas de los productos de software, tanto entregables como no entregables. Los participantes de una revisión técnica deben incluir personas con conocimiento técnico de los productos de software a revisar. El propósito de la revisión técnica será centrarse en los productos de software en progreso y finales, en lugar de los materiales generados especialmente para la revisión. SQA asegurará que se realicen las revisiones técnicas y asistirá selectivamente a ellas de acuerdo con técnicas de muestreo aprobadas. Las pautas de MIL-STD-1521B, \textit{Technical Reviews and Audits for Systems, Equipments, and Computer Software}, referencia (l), pueden utilizarse para realizar una revisión técnica. A continuación se presenta un resumen de cada tipo de revisión técnica:
+
+\begin{enumerate}
+    \item \underline{Revisión de Requisitos del Sistema (SRR)}: el objetivo es determinar la adecuación de los esfuerzos del desarrollador para definir los requisitos del sistema.
+    \item \underline{Revisión del Diseño del Sistema (SDR)}: el objetivo es evaluar la optimización, correlación, integridad y riesgos asociados con los requisitos técnicos asignados. También se incluye una revisión resumida del proceso de ingeniería de sistemas que produjo los requisitos técnicos asignados y de la planificación de ingeniería para la siguiente fase del esfuerzo.
+    \item \underline{Revisión de Especificación de Software (SSR)}: el objetivo es revisar los requisitos finalizados del CI y el concepto operativo. Una SSR exitosa demuestra que la Especificación de Requisitos de Software (SRS), la Especificación de Requisitos de Interfaz (IRS) y el Documento de Concepto Operativo (OCD) forman una base satisfactoria para proceder al diseño preliminar del software.
+    \item \underline{Revisión Preliminar del Diseño de Software (PDR)}: el objetivo es evaluar el progreso, la consistencia y la adecuación técnica del diseño de alto nivel seleccionado y el enfoque de prueba, la compatibilidad entre los requisitos de software y el diseño preliminar, y la versión preliminar de los documentos de operación y soporte.
+    \item \underline{Revisión Crítica del Diseño de Software (CDR)}: el objetivo es determinar la aceptabilidad del diseño detallado, el rendimiento y las características de prueba de la solución de diseño, y la adecuación de los documentos de operación y soporte.
+    \item \underline{Revisión de Preparación para Pruebas de Software (TRR)}: el objetivo es determinar si los procedimientos de prueba de software están completos y asegurar que el desarrollador esté preparado para las pruebas formales de CSCI/SU.
+    \item \underline{Revisión de Calificación Formal (FQR)}: el proceso de prueba, inspección o análisis mediante el cual se verifica que un grupo de elementos de configuración que componen el sistema ha cumplido con requisitos de rendimiento específicos del programa o proyecto.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Revisiones y Auditorías}
+\label{tab:reviews}
+\begin{tabular}{|p{4.5cm}|p{3.5cm}|p{6cm}|}
+\hline
+\textbf{FASE DE DESARROLLO DEL SISTEMA Y SOFTWARE} & \textbf{PRODUCTOS DE SOFTWARE} & \textbf{AUDITORÍAS Y REVISIONES REQUERIDAS} \\
+\hline
+Requisitos del Sistema & (1) Especificación del Sistema/Subsistema (SSS), IRS, OCD (2) SDP, Plan SCM, Plan SQA & (1) Revisión de Requisitos del Sistema (SRR) (2) Auditorías de Procesos (3) Revisión de Gestión (4) Revisión por Pares \\
+\hline
+Diseño del Sistema & (1) Descripción del Diseño del Sistema/Subsistema (SSDD), Descripción del Diseño de Interfaz (IDD) & (1) Revisión del Diseño del Sistema (SDR) (2) Auditorías de Procesos (3) Revisión de Gestión (4) Revisión por Pares \\
+\hline
+Requisitos de Software & (1) SRS, IRS & (1) Revisión de Especificación de Software (SSR) (2) Auditorías de Procesos (3) Revisión de Gestión (4) Revisión por Pares \\
+\hline
+Diseño de Software & (1) Documento de Diseño de Software (SDD), Descripción del Diseño de Base de Datos (DBDD), IDD & (1a) Revisión Preliminar del Diseño de Software (PDR) (1b) Revisión Crítica del Diseño de Software (CDR) (2) Auditorías de Procesos (3) Revisión de Gestión (4) Revisión por Pares \\
+\hline
+Implementación de Software & Productos de software & (1) Auditorías de Procesos (2) Revisión de Gestión (3) Revisión por Pares \\
+\hline
+Pruebas & (1) Documentación de Pruebas & (1a) Revisión de Preparación para Pruebas de Software (TRR) (1b) Revisión de Calificación Formal (FQR) (2) Auditorías de Procesos (3) Revisión de Gestión (4) Auditoría de Configuración Funcional (5) Revisión por Pares \\
+\hline
+Lanzamiento de Software & (1) Descripción de la Versión de Software (SVD), Documentación del usuario & (1) Revisión de Preparación para la Producción (PRR) (2) Auditorías de Procesos (3) Revisión de Gestión (4) Auditoría de Configuración Física (5) Revisión por Pares \\
+\hline
+\end{tabular}
+\end{table}
+\textit{Nota: La revisión por pares se discute en la Sección 4.}
+
+\begin{enumerate}
+    \setcounter{enumi}{7}
+    \item \underline{Revisión de Preparación para la Producción (PRR)}: el objetivo es determinar el estado de finalización de las acciones específicas que deben completarse satisfactoriamente antes de tomar una decisión de inicio de producción.
+\end{enumerate}
+
+Las revisiones técnicas se llevarán a cabo para revisar los productos de software en evolución, demostrar las soluciones técnicas propuestas y proporcionar información y obtener retroalimentación sobre el esfuerzo técnico. El resultado de una revisión técnica se enumera a continuación:
+\begin{enumerate}
+    \item Identificar y resolver problemas técnicos.
+    \item Revisar el estado del proyecto, específicamente los riesgos a corto y largo plazo en cuanto a aspectos técnicos, costos y plazos.
+    \item Llegar a estrategias de mitigación acordadas para los riesgos identificados, dentro de la autoridad de los presentes.
+    \item Identificar riesgos y problemas que se plantearán en las revisiones conjuntas de gestión.
+    \item Verificar la comunicación continua entre el personal técnico del adquiriente y del desarrollador.
+\end{enumerate}
+
+Los criterios de entrada para una revisión técnica requerirán que un elemento a revisar se distribuya al grupo antes de la reunión de revisión. Además, se asignará un secretario para registrar cualquier problema que requiera resolución, indicando el responsable del elemento de acción y la fecha de vencimiento, y las decisiones tomadas dentro de la autoridad de los participantes de la revisión técnica.
+
+Se recopilan varias mediciones como parte de las revisiones técnicas para ayudar a determinar la efectividad del proceso de revisión en sí, así como de los pasos del proceso que se utilizan para producir el elemento que se revisa. Estas mediciones, reportadas al gerente del proyecto, incluirán la cantidad de tiempo dedicado por cada persona involucrada en la revisión, incluida la preparación para la revisión.
+
+\subsubsection{3.22.2 Tarea: Verificar Revisiones de Gestión}
+La revisión periódica de la gestión de SQA del estado, progreso, problemas y riesgos del proyecto de software proporcionará una evaluación independiente de las actividades del proyecto. SQA proporcionará la siguiente información a la gestión:
+\begin{enumerate}
+    \item \textbf{Cumplimiento:} Identificación del nivel de cumplimiento del proyecto con los procesos organizacionales y del proyecto establecidos.
+    \item \textbf{Áreas problemáticas:} identificación de áreas problemáticas potenciales o reales del proyecto basadas en el análisis de los resultados de las revisiones técnicas.
+    \item \textbf{Riesgos:} identificación de riesgos basados en la participación y evaluación del progreso del proyecto y las áreas problemáticas.
+\end{enumerate}
+
+Debido a que la función SQA es integral para el éxito del proyecto, SQA comunicará libremente sus resultados a la alta dirección, la dirección del proyecto y el equipo del proyecto. El método para informar el cumplimiento, las áreas problemáticas y los riesgos se comunicará en un informe documentado o memorando. Se dará seguimiento a los problemas de cumplimiento, áreas problemáticas y riesgos y se rastrearán hasta su cierre.
+
+\subsubsection{3.22.3 Tarea: Conducir Auditorías de Procesos}
+Los procesos de desarrollo de software se auditan de acuerdo con las tareas especificadas en esta Sección y se realizan de acuerdo con el cronograma de desarrollo de software especificado en el SDP.
+
+\subsubsection{3.22.4 Tarea: Realizar Auditorías de Configuración}
+\textbf{3.22.4.1 Auditoría de Configuración Funcional.} La Auditoría de Configuración Funcional (FCA) se lleva a cabo antes de la entrega del software para comparar el software construido (incluyendo sus formas ejecutables y la documentación disponible) con los requisitos de software establecidos en la SRS base. El propósito es asegurar que el código aborda todos, y solo, los requisitos documentados y las capacidades funcionales establecidas en la SRS. MIL-STD-973, \textit{Gestión de Configuración}, referencia (m), proporciona las pautas para realizar una FCA. SQA participará como miembro del equipo de FCA junto con otros miembros del equipo de FCA que serán asignados por el gerente del proyecto. SQA ayudará en la preparación de los hallazgos de la FCA. Cualquier seguimiento de los hallazgos reportados de la FCA será monitoreado y rastreado hasta su cierre.
+
+\textbf{3.22.4.2 Auditoría de Configuración Física.} La Auditoría de Configuración Física (PCA) se lleva a cabo para verificar que el software y su documentación son internamente consistentes y están listos para la entrega. El propósito es asegurar que la documentación que se va a entregar sea consistente y describa correctamente el código. La referencia (m) proporciona las pautas para realizar una PCA. SQA participará como miembro del equipo de PCA junto con otros miembros del equipo de PCA que serán asignados por el gerente del proyecto. SQA ayudará en la preparación de los hallazgos de la PCA. Cualquier seguimiento de los hallazgos reportados de la PCA será monitoreado y rastreado hasta su cierre.
+
+\subsection{3.24 RESPONSABILIDADES}
+\textit{Este párrafo debe identificar los elementos organizativos específicos responsables de cada tarea.}
+
+La responsabilidad última de la calidad del software y la documentación asociada del proyecto recae en el Gerente de Proyecto de Software del proyecto. El Gerente de SQA implementará los procedimientos de SQA definidos en este plan.
+
+SQA deriva su autoridad del Gerente del Proyecto a través del Gerente de \[Sucursal/División/Departamento de SSC San Diego o Nombre de la Agencia]. SQA monitoreará las actividades del personal del proyecto y revisará los productos para verificar el cumplimiento de los estándares, procedimientos y referencia (e) aplicables. Los resultados del monitoreo y análisis de SQA, junto con las recomendaciones de SQA para acciones correctivas, se reportarán al Gerente de Proyecto de Software y, según sea necesario, al Gerente de \[Sucursal/División/Departamento de SSC San Diego o Nombre de la Agencia]. Todos los documentos y software aprobados por el Gerente de Proyecto de Software para su liberación a \[actividad del usuario] deberán haber sido revisados y aprobados por SQA. La Tabla 3-2 es una matriz de responsabilidades para las tareas identificadas en esta Sección.
+
+\begin{table}[H]
+\centering
+\caption{Matriz de Responsabilidades}
+\label{tab:responsibility}
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Plan SQA} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Desarrollar/Documentar Plan SQA & X & & X & & & \\
+\hline
+Revisar Plan SQA & X & X & X & X & X & X \\
+\hline
+Aprobar Plan SQA & X & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Revisar Productos de Software} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Revisar productos & X & X & X & X & X & X \\
+\hline
+Aprobar producto & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Evaluar Herramientas de Software} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Evaluar herramienta & X & & & & X & X \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Planificación, Seguimiento y Supervisión del Proyecto (PPT\&O)} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Desarrollar/Documentar SDP y otros planes del proyecto & & X & X & & & \\
+\hline
+Revisar planes & X & X & X & X & X & X \\
+\hline
+Aprobar planes & & X & X & & & \\
+\hline
+Evaluar Proceso PPT\&O & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Análisis de Requisitos del Sistema} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Revisar Requisitos del Sistema & X & X & X & X & X & X \\
+\hline
+Evaluar/Reportar Proceso de Análisis de Requisitos del Sistema & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Análisis de Requisitos de Software} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Revisar Requisitos de Software & X & X & X & X & X & X \\
+\hline
+Evaluar/Reportar Proceso de Análisis de Requisitos de Software & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Diseño de Software} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Revisar Diseño de Software & X & X & X & X & X & X \\
+\hline
+Evaluar/Reportar Proceso de Diseño de Software & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Implementación y Pruebas Unitarias de Software} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Desarrollar/Corregir código & & & & & X & \\
+\hline
+Revisar código & X & & & & X & X \\
+\hline
+Prueba Unitaria & & & & & X & X \\
+\hline
+Evaluar/Reportar Proceso de Implementación y Pruebas Unitarias de Software & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Integración y Pruebas Unitarias} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Integrar SW & & & & & X & \\
+\hline
+Probar SW Integrado & & & & & & X \\
+\hline
+Corregir errores & & & & & X & \\
+\hline
+Evaluar/Reportar Proceso de Integración y Pruebas Unitarias & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Pruebas de Calificación de CI} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Prueba de Rendimiento & & & & & & X \\
+\hline
+Corregir errores & & & & & X & \\
+\hline
+Evaluar/Reportar Proceso de Pruebas de Calificación de CI & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Proceso de Acción Correctiva} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Seguir Proceso de Acción Correctiva & X & X & X & X & X & X \\
+\hline
+Evaluar/Reportar Proceso de Acción Correctiva & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Auditorías de Configuración} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Asistir/Realizar Auditorías de Configuración & X & & & X & X & X \\
+\hline
+Evaluar/Reportar Proceso de Auditoría de Configuración & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|}
+\hline
+\textbf{Aseguramiento de la Calidad del Software} & \textbf{Gerente SQA} & \textbf{Gerente Prog.} & \textbf{Gerente Proy.} & \textbf{Ing. Sistemas} & \textbf{Des. SW} & \textbf{Probador} \\
+\hline
+Nombrar un Auditor SQA Independiente & & X & & & & \\
+\hline
+Asistir a Auditorías SQA & X & & & X & X & X \\
+\hline
+Evaluar/Reportar Proceso de Auditoría SQA & X & & & & & \\
+\hline
+Resolver Hallazgos de Auditoría & X & X & X & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{3.25 CRONOGRAMA}
+Los cronogramas de SQA están estrechamente coordinados con el cronograma de desarrollo de software en la referencia (e). Las auditorías de procesos se realizarán al comienzo de cada nueva fase de desarrollo para verificar que los procesos apropiados estén correctamente implementados según lo definido en los documentos de planificación. Además, se realizarán verificaciones puntuales (auditorías no programadas) durante cada fase de desarrollo para verificar que se sigan los procesos y los procedimientos de escritorio. Al finalizar una fase de desarrollo de software, SQA revisará e informará si se han completado todos los pasos necesarios para la transición a la siguiente fase.
+
+\section{SECCIÓN 4. DOCUMENTACIÓN}
+La documentación que describe y respalda el software del proyecto o el proceso de desarrollo de software se creará y actualizará periódicamente durante todo el ciclo de desarrollo.
+
+La Tabla 4-1 es una lista de los productos de software entregables del proyecto y el estándar o pautas asociados utilizados para desarrollar y mantener los productos de software. Cualquier pauta de adaptación también se encuentra en la Tabla 4-1. La Tabla 4-2 es una lista de productos no entregables.
+
+Para los documentos de software del proyecto que se desarrollarán y que aún no figuran en las Tablas 4-1 y 4-2, SQA ayudará a identificar las especificaciones, estándares y Descripciones de Elementos de Datos (DIDs) que se seguirán en la preparación de la documentación requerida.
+
+\begin{table}[H]
+\centering
+\caption{Productos de Software Entregables}
+\label{tab:deliverable}
+\begin{tabular}{|p{3cm}|p{4cm}|p{6cm}|}
+\hline
+\textbf{NOMENCLATURA} & \textbf{DOCUMENTACIÓN ENTREGABLE} & \textbf{DID, ESTÁNDAR, PAUTA} \\
+\hline
+\[[Nombre del CI]] & \[[TIPO DE DOCUMENTO, ej., SSS]] & \[[DID, ej., DI-IPSC-81431 de MIL-STD-498]] \\
+\hline
+\[[Nombre del CI]] & \[[TIPO DE DOCUMENTO]] & \[[DID, ESTÁNDAR, PAUTA]] \\
+\hline
+\[[Nombre del CI]] & \[[TIPO DE DOCUMENTO]] & \[[DID, ESTÁNDAR, PAUTA]] \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Productos de Software No Entregables}
+\label{tab:nondeliverable}
+\begin{tabular}{|c|}
+\hline
+\textbf{TÍTULO DEL DOCUMENTO} \\
+\hline
+\[[Título del documento]] \\
+\hline
+\[[Título del documento]] \\
+\hline
+\[[Título del documento]] \\
+\hline
+\end{tabular}
+\end{table}
+
+\textit{Indicar cómo se verificará la adecuación de los documentos. El proceso de revisión de documentos debe incluir los criterios y la identificación de la revisión o auditoría mediante la cual se confirmará la adecuación de cada documento.}
+
+\begin{enumerate}
+    \item Todos los documentos se someterán a una revisión por pares de acuerdo con el Proceso de Revisión por Pares, referencia (n).
+\end{enumerate}
+
+Tras la finalización de una revisión por pares, SQA registra y reporta las mediciones de la revisión por pares (el elemento revisado, el número de errores detectados, la fase en la que se realizó la revisión por pares, el número de informes de error cerrados y el número de informes de error abiertos) a SEPO.
+
+Tras la finalización de una revisión por pares, el producto de software se enviará a SCM y se colocará bajo control de CM. El producto de software se procesará entonces de acuerdo con el proceso de aprobación y liberación de productos de software de SCM descrito en la referencia (e).
+
+\section{SECCIÓN 5. ESTÁNDARES, PRÁCTICAS, CONVENCIONES Y MÉTRICAS}
+Para verificar la entrega de un producto totalmente conforme y de alta calidad, cada individuo asignado al proyecto participará en el aseguramiento de la calidad. La referencia (e) define los procedimientos mediante los cuales el personal de desarrollo de software verificará la calidad del producto durante el proceso de desarrollo. El resto de esta sección describe los procedimientos utilizados por SQA para verificar que se cumplan las disposiciones de aseguramiento de la calidad de este Plan SQA y los estándares, prácticas, convenciones y métricas aplicables.
+
+\textit{Identificar los estándares (requisitos obligatorios) que se aplicarán. Indicar cómo se supervisará y asegurará el cumplimiento de estos elementos.}
+
+\[[MIL-STD-498, referencia (o) o referencia (b)]] es el estándar de desarrollo de software utilizado por el proyecto y cualquier adaptación de este estándar está documentada en la referencia (e). La Sección 3 identifica la evaluación de SQA de la fase de requisitos, diseño, implementación y prueba para verificar el cumplimiento de \[[referencias (o) o (b)]] y la referencia (e).
+
+La Sección 4 identifica el DID asociado para cada producto de software que se desarrollará y mantendrá. Cualquier adaptación del DID se describe en la referencia (e). SQA verificará que el formato y el contenido de la documentación cumplan con el DID y la referencia (e).
+
+Los estándares para la estructura lógica, la codificación y los comentarios del código se describen en la referencia (e). SQA verificará que el código fuente cumpla con estos estándares según se detalla en la referencia (e).
+
+Los estándares y prácticas para las pruebas se describen en la referencia (e). SQA verificará que las actividades de prueba cumplan con la referencia (e).
+
+\subsection{5.1 MÉTRICAS}
+\textit{Identificar o hacer referencia a los estándares, prácticas y convenciones que se utilizarán en la definición, recopilación y utilización de datos de medición de software. Citar cualquier requisito o estándar interno (ej., del proyecto, corporativo) y externo (ej., del usuario, cliente) con el que deban cumplir las prácticas de métricas. IEEE Std 1045-1992, IEEE Standard for Software Productivity Metrics, referencia (p), describe convenciones para contar los resultados de los procesos de desarrollo. IEEE Std 1061-1992, IEEE Standard for a Software Quality Metrics Methodology, referencia (q), proporciona una metodología para seleccionar e implementar métricas de proceso y producto. IEEE Std 982.1-1988, IEEE Standard Dictionary of Measures to Produce Reliable Software, referencia (r), e IEEE Std 982.2-1988, IEEE Guide for using reference (r), referencia (s), proporcionan varias medidas para su uso en diferentes fases del ciclo de vida para ganar confianza en la construcción de software confiable. Para mantener las métricas simples, se ofrece un ejemplo de métricas de costo y cronograma.}
+
+Las siguientes mediciones se realizarán y utilizarán para determinar el estado de costo y cronograma de las actividades de SQA:
+\begin{enumerate}
+    \item Fechas de hitos de SQA (planificadas)
+    \item Fechas de hitos de SQA (completadas)
+    \item Trabajo de SQA programado (planificado)
+    \item Trabajo de SQA completado (real)
+    \item Esfuerzo de SQA dedicado (planificado)
+    \item Esfuerzo de SQA dedicado (real)
+    \item Fondos de SQA gastados (planificados)
+    \item Fondos de SQA gastados (reales)
+    \item Número de elementos de incumplimiento abiertos
+    \item Número de elementos de incumplimiento cerrados
+    \item Número total de elementos de incumplimiento
+\end{enumerate}
+
+SQA es responsable de reportar estas mediciones al Gerente de Proyecto mensualmente.
+
+\section{SECCIÓN 6. TESTS}
+\textit{Identificar todas las demás pruebas no incluidas en la verificación y validación y establecer los métodos utilizados. Describir cualquier técnica o método de prueba que se pueda utilizar para detectar errores, desarrollar conjuntos de datos de prueba y monitorear los recursos del sistema informático.}
+
+La actividad de prueba del proyecto incluye pruebas a nivel de unidad, pruebas de integración (a nivel de Unidad y CI/HWCI), pruebas de rendimiento (Pruebas de Calificación de CI) y pruebas de aceptación (Pruebas de Calificación del Sistema). La Figura 6-1 proporciona el Diagrama de Flujo del Proceso de Prueba. SQA auditará las actividades de prueba según lo definido en la referencia (e), y verificará que el software y la documentación de prueba estén sujetos al control de gestión de configuración. SQA presenciará las pruebas y verificará que los resultados de las pruebas se registren y evalúen. SQA coordinará el mantenimiento de los registros de Informes de Problemas/Cambios (P/CR), a veces llamados Informes de Problemas de Software (STR), con SCM y verificará que los cambios de software se controlen según la referencia (e). SQA presenciará las pruebas de regresión resultantes de P/CR o STR para verificar la efectividad de la corrección.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{imagen3.png}
+\caption{Diagrama de Flujo del Proceso de Prueba}
+\label{fig:testflow}
+\end{figure}
+
+\section{SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}
+\textit{Describir las prácticas y procedimientos que se seguirán para informar, rastrear y resolver problemas identificados tanto en los elementos de software como en los procesos de desarrollo y mantenimiento de software. Indicar las responsabilidades organizativas específicas relacionadas con su implementación.}
+
+Esta sección describe el sistema de reporte y control utilizado por SQA para registrar y analizar discrepancias y monitorear la implementación de acciones correctivas. Los formularios utilizados por SQA para la presentación de informes son el Informe de Auditoría de Procesos, el P/CR o STR, el Informe de Evaluación de Herramientas de Software y el Informe de Evaluación de Instalaciones. Cada uno de estos formularios y sus usos se discuten en la siguiente sección.
+
+\subsection{7.1 PROCESO DE REPORTE DE AUDITORÍA}
+SQA reporta los resultados de una auditoría de procesos y proporciona recomendaciones, si es necesario, utilizando el Informe de Auditoría de Procesos. El Informe de Auditoría de Procesos se utiliza para registrar que el proceso (1) se sigue correctamente y funciona eficazmente, (2) se sigue pero no funciona eficazmente, o (3) no se sigue.
+
+La Figura 7-1 proporciona el formato de un Informe de Auditoría de Procesos.
+
+\subsubsection{7.1.1 Presentación y disposición del informe de auditoría de procesos}
+El Informe de Auditoría de Procesos se dirige a los siguientes grupos:
+\begin{enumerate}
+    \item \textbf{Alta Dirección:} Los resultados de las auditorías de procesos se utilizan junto con otra información de estado del proyecto para guiar la atención de la alta dirección para identificar y mitigar los riesgos del proyecto a nivel organizativo.
+    \item \textbf{SEPG:} El SEPG utiliza los resultados de las auditorías de procesos, junto con los resultados de las auditorías de otros proyectos, para identificar debilidades en los procesos e iniciar o mejorar el proceso en áreas específicas. Estos datos pasan a formar parte de la base de datos de procesos para que estén disponibles para futuros análisis y uso del proyecto.
+    \item \textbf{Gerente del Proyecto:} El gerente del proyecto utiliza el informe de las siguientes maneras:
+    \begin{enumerate}
+        \item Para proporcionar información sobre si se cumple con el proceso de desarrollo y su efectividad para cumplir con los objetivos del proyecto. Cuando sea necesario y apropiado, el gerente del proyecto puede iniciar actividades de aplicación o iniciar cambios en los procesos establecidos utilizando los procedimientos aprobados.
+        \item Para indicar acuerdo, desacuerdo o aplazamiento de las recomendaciones citadas en el Informe de Auditoría de Procesos. Si el Gerente del Proyecto indica desacuerdo con las recomendaciones registradas en el Informe de Auditoría de Procesos, la disposición final de las recomendaciones del informe la realiza el Patrocinador del Proyecto correspondiente, como se describe en la Sección 7.1.2.
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}
+En caso de que el personal del proyecto afectado impugne los hallazgos y recomendaciones de un Informe de Auditoría de Procesos, SQA se comunicará primero con el Gerente del Proyecto afectado para resolver la disputa. Si el Gerente del Proyecto afectado también impugna los hallazgos y/o recomendaciones, el Patrocinador del Proyecto (o al menos un nivel de gestión superior al afectado por las acciones recomendadas en el Informe de Auditoría de Procesos) dirige la disposición final de las recomendaciones del Informe de Auditoría de Procesos. El proyecto afectado implementa, aplaza o cancela la implementación de las acciones correctivas recomendadas en el Informe de Auditoría de Procesos según lo indique el Patrocinador del Proyecto/Gerente de Nivel Superior. Esta dirección es registrada y fechada por el Patrocinador del Proyecto (u otra gerencia, según corresponda) para agregarla a los registros de evaluación de SQA del proyecto. SQA conserva el registro original de los hallazgos y los datos de resolución posteriores en sus archivos de auditoría.
+
+\subsection{7.2 Registro de problemas en el código de software o en la documentación}
+Los problemas encontrados en el código de software o en la documentación que está bajo gestión de configuración deben registrarse mediante un P/CR (o STR, según corresponda al proyecto), independientemente de cómo o por quién se haya descubierto el problema. Los P/CR generados por SQA se prepararán y procesarán de acuerdo con la referencia (f). SQA analizará los P/CR para detectar tendencias de problemas en un esfuerzo por prevenir discrepancias recurrentes. SQA reportará los resultados de los análisis de tendencias de P/CR junto con sugerencias para la resolución y prevención de problemas. El formato del P/CR o STR se encuentra en la referencia (f).
+
+\subsection{7.3 Informe de evaluación de herramientas de software}
+La Figura 7-2 proporciona el formato para evaluar las herramientas de software como se describe en la Sección 3.2.
+
+\section{SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}
+
+\begin{table}[H]
+\centering
+\caption{Herramientas, Técnicas y Metodologías}
+\label{tab:tools}
+\begin{tabular}{|p{3cm}|p{4cm}|p{6cm}|}
+\hline
+\textbf{Herramienta} & \textbf{Uso} & \textbf{Justificación} \\
+\hline
+SonarQube & Análisis estático del código inicial & Herramienta fiable para análisis estático, detecta code smells y problemas estructurales, seguridad con datos cuantitativos útiles para cuantificar la calidad del sistema \\
+\hline
+Qlty & Análisis estático y evaluación de deuda técnica & Plataforma en la nube que permite evaluar la calidad del código al realizar análisis estático para detectar malas prácticas, vulnerabilidades y bugs. Se destaca por trabajar con varios lenguajes a la vez, y dar un reporte especializado de deuda técnica. \\
+\hline
+Jacoco & Medición de coberturas de las pruebas & Permitirá evidenciar la cobertura de las pruebas en Java y obtener métricas cuantitativas de la cobertura de las pruebas en el código generado. \\
+\hline
+npm audit & Análisis de dependencias & Permitirá revisar si los paquetes/bibliotecas están desactualizadas y revisar dependencias en conflicto dentro del frontend. \\
+\hline
+Junit & Medir funcionalidad en los endpoints del sistema & Permitirá cuantificar y verificar funcionalidad y métricas de tiempo del sistema. \\
+\hline
+Jmeter & Medir la carga de estrés en el sistema & Permitirá medir la cantidad de esfuerzo que el sistema ejerce y necesita en su funcionamiento. \\
+\hline
+OWASP ZAP & Medición de la seguridad del sistema & Permitirá revisar problemas de seguridad en los endpoints y encontrar puntos clave de mejora. \\
+\hline
+Lighthouse & Medir el performance del frontend & Herramienta fiable para medir la usabilidad del sistema y cuantificar la accesibilidad del mismo, separando y mostrando los puntos fuertes y débiles en el frontend. \\
+\hline
+Cypress & Medir calidad del frontend & Pruebas de interfaz con métricas reales con pruebas en conjunto al funcionamiento del frontend. \\
+\hline
+Github & Control sobre el proceso QA & Permitirá revisar y tener un espacio controlado donde revisar el sistema y sus cambios. \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{SECCIÓN 9. CONTROL DEL CÓDIGO}
+\textit{El propósito de esta sección es definir los métodos e instalaciones utilizados para mantener, almacenar, asegurar y documentar las versiones controladas del software identificado durante todas las fases del ciclo de vida del software, cuyo uso apropiado será verificado por SQA. Esto puede implementarse junto con una biblioteca de programas informáticos. Esto puede proporcionarse como parte del Plan SCM. Si es así, se debe hacer una referencia apropiada.}
+
+El control del código incluye los siguientes elementos:
+\begin{enumerate}
+    \item Identificar, etiquetar y catalogar el software a controlar.
+    \item Identificar la ubicación física del software bajo control.
+    \item Identificar la ubicación, mantenimiento y uso de las copias de respaldo.
+    \item Distribuir copias del código.
+    \item Identificar la documentación afectada por un cambio.
+    \item Establecer una nueva versión.
+    \item Regular el acceso de los usuarios al código.
+\end{enumerate}
+
+El proyecto utiliza \[[identificar el software de control de código CM]] para el control del código. El método de control del código se describe en la referencia (f). SQA realizará evaluaciones continuas del proceso de control del código para verificar que el proceso de control del código sea efectivo y cumpla con la referencia (f). La Sección 3.19 describe más a fondo las actividades de SQA para verificar el proceso de SCM.
+
+\section{SECCIÓN 10. CONTROL DE INFORMACIÓN}
+\textit{El propósito de esta sección es establecer los métodos e instalaciones que se utilizarán, y cuyo uso adecuado será verificado por SQA, para identificar el soporte de cada producto informático y la documentación necesaria para almacenar el soporte, incluido el proceso de copia y restauración, y proteger el soporte físico del programa informático contra el acceso no autorizado o daños o degradación inadvertidos durante todas las fases del ciclo de vida del software. Esto puede proporcionarse como parte de la referencia (f). Si es así, se debe hacer una referencia apropiada.}
+
+El control de soportes incluye los siguientes elementos:
+\begin{enumerate}
+    \item Copia de seguridad programada regularmente del soporte.
+    \item Soportes etiquetados e inventariados archivados en un área de almacenamiento de acuerdo con los requisitos de seguridad y en un entorno controlado que evite la degradación o daño del soporte.
+    \item Protección adecuada contra el acceso no autorizado.
+\end{enumerate}
+
+Los métodos e instalaciones de control de soportes de software se describen en la referencia (f). SQA realizará evaluaciones continuas del proceso de control de soportes de software para verificar que el proceso de control de los soportes de software sea efectivo y cumpla con la referencia (f). En la Sección 3.16 se proporcionan más pautas para la verificación de SQA del control de soportes.
+
+\section{SECCIÓN 11. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}
+\textit{Identificar la documentación de SQA que se conservará, establecer los métodos e instalaciones que se utilizarán para reunir, salvaguardar y mantener esta documentación, y designar el período de retención.}
+
+Las actividades de SQA se documentan mediante registros e informes que proporcionan un historial de la calidad del producto a lo largo del ciclo de vida del software. Los datos de medición recopilados se revisarán para identificar tendencias y mejorar los procesos. Todos los registros de SQA se recopilarán y mantendrán en la SDL o en el almacenamiento de archivo durante el ciclo de vida del producto o un mínimo de \[indicar número de años].
+
+\section{SECCIÓN 12. PREPARACIÓN DEL PERSONAL}
+\textit{Identificar las actividades de capacitación necesarias para cumplir con los requisitos del Plan SQA.}
+
+La Tabla 13-1 proporciona una matriz que identifica las habilidades requeridas para realizar las tareas de SQA para implementar este Plan SQA del proyecto. El cronograma de capacitación será compatible con el cronograma del proyecto. En algunos casos, la capacitación se llevará a cabo como capacitación en el puesto de trabajo (OJT).
+
+\begin{table}[H]
+\centering
+\caption{Matriz de Capacitación SQA}
+\label{tab:training}
+\begin{tabular}{|p{4cm}|p{4cm}|p{2.5cm}|p{3.5cm}|}
+\hline
+\textbf{TAREA} & \textbf{REQUISITOS DE HABILIDADES} & \textbf{TIPO} & \textbf{FUENTE} \\
+\hline
+Revisiones de Código & Lenguaje fuente, Revisiones por Pares & Aula/OJT & SEPO, Proceso y Taller de Revisión por Pares \\
+\hline
+Revisiones de Documentación & Estándares y pautas de desarrollo y documentación de software, Revisiones por Pares & Aula/OJT & SEPO, Proceso y Taller de Revisión por Pares \\
+\hline
+Auditorías de Procesos & Procesos del Ciclo de Vida del Desarrollo de Software, Técnicas de Auditoría & Aula/OJT & MIL-STD-498, IEEE/EIA 12207 \\
+\hline
+Pruebas & Metodologías de Pruebas & OJT & \\
+\hline
+Gestión de SQA & Gestión de Proyectos & Aula/OJT & SEPO, Curso de Gestión de Proyectos de Software (SPM) \\
+\hline
+Métricas & Recopilación y Análisis de Datos & Aula/OJT & SEPO, Curso SPM \\
+\hline
+Reporte de problemas y acción correctiva & Gestión de Configuración & Aula/OJT & SEPO, Capacitación de Practicante de CM \\
+\hline
+Herramientas & Capacitación proporcionada por el proveedor & Aula/OJT & Proveedor \\
+\hline
+Control de Código, Soportes y Proveedores & Gestión de Configuración & Aula/OJT & SEPO, Capacitación de Practicante de CM \\
+\hline
+Gestión de Riesgos y Análisis & Proceso de Gestión de Riesgos & Aula/OJT & SEPO, Curso SPM \\
+\hline
+Gestión de Software & Proceso de Gestión de Software & Aula/OJT & SEPO, Capacitación Software Management for Everyone (SME), Curso SPM \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{SECCIÓN 13. GESTIÓN DE RIESGOS}
+La gestión de riesgos tiene como objetivo identificar los posibles eventos que pueden afectar la calidad del software o el desarrollo del proceso de pruebas, estableciendo acciones preventivas y correctivas para minimizar su impacto.
+
+\subsection*{Riesgos del Producto}
+\begin{longtable}{|p{1.5cm}|p{5cm}|p{2.5cm}|p{2.5cm}|p{2cm}|p{4cm}|}
+\hline
+\textbf{ID} & \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel} & \textbf{Estrategia de Mitigación} \\
+\hline
+RP-01 & Acceso no autorizado por vulnerabilidades en JWT o RBAC & Media & Muy Alto & Crítico & Validar autenticación, autorización y expiración de tokens mediante pruebas de seguridad. \\
+\hline
+RP-02 & Ataques XSS mediante contenido enviado por el usuario & Media & Alto & Alto & Aplicar sanitización con OWASP Java HTML Sanitizer y realizar pruebas de penetración. \\
+\hline
+RP-03 & Ataques CSRF sobre operaciones protegidas & Baja & Alto & Medio & Implementar y verificar el funcionamiento del filtro CSRF con Double Submit Cookie. \\
+\hline
+RP-04 & Pérdida de registros de auditoría & Baja & Alto & Medio & Registrar todas las operaciones críticas mediante AuditLog y respaldar la base de datos periódicamente. \\
+\hline
+RP-05 & Fallos en el almacenamiento seguro de imágenes & Baja & Alto & Medio & Utilizar nombres UUID, directorios Safe y Quarantine y validar permisos de acceso. \\
+\hline
+RP-06 & Errores en la validación de archivos (tipo o tamaño) & Media & Medio & Medio & Verificar tamaño máximo de 50 MB, tipos MIME permitidos y reglas de validación antes del upload. \\
+\hline
+\end{longtable}
+
+\subsection*{Riesgos del Proyecto de Pruebas}
+\begin{longtable}{|p{1.5cm}|p{5cm}|p{2.5cm}|p{2.5cm}|p{2cm}|p{4cm}|}
+\hline
+\textbf{ID} & \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel} & \textbf{Estrategia de Mitigación} \\
+\hline
+RPR-01 & Retrasos en el cronograma de pruebas & Media & Alto & Alto & Planificar las actividades por Sprint y realizar reuniones de seguimiento semanales. \\
+\hline
+RPR-02 & Casos de prueba incompletos & Media & Alto & Alto & Elaborar una matriz de trazabilidad entre requisitos y casos de prueba antes de iniciar la ejecución. \\
+\hline
+RPR-03 & Cambios frecuentes en el código durante las pruebas & Alta & Medio & Alto & Utilizar GitHub con ramas de desarrollo y control de versiones para gestionar cambios. \\
+\hline
+RPR-04 & Indisponibilidad de PostgreSQL o ClamAV & Baja & Alto & Medio & Mantener un entorno de pruebas estable y verificar los servicios antes de ejecutar las pruebas. \\
+\hline
+RPR-05 & Baja cobertura de pruebas automatizadas & Media & Medio & Medio & Implementar pruebas unitarias con JUnit y pruebas de API mediante Postman. \\
+\hline
+RPR-06 & Defectos no registrados correctamente & Baja & Medio & Bajo & Mantener un registro centralizado de incidencias con evidencia, prioridad y estado. \\
+\hline
+\end{longtable}
+
+\subsection*{Plan de Respuesta a los Riesgos}
+Para minimizar el impacto de los riesgos identificados durante el proceso de aseguramiento de la calidad, se implementarán las siguientes acciones utilizando las herramientas definidas en el proyecto:
+\begin{itemize}
+    \item Ejecutar análisis estáticos del código mediante SonarQube para identificar vulnerabilidades, code smells, errores potenciales y problemas de mantenibilidad antes de iniciar las pruebas dinámicas.
+    \item Medir la cobertura de las pruebas utilizando JaCoCo, con el fin de identificar componentes del sistema que no han sido suficientemente validados y mejorar la confiabilidad del software.
+    \item Analizar las dependencias del proyecto mediante npm audit para detectar bibliotecas vulnerables o desactualizadas y aplicar las actualizaciones o correcciones necesarias.
+    \item Ejecutar pruebas unitarias con JUnit para validar el correcto funcionamiento de los componentes críticos del backend, asegurando que la lógica de negocio opere de acuerdo con los requisitos establecidos.
+    \item Realizar pruebas de seguridad utilizando OWASP ZAP, con el objetivo de identificar vulnerabilidades en la aplicación web, como problemas de autenticación, control de acceso, inyección de código o configuraciones inseguras.
+    \item Evaluar el rendimiento, la accesibilidad y las buenas prácticas del frontend mediante Lighthouse, identificando oportunidades de mejora que contribuyan a una mejor experiencia de usuario.
+    \item Documentar todos los hallazgos, defectos y vulnerabilidades detectadas durante el proceso de pruebas, verificando posteriormente las correcciones mediante pruebas de regresión para asegurar que los cambios implementados no introduzcan nuevos errores.
+\end{itemize}
+
+\appendix
+\section{APÉNDICE A. LISTA DE ACRÓNIMOS}
+\begin{multicols}{2}
+AI - Action Item \\
+CDR - Critical Design Review \\
+CMM - Capability Maturity Model \\
+CMU - Carnegie-Mellon University \\
+CRLCMP - Computer Resource Life Cycle Management Plan \\
+CI - Configuration Item \\
+DBDD - Database Design Description \\
+DCR - Document Change Request \\
+DID - Data Item Description \\
+EIA - Electronic Industries Association \\
+FCA - Functional Configuration Audit \\
+FQR - Formal Qualification Review \\
+HB - Handbook \\
+HWCI - Hardware Configuration Item \\
+IDD - Interface Design Description \\
+IEEE - Institute of Electrical and Electronics Engineers \\
+IRS - Interface Requirements Specification \\
+IV\&V - Independent Verification and Validation \\
+KPA - Key Process Area \\
+MIL - Military \\
+NDS - Non-Developmental Software \\
+OCD - Operational Concept Document \\
+OJT - On-the-Job \\
+PCA - Physical Configuration Audit \\
+P/CR - Problem/Change Report \\
+PDR - Preliminary Design Review \\
+PP\&O - Project Planning and Oversight \\
+PRR - Product Readiness Review \\
+SCM - Software Configuration Management \\
+SDD - Software Design Document \\
+SDF - Software Development File \\
+SDP - Software Development Plan \\
+SDR - System Design Review \\
+SEI - Software Engineering Institute \\
+SEPO - Systems Engineering Process Office \\
+SME - Software Management for Everyone \\
+SPAWAR - Space and Naval Warfare \\
+SPI - Software Process Improvement \\
+SQA - Software Quality Assurance \\
+SRR - System Requirements Review \\
+SRS - Software Requirements Specification \\
+SSC - SPAWAR Systems Center \\
+SSDD - System/Subsystem Design Description \\
+SSR - Software Specification Review \\
+SSS - System/Subsystem Specification \\
+STD - Standard \\
+STR - Software Trouble Report \\
+SU - Software Unit \\
+SVD - Software Version Description \\
+TRR - Test Readiness Review \\
+UDF - Unit Development Folder \\
+\end{multicols}
+
+\newpage
+\section{APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Planificación del Proyecto}
+\label{fig:b1}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\_\_\_\_ Los Planes y compromisos del Proyecto existen y están documentados en el SDP. \\
+\_\_\_\_ Los estándares que rigen el proceso de desarrollo de software del proyecto están documentados y reflejados en el SDP. \\
+\_\_\_\_ El contenido del SDP refleja la implementación consistente del proceso de software estándar de la organización. \\
+\_\_\_\_ El SDP está bajo gestión de configuración. \\
+\_\_\_\_ Las actividades de estimación de software se llevan a cabo de acuerdo con el Proceso de Estimación de Software y los resultados están documentados. \\
+\_\_\_\_ La base de datos de la organización se utiliza para realizar estimaciones. \\
+\_\_\_\_ Los requisitos de software son la base para los planes, productos de trabajo y actividades de software. \\
+\_\_\_\_ Existen planes para llevar a cabo la gestión de configuración del software y están documentados en el SDP o en un Plan de Gestión de Configuración de Software (SCM Plan) separado. \\
+\_\_\_\_ El Plan SCM está bajo gestión de configuración. \\
+\_\_\_\_ Existen planes para llevar a cabo el aseguramiento de la calidad del software y están documentados en el SDP o en un Plan de Aseguramiento de la Calidad del Software (SQA Plan) separado. \\
+\_\_\_\_ Existen planes para llevar a cabo las pruebas de integración del software y están documentados en un Plan de Pruebas de Software (STP). \\
+\_\_\_\_ Existen planes para llevar a cabo las pruebas del sistema y están documentados en un STP. \\
+\_\_\_\_ El STP está bajo gestión de configuración. \\
+\_\_\_\_ Existen planes para llevar a cabo la transición del software y están documentados en un Plan de Transición de Software o en el Plan de Desarrollo de Software (SDP). \\
+\_\_\_\_ Los cronogramas y planes del proyecto se someten a una revisión por pares antes de establecer sus líneas base. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Análisis de Requisitos del Sistema}
+\label{fig:b3}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\_\_\_\_ Los participantes correctos están involucrados en el proceso de análisis de requisitos del sistema para identificar todas las necesidades del usuario. \\
+\_\_\_\_ Los requisitos se revisan para determinar si son factibles de implementar, están claramente establecidos y son consistentes. \\
+\_\_\_\_ Los cambios en los requisitos asignados, los productos de trabajo y las actividades se identifican, revisan y rastrean hasta su cierre. \\
+\_\_\_\_ El personal del proyecto involucrado en el proceso de análisis de requisitos del sistema está capacitado en los procedimientos y estándares necesarios aplicables a su área de responsabilidad para hacer el trabajo correctamente. \\
+\_\_\_\_ Los compromisos resultantes de los requisitos asignados son negociados y acordados por los grupos afectados. \\
+\_\_\_\_ Los compromisos están documentados, revisados, aceptados, aprobados y comunicados. \\
+\_\_\_\_ Los requisitos asignados identificados como potencialmente problemáticos se revisan con el grupo responsable de analizar los requisitos y documentos del sistema, y se realizan los cambios necesarios. \\
+\_\_\_\_ Se siguen y documentan los procesos prescritos para definir, documentar y asignar requisitos. \\
+\_\_\_\_ Existe un proceso de CM para controlar y gestionar la línea base. \\
+\_\_\_\_ Los requisitos están documentados, gestionados, controlados y rastreados (preferiblemente mediante una matriz). \\
+\_\_\_\_ Los requisitos acordados se abordan en el SDP. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Análisis de Requisitos de Software}
+\label{fig:b5}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Requisitos de Software} \\
+\_\_\_\_ Los requisitos de software están documentados en una Especificación de Requisitos de Software (SRS) u otro formato aprobado y se incluyen en una matriz de trazabilidad. \\
+\_\_\_\_ La SRS se mantiene bajo gestión de configuración. \\
+\_\_\_\_ Los cambios en la SRS se someten a una revisión por pares antes de incorporarse a la línea base de requisitos. \\
+\_\_\_\_ Asegurar que la revisión por pares valide la capacidad de prueba de los requisitos y que se establezcan métricas apropiadas para validar los requisitos de rendimiento medibles. \\
+\_\_\_\_ Los planes, productos de trabajo y actividades de desarrollo de software se cambian para ser consistentes con los cambios en los requisitos de software. \\
+\_\_\_\_ Las técnicas de análisis de requisitos de software son consistentes con el SDP. \\
+\_\_\_\_ Las herramientas automatizadas adquiridas para gestionar los informes de problemas de requisitos de software y las solicitudes de cambio se utilizan correctamente. \\
+\_\_\_\_ El grupo de ingeniería de software está capacitado para realizar actividades de gestión de requisitos. \\
+\_\_\_\_ Se realizan mediciones y se utilizan para determinar el estado de la gestión de requisitos. \\
+\textbf{Parte 2. Requisitos de Interfaz} \\
+\_\_\_\_ Los requisitos de interfaz están documentados en una Especificación de Requisitos de Interfaz (IRS) u otro formato aprobado. \\
+\_\_\_\_ La IRS se mantiene bajo gestión de configuración. \\
+\_\_\_\_ Los cambios en la IRS se someten a una revisión por pares antes de incorporarse a la línea base de requisitos. \\
+\_\_\_\_ Los planes, productos de trabajo y actividades de desarrollo de software se cambian para ser consistentes con los cambios en los requisitos de interfaz. \\
+\_\_\_\_ Se utilizan herramientas automatizadas para gestionar los informes de problemas de requisitos de interfaz y las solicitudes de cambio. \\
+\_\_\_\_ El grupo de ingeniería de software está capacitado para realizar actividades de gestión de requisitos. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Implementación y Pruebas Unitarias de Software}
+\label{fig:b7}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Implementación de Software} \\
+\_\_\_\_ El código y la matriz de trazabilidad se preparan y se mantienen actualizados y consistentes en función de los cambios aprobados en los requisitos de software. \\
+\_\_\_\_ Las revisiones del código (revisión por pares) evalúan el cumplimiento del código con el diseño aprobado, identifican defectos en el código y se evalúan y reportan alternativas. \\
+\_\_\_\_ Las revisiones del código se llevan a cabo de acuerdo con el Proceso de Revisión por Pares. \\
+\_\_\_\_ Los cambios en el código se identifican, revisan y rastrean hasta su cierre. \\
+\_\_\_\_ El código se mantiene bajo gestión de configuración. \\
+\_\_\_\_ Los cambios en el código se someten a una revisión por pares antes de incorporarse a la línea base de software. \\
+\_\_\_\_ La codificación del software es consistente con la metodología de codificación aprobada en el Plan de Desarrollo de Software (SDP). \\
+\_\_\_\_ El método, como la Carpeta de Desarrollo de Software o la Carpeta de Desarrollo de Unidades, utilizado para rastrear y documentar el desarrollo/mantenimiento de una unidad de software está implementado y se mantiene actualizado. \\
+\textbf{Parte 2. Pruebas Unitarias} \\
+\_\_\_\_ Las pruebas unitarias de software se llevan a cabo de acuerdo con los estándares y procedimientos aprobados descritos en el SDP. \\
+\_\_\_\_ Asegurar que los criterios de aprobación para las pruebas unitarias estén documentados y que se haya registrado el cumplimiento. \\
+\_\_\_\_ Los resultados de las pruebas unitarias se documentan en la Carpeta de Desarrollo de Software o en la Carpeta de Desarrollo de Unidades. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Integración y Pruebas Unitarias}
+\label{fig:b8}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Identificación de Configuración} \\
+\_\_\_\_ Los CI se integran bajo control de cambios. Si no, vaya a la Parte 2; de lo contrario, continúe. \\
+\_\_\_\_ Los CI integrados en el sistema se obtuvieron de un representante autorizado de Gestión de Configuración de acuerdo con el SDP. \\
+\_\_\_\_ Las versiones base de cada CI se integran en el sistema. \\
+\_\_\_\_ Todos los componentes de CI de la integración de software están bajo control de cambios de acuerdo con el Plan SCM. \\
+\_\_\_\_ Si es así, describa cómo se identifican. \\
+\textbf{Parte 2. Proceso de Integración} \\
+\_\_\_\_ Existe un plan para la integración de los CI. \\
+\_\_\_\_ El plan especifica el orden y el cronograma en el que se integran los CI. \\
+\_\_\_\_ Los CI se integran de acuerdo con el cronograma y en el orden especificado. \\
+\_\_\_\_ El plan de integración especifica qué versión de cada CSC y CSU se va a integrar. \\
+\_\_\_\_ Se integra la versión correcta. \\
+\_\_\_\_ Los CI integrados han completado las pruebas unitarias. \\
+\_\_\_\_ Se han completado las correcciones requeridas. \\
+\_\_\_\_ Los CI han sido reprobados. \\
+\_\_\_\_ Los procedimientos de prueba están definidos para la integración de CI. \\
+\_\_\_\_ Se siguen los procedimientos definidos. \\
+\_\_\_\_ Los casos de prueba están definidos. \\
+\_\_\_\_ Se siguen los casos de prueba definidos. \\
+\_\_\_\_ Los criterios de aprobación/reprobación de las pruebas están definidos. \\
+\_\_\_\_ Se siguen los criterios de aprobación/reprobación definidos. \\
+\_\_\_\_ Los resultados de las pruebas se documentan en las Carpetas de Desarrollo de Unidades. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Pruebas de Calificación de CI}
+\label{fig:b9}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Plan de Pruebas} \\
+\_\_\_\_ Existe un plan de pruebas y descripciones de pruebas aprobados. \\
+\_\_\_\_ El plan y las descripciones utilizados están bajo control de gestión de configuración. \\
+\_\_\_\_ Se utiliza la última versión del plan y la descripción. \\
+\textbf{Parte 2. Proceso de Pruebas} \\
+\_\_\_\_ El software del sistema se recibió de una fuente autorizada de gestión de configuración. \\
+\_\_\_\_ El entorno de prueba, incluidos los requisitos de hardware y software, se configura según lo requiere el plan de pruebas. \\
+\_\_\_\_ Las pruebas se realizaron en el orden correcto. \\
+\_\_\_\_ Se ejecutó cada caso de prueba en la descripción de la prueba. \\
+\_\_\_\_ El sistema se prueba después de cada integración de CI. \\
+\_\_\_\_ Los criterios de aprobación de las pruebas están documentados y se registra el cumplimiento. \\
+\_\_\_\_ Los resultados de las pruebas se registran en un informe de pruebas. \\
+\_\_\_\_ Si es así, describa la información que se registra y dónde se registra. \\
+\_\_\_\_ Los CI se vuelven a probar después de la integración para asegurar que aún cumplen con sus requisitos sin interferencia del resto del sistema. \\
+\_\_\_\_ El sistema que resulta de la integración de cada CI se coloca bajo control de gestión de configuración. \\
+\_\_\_\_ Si es así, describa cómo se identifica. \\
+\textbf{Parte 3. Reporte de Problemas} \\
+\_\_\_\_ Las discrepancias encontradas se ingresan en un sistema de gestión de configuración P/CR o STR para el control de cambios. Si no, describa dónde se registran. \\
+\_\_\_\_ Las entradas se completan en el momento en que se encuentran las discrepancias. \\
+\_\_\_\_ El número de referencia del P/CR o STR se mantiene en el archivo de pruebas. Si no, describa dónde se guarda. \\
+\_\_\_\_ Los P/CR o STR se escriben cuando se encuentran problemas en el entorno de prueba, el plan de pruebas, las descripciones de las pruebas o los casos de prueba. \\
+\_\_\_\_ Estos P/CR o STR se envían a través del mismo proceso de control de cambios que las discrepancias de software. \\
+\textbf{Parte 4. Modificaciones} \\
+\_\_\_\_ ¿Se realizan modificaciones o correcciones en el entorno de prueba durante las pruebas? \\
+\_\_\_\_ Si es así, ¿se aprobaron las modificaciones a través del proceso de control de cambios antes de la implementación? \\
+\_\_\_\_ ¿Qué documentación de las modificaciones existe? \\
+\_\_\_\_ ¿Cuáles son los cambios? \\
+\_\_\_\_ ¿Se realizan modificaciones o correcciones en las descripciones de las pruebas durante las pruebas? \\
+\_\_\_\_ Si es así, ¿se aprobaron las modificaciones por el proceso de control de cambios antes de la implementación? \\
+\_\_\_\_ ¿Qué documentación de las modificaciones existe? \\
+\_\_\_\_ ¿Cuál es la fecha de aprobación del LCCB? \\
+\_\_\_\_ ¿Cuál es la fecha de lanzamiento del cambio STD? \\
+\_\_\_\_ ¿Se siguieron los procedimientos de control de cambios en el Plan SCM? \\
+\_\_\_\_ Si no, ¿cuáles son los cambios? \\
+\textbf{Parte 5. Criterios de Finalización} \\
+\_\_\_\_ Todos los CI especificados se han integrado en el sistema. \\
+\_\_\_\_ Todos los casos de prueba se han ejecutado en el sistema. \\
+\_\_\_\_ Todos los P/CR o STR están cerrados. \\
+\_\_\_\_ Si no, todos los P/CR o STR pendientes están documentados adecuadamente en el VDD. \\
+\_\_\_\_ El Informe de Pruebas de Software se ha completado y aprobado. \\
+\_\_\_\_ El Informe de Pruebas de Software se ha colocado bajo control de cambios. \\
+\_\_\_\_ La autoridad competente ha determinado si el sistema pasó o falló las pruebas de integración. \\
+\_\_\_\_ Indique el individuo o grupo que determinó si el sistema pasó o falló. \\
+\_\_\_\_ Describa cómo se realizó la determinación de aprobación o fallo. \\
+\_\_\_\_ El sistema de software está listo para ser integrado con el sistema operativo. \\
+\textbf{Parte 6. Archivos de Desarrollo de Software} \\
+\_\_\_\_ El Informe de Pruebas de Software incluye cualquier repetición de pruebas debido a fallos de software. \\
+\_\_\_\_ Si es así, enumere los fallos con sus correspondientes números de referencia P/CR o STR. \\
+\_\_\_\_ Utilizando el sistema de CM P/CR o STR, enumere todos los CI cambiados debido a estos fallos. \\
+\_\_\_\_ Todos los archivos de desarrollo de software de los CI enumerados se actualizaron de acuerdo con el SDP. \\
+\_\_\_\_ Si no, enumere todos los archivos de desarrollo de software que no se actualizaron. \\
+\textbf{Parte 7. Precisión del Informe de Pruebas de Software} \\
+\_\_\_\_ El Informe de Pruebas de Software proporciona el Número de Identificación de Configuración (CIN) para todos los documentos de prueba (STP, STD) y software. Si no, el Informe de Pruebas de Software está incompleto. \\
+\_\_\_\_ ¿El probador puede ejecutar las pruebas de evaluación con los CIN especificados? Si no, el Informe de Pruebas de Software es inexacto. \\
+\_\_\_\_ ¿Los resultados de estas pruebas coinciden con el Informe de Pruebas de Software? Si no, el Informe de Pruebas de Software es inexacto. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Entrega de Productos Finales}
+\label{fig:b10}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Auditorías} \\
+\_\_\_\_ Se realizó una auditoría funcional, si era requerida. \\
+\_\_\_\_ Se realizó una auditoría física, si era requerida. \\
+\textbf{Parte 2. Generación del Paquete} \\
+\_\_\_\_ El software se genera a partir de la biblioteca de software de acuerdo con el SDP. \\
+\_\_\_\_ Si es así, el software es la última versión del software en la biblioteca de software. \\
+\_\_\_\_ Si no, ¿por qué no? \\
+\_\_\_\_ La documentación se genera a partir de los originales controlados por el personal de Gestión de Configuración según lo requiere el Plan SCM. \\
+\textbf{Parte 3. Paquete de Entrega} \\
+\_\_\_\_ El soporte del software está etiquetado correctamente, mostrando como mínimo el nombre del software, la fecha de lanzamiento y el número de versión correcto. La lista de verificación en la Figura B-12 contiene más detalles sobre el etiquetado de soportes. \\
+\_\_\_\_ El Documento de Descripción de la Versión está con el soporte del software. \\
+\_\_\_\_ Si es así, el Documento de Descripción de la Versión es la versión correcta para el software. \\
+\_\_\_\_ El Documento de Descripción de la Versión ha sido inspeccionado formalmente. \\
+\_\_\_\_ El Manual del Usuario está con el soporte del software. \\
+\_\_\_\_ Si es así, el Manual del Usuario es la versión correcta para el software. \\
+\_\_\_\_ El Manual del Usuario ha sido inspeccionado formalmente. \\
+\textbf{Parte 4. Lista de Distribución de Soportes} \\
+\_\_\_\_ Existe una lista de distribución para el entregable. \\
+\_\_\_\_ Si es así, está completa, todas las organizaciones enumeradas, todas las direcciones correctas y actuales. \\
+\_\_\_\_ Si es así, ¿hay alguna organización enumerada que no necesite recibir el entregable? \\
+\_\_\_\_ ¿El entregable está clasificado? \\
+\_\_\_\_ Si es así, el personal en la lista de distribución tiene la autorización y necesidad de conocer requeridas. \\
+\textbf{Parte 5. Empaquetado} \\
+\_\_\_\_ El material de empaquetado es adecuado para el contenido y el método de transmisión utilizado. \\
+\_\_\_\_ ¿El paquete contiene una carta de transmisión firmada? \\
+\_\_\_\_ Si es así, la información de la transmisión es correcta. \\
+\_\_\_\_ Todo el contenido está listado en la transmisión contenida en el paquete. \\
+\_\_\_\_ ¿El paquete incluye un formulario de acuse de recibo? \\
+\textbf{Parte 6. Notificación de Problemas} \\
+\_\_\_\_ Existe un método especificado para que la organización receptora notifique al remitente sobre problemas y deficiencias en el paquete. \\
+\_\_\_\_ Si es así, describa el método. \\
+\_\_\_\_ Existe un método especificado para registrar y manejar los problemas de distribución. Descríbalo. \\
+\_\_\_\_ Los problemas de distribución son manejados por una persona específica. Identifique a esa persona. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Certificación de Soportes}
+\label{fig:b12}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Producción de Soportes} \\
+\_\_\_\_ El soporte que contiene el código fuente y el soporte que contiene el código objeto que se entregan se corresponden entre sí. \\
+\_\_\_\_ Existe un proceso documentado que se utiliza para implementar la producción de soportes a partir de la biblioteca de software. \\
+\_\_\_\_ Si no, se está creando un plan o se está documentando una razón por la que no se necesita uno. Vaya a la Parte 2. \\
+\_\_\_\_ El plan se siguió en la producción de soportes. \\
+\_\_\_\_ El software se creó a partir de los archivos correctos en la biblioteca de software por personal de CM. \\
+\_\_\_\_ Los documentos se crearon a partir de copias maestras aprobadas por personal de CM. \\
+\textbf{Parte 2. Etiquetado de Soportes} \\
+\_\_\_\_ Existe un estándar documentado que se sigue en el etiquetado de los soportes. \\
+\_\_\_\_ Si es así, describa el método estándar utilizado para identificar el producto, la versión y el Número de Identificación de Configuración. \\
+\_\_\_\_ El soporte está claramente etiquetado. \\
+\_\_\_\_ La etiqueta contiene toda la información requerida (producto, versión y Número de Identificación de Configuración). \\
+\_\_\_\_ Si el software está clasificado, el soporte refleja claramente la clasificación correcta. \\
+\_\_\_\_ El documento de software está claramente etiquetado con el producto, CIN y número de versión, si corresponde. \\
+\textbf{Parte 3. Contenidos del Soporte} \\
+\_\_\_\_ Existe un listado del contenido en el soporte. \\
+\_\_\_\_ Si es así, describa dónde se encuentra el listado. \\
+\_\_\_\_ El soporte contiene el contenido especificado en el listado. \\
+\_\_\_\_ El contenido del soporte coincide con la información de la etiqueta, es decir, ¿es la versión correcta para la plataforma de hardware correcta? \\
+\_\_\_\_ Los documentos contienen todas las páginas de cambio requeridas para esta versión de los documentos. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Certificación de Software No Entregable}
+\label{fig:b13}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\_\_\_\_ El software entregable depende del software no entregable. \\
+\_\_\_\_ Si es así, se ha dispuesto que el adquiriente tenga o pueda obtener el software no entregable. \\
+\_\_\_\_ El software no entregado cumple con el uso previsto. \\
+\_\_\_\_ El software no entregado se coloca bajo gestión de configuración. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Almacenamiento y Manipulación}
+\label{fig:b14}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\_\_\_\_ Los documentos y soportes se almacenan de acuerdo con el procedimiento de la Biblioteca de Desarrollo de Software. \\
+\_\_\_\_ Las áreas de almacenamiento de productos en papel están libres de efectos ambientales adversos (alta humedad, fuerzas magnéticas, calor y polvo). \\
+\_\_\_\_ Las áreas de almacenamiento de productos en soportes están libres de efectos ambientales adversos (alta humedad, fuerzas magnéticas, calor y polvo). \\
+\_\_\_\_ Los contenedores de almacenamiento para material clasificado son apropiados para el nivel de material clasificado. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Desviaciones y Exenciones}
+\label{fig:b16}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\_\_\_\_ Las desviaciones y exenciones se preparan de acuerdo con los procedimientos documentados en el Plan SCM del proyecto. \\
+\_\_\_\_ Las desviaciones y exenciones son revisadas y aprobadas por el personal apropiado de acuerdo con el Plan SCM del proyecto. \\
+\_\_\_\_ Los registros de desviaciones y exenciones se mantienen y reflejan la configuración de desarrollo actual. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Gestión de Configuración de Software}
+\label{fig:b17}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Plan SCM} \\
+\_\_\_\_ El proyecto sigue la política organizacional para implementar SCM. \\
+\_\_\_\_ Existe el grupo responsable de coordinar e implementar SCM para el proyecto. \\
+\_\_\_\_ Se utiliza un Plan SCM documentado y aprobado como base para realizar las actividades de SCM. \\
+\_\_\_\_ El control de configuración de los cambios en los documentos y software de línea base se gestiona de acuerdo con el Plan SCM. \\
+\_\_\_\_ Se establece un sistema de biblioteca de gestión de configuración como repositorio de la línea base de software. \\
+\_\_\_\_ La biblioteca de CM es el único lugar de almacenamiento de la versión base de todo el software. \\
+\_\_\_\_ El acceso a los productos de software en la biblioteca de CM se realiza de acuerdo con los procedimientos de Control de la Biblioteca. \\
+\_\_\_\_ Los productos de trabajo de software que se colocarán bajo SCM se identifican de acuerdo con el Plan SCM. \\
+\_\_\_\_ Existe la Junta de Control de Cambios Local (LCCB) e implementa los procedimientos de la LCCB. \\
+\_\_\_\_ Las solicitudes de cambio y los informes de problemas para todos los elementos de configuración se manejan de acuerdo con el procedimiento de PCR. \\
+\_\_\_\_ Los cambios en las líneas base se controlan de acuerdo con el Plan SCM, el procedimiento de la LCCB y el procedimiento de PCR. \\
+\_\_\_\_ Los productos de la biblioteca de línea base de software se crean y su liberación se controla de acuerdo con los procedimientos de Control de la Biblioteca. \\
+\_\_\_\_ Los informes de contabilidad del estado de configuración se preparan de acuerdo con el Plan SCM. \\
+\textbf{Parte 2. Identificación de Configuración} \\
+\_\_\_\_ Se pueden identificar las Líneas Base de Productos y la Biblioteca de Desarrollo. \\
+\_\_\_\_ Si es así, describa el método utilizado para identificar las Líneas Base y la Biblioteca de Desarrollo. \\
+\_\_\_\_ Enumere los documentos que componen estas Líneas Base y la Biblioteca de Desarrollo. \\
+\_\_\_\_ Se puede identificar la documentación y los soportes de almacenamiento informático que contienen código, documentación o ambos. \\
+\_\_\_\_ Si es así, describa el método utilizado para identificar la documentación y los soportes de almacenamiento informático y enumere los documentos que se colocan bajo control de configuración. \\
+\_\_\_\_ Se puede identificar cada CI y sus componentes correspondientes. \\
+\_\_\_\_ Si es así, describa el método utilizado para identificarlos. \\
+\_\_\_\_ Se utiliza un método para identificar el nombre, la versión, el lanzamiento, el estado del cambio y cualquier otro detalle de identificación de cada elemento entregable. \\
+\_\_\_\_ Si es así, describa el método utilizado. \\
+\_\_\_\_ Para cada cliente, identifique el elemento entregable, la versión, el lanzamiento y el estado del cambio que se está utilizando. \\
+\_\_\_\_ Se utiliza un método para identificar la versión de cada CI a la que se aplica la documentación de software correspondiente. \\
+\_\_\_\_ Si es así, describa el método utilizado. \\
+\_\_\_\_ Enumere la SRS y el SDD para cada CI. \\
+\_\_\_\_ Se utiliza un método para identificar la versión específica del software contenido en un soporte entregable, incluidos todos los cambios incorporados desde su lanzamiento anterior. \\
+\_\_\_\_ Si es así, describa el método utilizado. \\
+\_\_\_\_ ¿El soporte entregable coincide con los originales de CM? Enumere cualquier discrepancia. \\
+\textbf{Parte 3. Control de Configuración} \\
+\_\_\_\_ Existe un plan establecido para realizar el control de configuración. \\
+\_\_\_\_ Si es así, existe un método para establecer una Biblioteca de Desarrollo para cada CI. \\
+\_\_\_\_ Si es así, describa el método utilizado. \\
+\_\_\_\_ Enumere los CI en la Biblioteca de Desarrollo. \\
+\_\_\_\_ Existe un método para mantener copias actualizadas de la documentación y el código entregable. \\
+\_\_\_\_ Si es así, describa el método utilizado. \\
+\_\_\_\_ Enumere las copias actuales. Enumere todas las discrepancias. \\
+\_\_\_\_ Existe un método para controlar la preparación y difusión de cambios en las copias maestras del software y la documentación entregable. \\
+\_\_\_\_ Si es así, describa el método utilizado. \\
+\_\_\_\_ Las copias maestras de los entregables reflejan solo los cambios aprobados. Enumere cualquier discrepancia. \\
+\_\_\_\_ Enumere los cambios en el software/documentos entregables actuales. \\
+\textbf{Parte 4. Contabilidad del Estado de Configuración} \\
+\_\_\_\_ Existe un plan documentado para implementar y realizar la contabilidad del estado de configuración. \\
+\_\_\_\_ Existen informes de estado sobre todos los productos que componen las Bibliotecas de Desarrollo y las Líneas Base Funcionales Asignadas y de Producto. \\
+\_\_\_\_ Los cambios propuestos e implementados en un CI y sus documentos de identificación de configuración asociados se registran y reportan. \\
+\_\_\_\_ Si es afirmativo en dos de cada tres, responda lo siguiente. Si no, vaya a la Parte 5. \\
+\_\_\_\_ Describa el método utilizado para proporcionar trazabilidad de los cambios a los productos controlados. \\
+\_\_\_\_ Describa el método utilizado para comunicar el estado de la identificación de configuración y el software asociado. \\
+\_\_\_\_ Describa el método para asegurar que los documentos entregados describan y representen el software asociado. \\
+\textbf{Parte 5. Propuestas de Cambio de Ingeniería} \\
+\_\_\_\_ Las Propuestas de Cambio de Ingeniería (ECP) se preparan de acuerdo con el estándar apropiado. \\
+\_\_\_\_ Los Avisos de Cambio de Software (SCN) se preparan de acuerdo con el estándar apropiado. \\
+\_\_\_\_ Describa el método utilizado para manejar los cambios solicitados al CI. \\
+\_\_\_\_ Describa el método utilizado para autorizar SCN y ECP. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Control de la Biblioteca de Desarrollo de Software}
+\label{fig:b18}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\textbf{Parte 1. Establecimiento del Entorno y Control de la SDL} \\
+\_\_\_\_ La SDL está establecida y existen procedimientos para gobernar su operación. \\
+\_\_\_\_ La SDL proporciona un medio positivo para reconocer los elementos relacionados (es decir, aquellas versiones que constituyen una línea base particular y proteger el software contra la destrucción o modificación no autorizada). \\
+\_\_\_\_ La documentación y los materiales del programa informático aprobados por la LCCB se colocan bajo control de la biblioteca. \\
+\_\_\_\_ Todo el software, herramientas y documentación relevantes para el desarrollo de software se colocan bajo control de la biblioteca. \\
+\_\_\_\_ Existen procedimientos/estándares publicados para la SDL. \\
+\_\_\_\_ Los procedimientos de la SDL incluyen la identificación de las personas/organización responsables de recibir, almacenar, controlar y difundir los materiales de la biblioteca. \\
+\_\_\_\_ El acceso a la SDL está limitado al personal autorizado. \\
+\_\_\_\_ Si es así, describa los procedimientos utilizados para limitar el acceso. \\
+\_\_\_\_ Existen salvaguardas para asegurar que no se realicen alteraciones no autorizadas al material controlado. \\
+\_\_\_\_ Si es así, describa esas salvaguardas. \\
+\_\_\_\_ Describa o enumere los materiales a controlar. \\
+\_\_\_\_ Describa cómo se aprueban y colocan bajo control los materiales. \\
+\_\_\_\_ Describa cómo se manejan los cambios en la parte del software y cómo se identifican los cambios en las líneas de código. \\
+\_\_\_\_ La SDL contiene copias maestras de cada CI bajo control de la Biblioteca de Programas Informáticos. \\
+\_\_\_\_ Se realiza una copia de seguridad periódica del software para evitar la pérdida de información debido a cualquier falla del Sistema de Biblioteca de Desarrollo. \\
+\_\_\_\_ Si es así, describa el procedimiento de copia de seguridad y la frecuencia de las copias de seguridad. \\
+\textbf{Parte 2. Garantía de Validez del Material Controlado} \\
+\_\_\_\_ Las duplicaciones de copias maestras controladas y probadas se verifican antes de la entrega como copias exactas. \\
+\_\_\_\_ Todos los productos de software entregables que se duplican de copias maestras controladas y probadas se comparan con esa copia maestra para asegurar la duplicación exacta. \\
+\_\_\_\_ Describa cómo se asignan los números de identificación y los códigos de revisión a los documentos y software controlados. \\
+\_\_\_\_ Describa cómo se registran las liberaciones de materiales controlados. \\
+\_\_\_\_ Enumere las personas u organización responsables de la garantía de la validez del soporte de software. \\
+\_\_\_\_ Existe un procedimiento de liberación formal. Si es así, ¿descríbalo? \\
+\_\_\_\_ El material contenido en la biblioteca se actualiza de manera oportuna y correcta cuando se autoriza un cambio en cualquiera de estos materiales. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lista de Verificación de Auditoría del Proceso de Software No Desarrollado}
+\label{fig:b19}
+\begin{tabular}{|p{14cm}|}
+\hline
+\textbf{Proyecto:} \\
+\textbf{Fecha:} \\
+\textbf{Preparado por:} \\
+\hline
+\textbf{Procedimientos:} \\
+\_\_\_\_ El software no desarrollado cumple con las funciones previstas. \\
+\_\_\_\_ El software no desarrollado se coloca bajo CM interno. \\
+\_\_\_\_ Las disposiciones de derechos de datos y licencias son consistentes con el SDP. \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage
+\section*{SOLICITUD DE CAMBIO DE DOCUMENTO (DCR)}
+
+\begin{table}[H]
+\begin{tabular}{|p{8cm}|p{6cm}|}
+\hline
+\textbf{Título del Documento:} & \textbf{Número de Seguimiento:} \\
+\textbf{\[\[Nombre del Proyecto]]} & \\
+\textbf{Plan de Aseguramiento de la Calidad del Software} & \\
+\hline
+\multicolumn{2}{|p{14cm}|}{\textbf{Nombre de la Organización Solicitante:}} \\
+\hline
+\textbf{Contacto de la Organización:} & \textbf{Teléfono:} \\
+\hline
+\multicolumn{2}{|p{14cm}|}{\textbf{Dirección Postal:}} \\
+\hline
+\textbf{Título Corto:} & \textbf{Fecha:} \\
+\hline
+\multicolumn{2}{|p{14cm}|}{\textbf{Ubicación del Cambio:}} \\
+\multicolumn{2}{|p{14cm|}{(usar número de sección, número de figura, número de tabla, etc.)}} \\
+\hline
+\multicolumn{2}{|p{14cm}|}{\textbf{Cambio Propuesto:}} \\
+\hline
+\multicolumn{2}{|p{14cm}|}{\textbf{Razón del Cambio:}} \\
+\hline
+\multicolumn{2}{|p{14cm}|}{\textbf{Nota:} Para que \[[Nombre del Proyecto]] tome las medidas adecuadas en una solicitud de cambio, proporcione una descripción clara del cambio recomendado junto con la justificación correspondiente.} \\
+\multicolumn{2}{|p{14cm}|}{Enviar a: Comandante, Space and Naval Warfare Systems Center, Code 2*XX*, 53560 Hull Street, San Diego, CA 92152-5001. Fax: \textit{agregar número de fax apropiado}. Correo electrónico: \textit{agregar correo electrónico apropiado}.} \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{document}
