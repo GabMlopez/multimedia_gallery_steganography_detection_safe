@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Plan de Carga - Modulo Cuarentena">
@@ -53,7 +53,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">/tests/results/detailed-errors.xml</stringProp>
+        <stringProp name="filename">jmeter/results/detailed-errors.xml</stringProp>
       </ResultCollector>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Usuarios Concurrentes - Subida Imagenes">
@@ -68,7 +68,7 @@
       </ThreadGroup>
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
@@ -93,7 +93,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Usuario)">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
@@ -158,7 +158,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token (post-login)">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
@@ -205,7 +205,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Subir Imagen (potencialmente peligrosa)">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/images/upload/1</stringProp>
@@ -216,14 +216,13 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject Session Cookie">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Inject CSRF Headers">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="script">String token = vars.get(&quot;csrfToken&quot;);
-String session = vars.get(&quot;jsessionId&quot;);
-StringBuilder cookie = new StringBuilder();
-if (token != null) cookie.append(&quot;XSRF-TOKEN=&quot;).append(token);
-if (session != null) cookie.append(&quot;; JSESSIONID=&quot;).append(session);
-if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toString());</stringProp>
+if (token != null) {
+    sampler.addHeader(&quot;X-XSRF-TOKEN&quot;, token);
+}
+sampler.addHeader(&quot;Accept&quot;, &quot;application/json&quot);</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey">false</stringProp>
@@ -236,8 +235,8 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
                 <stringProp name="Header.value">${csrfToken}</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">Cookie</stringProp>
-                <stringProp name="Header.value">XSRF-TOKEN=${csrfToken}; JSESSIONID=${jsessionId}</stringProp>
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
@@ -245,6 +244,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert - Upload OK">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
+              <stringProp name="51512">400</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -302,7 +302,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
       </ThreadGroup>
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
@@ -327,7 +327,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Supervisor)" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
@@ -392,7 +392,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token (post-login)" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
@@ -439,7 +439,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Aprobar Imagen en Cuarentena" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/admin/image/${__Random(1,50)}/approve</stringProp>
@@ -489,7 +489,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Rechazar Imagen en Cuarentena" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/admin/image/${__Random(1,50)}/reject</stringProp>
@@ -587,7 +587,7 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
       </ThreadGroup>
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET CSRF Token">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/csrf</stringProp>
@@ -612,7 +612,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login (Supervisor)" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/auth/login</stringProp>
@@ -677,7 +677,7 @@ if (session) vars.put(&quot;jsessionId&quot;, session)</stringProp>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Imagenes en Cuarentena" enabled="true">
-          <stringProp name="HTTPSampler.domain">host.docker.internal</stringProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">/api/admin/quarantine</stringProp>
@@ -761,3 +761,4 @@ if (cookie.length() &gt; 0) sampler.addHeader(&quot;Cookie&quot;, cookie.toStrin
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
+

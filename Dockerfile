@@ -21,6 +21,6 @@ USER spring:spring
 # Copiamos el .jar (usando --chown para mantener los permisos)
 COPY --chown=spring:spring --from=build /app/target/*.jar app.jar
 
-EXPOSE 8081
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-Xmx256m", "-Xms128m", "-XX:+UseContainerSupport", "-jar", "app.jar"]

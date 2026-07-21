@@ -1,0 +1,19 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1784612886779,18,GET CSRF Token,200,,Usuarios Concurrentes - Login y Quarentena 1-2,,true,,554,125,2,2,http://localhost:8080/api/auth/csrf,18,0,2
+1784612886359,87,GET CSRF Token,200,,Usuarios Concurrentes - Login y Quarentena 1-1,,true,,554,125,1,1,http://localhost:8080/api/auth/csrf,74,0,54
+1784612887441,7,GET CSRF Token,200,,Usuarios Concurrentes - Login y Quarentena 1-3,,true,,554,125,3,3,http://localhost:8080/api/auth/csrf,7,0,3
+1784612888947,2174,Login (Usuario),200,,Usuarios Concurrentes - Login y Quarentena 1-1,text,true,,697,376,3,3,http://localhost:8080/api/auth/login,2173,0,10
+1784612888947,2174,Login (Usuario),200,,Usuarios Concurrentes - Login y Quarentena 1-3,text,true,,697,376,3,3,http://localhost:8080/api/auth/login,2173,0,13
+1784612888947,2174,Login (Usuario),200,,Usuarios Concurrentes - Login y Quarentena 1-2,text,true,,697,376,3,3,http://localhost:8080/api/auth/login,2173,0,13
+1784612891124,35,GET Quarantine,200,,Usuarios Concurrentes - Login y Quarentena 1-3,text,true,,505,312,3,3,http://localhost:8080/api/admin/quarantine,35,0,1
+1784612891124,35,GET Quarantine,200,,Usuarios Concurrentes - Login y Quarentena 1-1,text,true,,505,312,3,3,http://localhost:8080/api/admin/quarantine,35,0,1
+1784612891124,35,GET Quarantine,200,,Usuarios Concurrentes - Login y Quarentena 1-2,text,true,,505,312,3,3,http://localhost:8080/api/admin/quarantine,35,0,1
+1784612891161,10,GET CSRF Token,200,,Usuarios Concurrentes - Login y Quarentena 1-2,,true,,471,227,3,3,http://localhost:8080/api/auth/csrf,10,0,1
+1784612891161,10,GET CSRF Token,200,,Usuarios Concurrentes - Login y Quarentena 1-3,,true,,471,227,3,3,http://localhost:8080/api/auth/csrf,10,0,1
+1784612891161,10,GET CSRF Token,200,,Usuarios Concurrentes - Login y Quarentena 1-1,,true,,471,227,3,3,http://localhost:8080/api/auth/csrf,10,0,1
+1784612891175,1586,Login (Usuario),200,,Usuarios Concurrentes - Login y Quarentena 1-2,text,true,,608,421,3,3,http://localhost:8080/api/auth/login,1585,0,2
+1784612892762,22,GET Quarantine,200,,Usuarios Concurrentes - Login y Quarentena 1-2,text,true,,505,312,3,3,http://localhost:8080/api/admin/quarantine,20,0,2
+1784612891175,1616,Login (Usuario),200,,Usuarios Concurrentes - Login y Quarentena 1-3,text,true,,608,421,2,2,http://localhost:8080/api/auth/login,1615,0,2
+1784612891175,1627,Login (Usuario),200,,Usuarios Concurrentes - Login y Quarentena 1-1,text,true,,608,421,2,2,http://localhost:8080/api/auth/login,1626,0,2
+1784612892793,13,GET Quarantine,200,,Usuarios Concurrentes - Login y Quarentena 1-3,text,true,,505,312,2,2,http://localhost:8080/api/admin/quarantine,12,0,1
+1784612892804,7,GET Quarantine,200,,Usuarios Concurrentes - Login y Quarentena 1-1,text,true,,505,312,1,1,http://localhost:8080/api/admin/quarantine,7,0,2

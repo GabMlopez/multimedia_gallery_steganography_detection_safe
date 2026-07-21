@@ -1,0 +1,10 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1784612922577,85,GET CSRF (usuario),200,,Flujo Usuario 1-1,,true,,554,125,1,2,http://localhost:8080/api/auth/csrf,72,0,52
+1784612922577,85,GET CSRF (supervisor),200,,Flujo Supervisor 2-1,,true,,554,125,1,2,http://localhost:8080/api/auth/csrf,72,0,52
+1784612924963,1600,POST Login (supervisor),200,,Flujo Supervisor 2-1,text,true,,697,376,1,2,http://localhost:8080/api/auth/login,1599,0,12
+1784612924963,1600,POST Login (usuario),200,,Flujo Usuario 1-1,text,true,,685,368,1,2,http://localhost:8080/api/auth/login,1599,0,7
+1784612926565,33,GET Pendientes Supervisor,200,,Flujo Supervisor 2-1,text,true,,524,312,1,2,http://localhost:8080/api/admin/pendientes,32,0,1
+1784612926565,33,GET Álbumes Públicos,200,,Flujo Usuario 1-1,text,true,,505,257,1,2,http://localhost:8080/api/public/albums,33,0,1
+1784612926599,15,GET Cuarentena Supervisor,200,,Flujo Supervisor 2-1,text,true,,505,312,1,2,http://localhost:8080/api/admin/quarantine,14,0,2
+1784612926600,26,GET Álbumes del Usuario,200,,Flujo Usuario 1-1,text,true,,524,308,1,2,http://localhost:8080/api/albums/todos,24,0,1
+1784612926615,45,GET Audit Log Supervisor,200,,Flujo Supervisor 2-1,text,true,,524,311,1,1,http://localhost:8080/api/admin/audit-log,45,0,2

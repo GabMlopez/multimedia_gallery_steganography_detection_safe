@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,6 +32,12 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Value("${SESSION_COOKIE_SAME_SITE:lax}")
+    private String sessionCookieSameSite;
+
+    @Value("${SESSION_COOKIE_SECURE:false}")
+    private boolean sessionCookieSecure;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new Argon2PasswordEncoder(16, 32, 1, 65536, 3);
@@ -39,10 +46,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
-                .sameSite("None")
-                .secure(true)
-        );
+        csrfTokenRepository.setCookieCustomizer(cookie -> {
+            cookie.sameSite(sessionCookieSameSite);
+            cookie.secure(sessionCookieSecure);
+        });
 
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
