@@ -1,0 +1,30 @@
+﻿\section{SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}
+\textit{Describir las prácticas y procedimientos que se seguirán para informar, rastrear y resolver problemas identificados tanto en los elementos de software como en los procesos de desarrollo y mantenimiento de software. Indicar las responsabilidades organizativas específicas relacionadas con su implementación.}
+
+Esta sección describe el sistema de reporte y control utilizado por SQA para registrar y analizar discrepancias y monitorear la implementación de acciones correctivas. Los formularios utilizados por SQA para la presentación de informes son el Informe de Auditoría de Procesos, el P/CR o STR, el Informe de Evaluación de Herramientas de Software y el Informe de Evaluación de Instalaciones. Cada uno de estos formularios y sus usos se discuten en la siguiente sección.
+
+\subsection{7.1 PROCESO DE REPORTE DE AUDITORÍA}
+SQA reporta los resultados de una auditoría de procesos y proporciona recomendaciones, si es necesario, utilizando el Informe de Auditoría de Procesos. El Informe de Auditoría de Procesos se utiliza para registrar que el proceso (1) se sigue correctamente y funciona eficazmente, (2) se sigue pero no funciona eficazmente, o (3) no se sigue.
+
+La Figura 7-1 proporciona el formato de un Informe de Auditoría de Procesos.
+
+\subsubsection{7.1.1 Presentación y disposición del informe de auditoría de procesos}
+El Informe de Auditoría de Procesos se dirige a los siguientes grupos:
+\begin{enumerate}
+    \item \textbf{Alta Dirección:} Los resultados de las auditorías de procesos se utilizan junto con otra información de estado del proyecto para guiar la atención de la alta dirección para identificar y mitigar los riesgos del proyecto a nivel organizativo.
+    \item \textbf{SEPG:} El SEPG utiliza los resultados de las auditorías de procesos, junto con los resultados de las auditorías de otros proyectos, para identificar debilidades en los procesos e iniciar o mejorar el proceso en áreas específicas. Estos datos pasan a formar parte de la base de datos de procesos para que estén disponibles para futuros análisis y uso del proyecto.
+    \item \textbf{Gerente del Proyecto:} El gerente del proyecto utiliza el informe de las siguientes maneras:
+    \begin{enumerate}
+        \item Para proporcionar información sobre si se cumple con el proceso de desarrollo y su efectividad para cumplir con los objetivos del proyecto. Cuando sea necesario y apropiado, el gerente del proyecto puede iniciar actividades de aplicación o iniciar cambios en los procesos establecidos utilizando los procedimientos aprobados.
+        \item Para indicar acuerdo, desacuerdo o aplazamiento de las recomendaciones citadas en el Informe de Auditoría de Procesos. Si el Gerente del Proyecto indica desacuerdo con las recomendaciones registradas en el Informe de Auditoría de Procesos, la disposición final de las recomendaciones del informe la realiza el Patrocinador del Proyecto correspondiente, como se describe en la Sección 7.1.2.
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}
+En caso de que el personal del proyecto afectado impugne los hallazgos y recomendaciones de un Informe de Auditoría de Procesos, SQA se comunicará primero con el Gerente del Proyecto afectado para resolver la disputa. Si el Gerente del Proyecto afectado también impugna los hallazgos y/o recomendaciones, el Patrocinador del Proyecto (o al menos un nivel de gestión superior al afectado por las acciones recomendadas en el Informe de Auditoría de Procesos) dirige la disposición final de las recomendaciones del Informe de Auditoría de Procesos. El proyecto afectado implementa, aplaza o cancela la implementación de las acciones correctivas recomendadas en el Informe de Auditoría de Procesos según lo indique el Patrocinador del Proyecto/Gerente de Nivel Superior. Esta dirección es registrada y fechada por el Patrocinador del Proyecto (u otra gerencia, según corresponda) para agregarla a los registros de evaluación de SQA del proyecto. SQA conserva el registro original de los hallazgos y los datos de resolución posteriores en sus archivos de auditoría.
+
+\subsection{7.2 Registro de problemas en el código de software o en la documentación}
+Los problemas encontrados en el código de software o en la documentación que está bajo gestión de configuración deben registrarse mediante un P/CR (o STR, según corresponda al proyecto), independientemente de cómo o por quién se haya descubierto el problema. Los P/CR generados por SQA se prepararán y procesarán de acuerdo con la referencia (f). SQA analizará los P/CR para detectar tendencias de problemas en un esfuerzo por prevenir discrepancias recurrentes. SQA reportará los resultados de los análisis de tendencias de P/CR junto con sugerencias para la resolución y prevención de problemas. El formato del P/CR o STR se encuentra en la referencia (f).
+
+\subsection{7.3 Informe de evaluación de herramientas de software}
+La Figura 7-2 proporciona el formato para evaluar las herramientas de software como se describe en la Sección 3.2.

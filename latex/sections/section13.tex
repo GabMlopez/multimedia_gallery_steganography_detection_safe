@@ -1,0 +1,52 @@
+﻿\section{SECCIÓN 13. GESTIÓN DE RIESGOS}
+La gestión de riesgos tiene como objetivo identificar los posibles eventos que pueden afectar la calidad del software o el desarrollo del proceso de pruebas, estableciendo acciones preventivas y correctivas para minimizar su impacto.
+
+\subsection*{Riesgos del Producto}
+\begin{longtable}{|p{1.5cm}|p{5cm}|p{2.5cm}|p{2.5cm}|p{2cm}|p{4cm}|}
+\hline
+\textbf{ID} & \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel} & \textbf{Estrategia de Mitigación} \\
+\hline
+RP-01 & Acceso no autorizado por vulnerabilidades en JWT o RBAC & Media & Muy Alto & Crítico & Validar autenticación, autorización y expiración de tokens mediante pruebas de seguridad. \\
+\hline
+RP-02 & Ataques XSS mediante contenido enviado por el usuario & Media & Alto & Alto & Aplicar sanitización con OWASP Java HTML Sanitizer y realizar pruebas de penetración. \\
+\hline
+RP-03 & Ataques CSRF sobre operaciones protegidas & Baja & Alto & Medio & Implementar y verificar el funcionamiento del filtro CSRF con Double Submit Cookie. \\
+\hline
+RP-04 & Pérdida de registros de auditoría & Baja & Alto & Medio & Registrar todas las operaciones críticas mediante AuditLog y respaldar la base de datos periódicamente. \\
+\hline
+RP-05 & Fallos en el almacenamiento seguro de imágenes & Baja & Alto & Medio & Utilizar nombres UUID, directorios Safe y Quarantine y validar permisos de acceso. \\
+\hline
+RP-06 & Errores en la validación de archivos (tipo o tamaño) & Media & Medio & Medio & Verificar tamaño máximo de 50 MB, tipos MIME permitidos y reglas de validación antes del upload. \\
+\hline
+\end{longtable}
+
+\subsection*{Riesgos del Proyecto de Pruebas}
+\begin{longtable}{|p{1.5cm}|p{5cm}|p{2.5cm}|p{2.5cm}|p{2cm}|p{4cm}|}
+\hline
+\textbf{ID} & \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel} & \textbf{Estrategia de Mitigación} \\
+\hline
+RPR-01 & Retrasos en el cronograma de pruebas & Media & Alto & Alto & Planificar las actividades por Sprint y realizar reuniones de seguimiento semanales. \\
+\hline
+RPR-02 & Casos de prueba incompletos & Media & Alto & Alto & Elaborar una matriz de trazabilidad entre requisitos y casos de prueba antes de iniciar la ejecución. \\
+\hline
+RPR-03 & Cambios frecuentes en el código durante las pruebas & Alta & Medio & Alto & Utilizar GitHub con ramas de desarrollo y control de versiones para gestionar cambios. \\
+\hline
+RPR-04 & Indisponibilidad de PostgreSQL o ClamAV & Baja & Alto & Medio & Mantener un entorno de pruebas estable y verificar los servicios antes de ejecutar las pruebas. \\
+\hline
+RPR-05 & Baja cobertura de pruebas automatizadas & Media & Medio & Medio & Implementar pruebas unitarias con JUnit y pruebas de API mediante Postman. \\
+\hline
+RPR-06 & Defectos no registrados correctamente & Baja & Medio & Bajo & Mantener un registro centralizado de incidencias con evidencia, prioridad y estado. \\
+\hline
+\end{longtable}
+
+\subsection*{Plan de Respuesta a los Riesgos}
+Para minimizar el impacto de los riesgos identificados durante el proceso de aseguramiento de la calidad, se implementarán las siguientes acciones utilizando las herramientas definidas en el proyecto:
+\begin{itemize}
+    \item Ejecutar análisis estáticos del código mediante SonarQube para identificar vulnerabilidades, code smells, errores potenciales y problemas de mantenibilidad antes de iniciar las pruebas dinámicas.
+    \item Medir la cobertura de las pruebas utilizando JaCoCo, con el fin de identificar componentes del sistema que no han sido suficientemente validados y mejorar la confiabilidad del software.
+    \item Analizar las dependencias del proyecto mediante npm audit para detectar bibliotecas vulnerables o desactualizadas y aplicar las actualizaciones o correcciones necesarias.
+    \item Ejecutar pruebas unitarias con JUnit para validar el correcto funcionamiento de los componentes críticos del backend, asegurando que la lógica de negocio opere de acuerdo con los requisitos establecidos.
+    \item Realizar pruebas de seguridad utilizando OWASP ZAP, con el objetivo de identificar vulnerabilidades en la aplicación web, como problemas de autenticación, control de acceso, inyección de código o configuraciones inseguras.
+    \item Evaluar el rendimiento, la accesibilidad y las buenas prácticas del frontend mediante Lighthouse, identificando oportunidades de mejora que contribuyan a una mejor experiencia de usuario.
+    \item Documentar todos los hallazgos, defectos y vulnerabilidades detectadas durante el proceso de pruebas, verificando posteriormente las correcciones mediante pruebas de regresión para asegurar que los cambios implementados no introduzcan nuevos errores.
+\end{itemize}
