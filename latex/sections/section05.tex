@@ -30,3 +30,158 @@ Las siguientes mediciones se realizarán y utilizarán para determinar el estado
 \end{enumerate}
 
 SQA es responsable de reportar estas mediciones al Gerente de Proyecto mensualmente.
+
+\subsection{5.2 MÉTRICAS DE CALIDAD EN USO }
+
+La norma ISO/IEC 25022 define métricas para medir la calidad en uso de un producto de software desde la perspectiva del usuario final. Las métricas presentadas a continuación se organizan según las cinco características definidas en dicha norma: efectividad, eficiencia, satisfacción, libertad de riesgo y cobertura de contexto.
+
+\subsubsection{5.2.1 Efectividad}
+
+Precisión e integridad con las que los usuarios alcanzan objetivos específicos.
+
+\begin{enumerate}
+    \item \textbf{Tasa de finalización de tareas (Task completion rate)}
+    \[
+    TCR = \frac{N_{tareas\_completadas}}{N_{tareas\_intentadas}} \times 100\%
+    \]
+    Donde \(N_{tareas\_completadas}\) es el número de tareas (pruebas, auditorías) completadas exitosamente y \(N_{tareas\_intentadas}\) es el total de tareas ejecutadas.
+
+    \item \textbf{Frecuencia de errores (Error frequency)}
+    \[
+    FE = \frac{N_{errores}}{N_{ejecuciones}}
+    \]
+    Donde \(N_{errores}\) es el número de ejecuciones que presentaron errores y \(N_{ejecuciones}\) es el número total de ejecuciones realizadas.
+
+    \item \textbf{Tasa de logros de efectividad (Effectiveness achievement rate)}
+    \[
+    EAR = \frac{N_{audits\_aprobados}}{N_{audits\_totales}}
+    \]
+    Donde \(N_{audits\_aprobados}\) son las auditorías que cumplen el umbral definido y \(N_{audits\_totales}\) es el total de auditorías ejecutadas.
+
+    \item \textbf{Calidad percibida del producto}
+    \[
+    CP = \frac{\sum_{i=1}^{n} w_i \cdot s_i}{\sum_{i=1}^{n} w_i}
+    \]
+    Donde \(w_i\) es el peso asignado a cada categoría de calidad y \(s_i\) es el puntaje obtenido en esa categoría (escala 0--1).
+\end{enumerate}
+
+\subsubsection{5.2.2 Eficiencia}
+
+Recursos gastados en relación con la precisión e integridad con las que los usuarios alcanzan los objetivos.
+
+\begin{enumerate}
+    \item \textbf{Tiempo de tarea (Task time)}
+    \[
+    TT = t_{fin} - t_{inicio}
+    \]
+    Medición directa del tiempo transcurrido desde el inicio hasta la finalización de una tarea, expresado en milisegundos.
+
+    \item \textbf{Índice de eficiencia de carga (Load efficiency index)}
+    \[
+    LEI = \frac{LCP}{TTI}
+    \]
+    Donde \(LCP\) es el Largest Contentful Paint y \(TTI\) es el Time to Interactive. Un valor cercano a 1 indica carga continua sin bloqueos.
+
+    \item \textbf{Tiempo de respuesta del sistema}
+    \[
+    TR = RTT + L_{servidor}
+    \]
+    Donde \(RTT\) es el Round Trip Time de red y \(L_{servidor}\) es la latencia del servidor backend.
+
+    \item \textbf{Peso de recurso por elemento DOM}
+    \[
+    PR = \frac{B_{totales}}{N_{DOM}}
+    \]
+    Donde \(B_{totales}\) es el peso total en bytes de los recursos cargados y \(N_{DOM}\) es el número de elementos en el DOM.
+
+    \item \textbf{Proporción de tiempo de ejecución JavaScript}
+    \[
+    PJS = \frac{T_{bootup}}{T_{mainthread}} \times 100\%
+    \]
+    Donde \(T_{bootup}\) es el tiempo de ejecución de JavaScript y \(T_{mainthread}\) es el tiempo total de trabajo del hilo principal.
+\end{enumerate}
+
+\subsubsection{5.2.3 Satisfacción}
+
+Grado en que las necesidades del usuario se satisfacen cuando se utiliza el producto.
+
+\begin{enumerate}
+    \item \textbf{Puntaje de satisfacción del usuario (User satisfaction score)}
+    \[
+    USS = \frac{\sum_{i=1}^{n} R_i}{n}
+    \]
+    Donde \(R_i\) son las calificaciones individuales obtenidas mediante encuestas (escala Likert 1--5) y \(n\) es el número de encuestados.
+
+    \item \textbf{Net Promoter Score (NPS)}
+    \[
+    NPS = P_{promotores} - P_{detractores}
+    \]
+    Donde \(P_{promotores}\) es el porcentaje de usuarios que califican \(9\)--\(10\) y \(P_{detractores}\) el porcentaje que califica \(0\)--\(6\).
+
+    \item \textbf{Tasa de utilidad percibida (Perceived usefulness)}
+    \[
+    UP = \frac{N_{funcionalidades\_utilizadas}}{N_{funcionalidades\_disponibles}} \times 100\%
+    \]
+\end{enumerate}
+
+\textit{Nota: Las métricas de satisfacción requieren la aplicación de instrumentos de recolección como encuestas SUS (System Usability Scale) o cuestionarios personalizados. Se planifica su implementación en fases posteriores.}
+
+\subsubsection{5.2.4 Libertad de Riesgo}
+
+Grado en que un producto mitiga los riesgos económicos, de salud, seguridad o medio ambiente.
+
+\begin{enumerate}
+    \item \textbf{Tasa de mitigación de riesgos de seguridad (Security risk mitigation)}
+    \[
+    SRM = 1 - \frac{V_{criticas} \cdot 10 + V_{altas} \cdot 5 + V_{medias} \cdot 2}{N_{endpoints}}
+    \]
+    Donde \(V_{criticas}\), \(V_{altas}\) y \(V_{medias}\) son vulnerabilidades encontradas según su severidad y \(N_{endpoints}\) es el número de endpoints auditados.
+
+    \item \textbf{Índice de riesgo frontend}
+    \[
+    IRF = 1 - BP
+    \]
+    Donde \(BP\) es el puntaje de Best Practices obtenido en Lighthouse (escala 0--1).
+
+    \item \textbf{Vulnerabilidad operativa detectada}
+    \[
+    VO = \frac{N_{errores\_consola}}{N_{paginas\_auditadas}}
+    \]
+    Donde \(N_{errores\_consola}\) es el número de páginas que presentan errores en la consola del navegador.
+
+    \item \textbf{Densidad de vulnerabilidades en dependencias}
+    \[
+    DVD = \frac{N_{vulnerabilidades\_npm}}{N_{dependencias}}
+    \]
+    Donde \(N_{vulnerabilidades\_npm}\) es el conteo de vulnerabilidades reportadas por \texttt{npm audit} y \(N_{dependencias}\) es el total de dependencias del proyecto frontend.
+\end{enumerate}
+
+\subsubsection{5.2.5 Cobertura de Contexto}
+
+Grado en que un producto puede ser utilizado en contextos específicos o más allá de los inicialmente previstos.
+
+\begin{enumerate}
+    \item \textbf{Completitud de cobertura de pruebas}
+    \[
+    CCP = \frac{M_{cubiertos}}{M_{totales}} \times 100\%
+    \]
+    Donde \(M_{cubiertos}\) son los módulos o capas del sistema que tienen pruebas automatizadas y \(M_{totales}\) es el total de módulos identificados (unitarias, integración, E2E, carga, seguridad).
+
+    \item \textbf{Madurez de aseguramiento de calidad}
+    \[
+    MA = \frac{C_{ejecutadas}}{C_{totales}} \times 100\%
+    \]
+    Donde \(C_{ejecutadas}\) son las capas de prueba con resultados disponibles y \(C_{totales}\) son las capas definidas en el plan de pruebas.
+
+    \item \textbf{Índice de accesibilidad}
+    \[
+    IA = A
+    \]
+    Donde \(A\) es el puntaje de accesibilidad obtenido en Lighthouse (escala 0--1), que refleja la capacidad del producto para ser utilizado por personas con discapacidades.
+
+    \item \textbf{Tasa de adaptabilidad a dispositivos}
+    \[
+    TAD = \frac{N_{viewport\_configurados}}{N_{pantallas\_soportadas}}
+    \]
+    Donde \(N_{viewport\_configurados}\) son los puntos de ruptura responsivos implementados y \(N_{pantallas\_soportadas}\) son las resoluciones objetivo definidas en los requisitos.
+\end{enumerate}

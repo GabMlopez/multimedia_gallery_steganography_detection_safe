@@ -29,18 +29,24 @@
 \contentsline {section}{\numberline {4}SECCIÓN 4. DOCUMENTACIÓN}{36}{section.4}%
 \contentsline {section}{\numberline {5}SECCIÓN 5. ESTÁNDARES, PRÁCTICAS, CONVENCIONES Y MÉTRICAS}{39}{section.5}%
 \contentsline {subsection}{\numberline {5.1}5.1 MÉTRICAS}{39}{subsection.5.1}%
-\contentsline {section}{\numberline {6}SECCIÓN 6. TESTS}{42}{section.6}%
-\contentsline {section}{\numberline {7}SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}{45}{section.7}%
-\contentsline {subsection}{\numberline {7.1}7.1 PROCESO DE REPORTE DE AUDITORÍA}{45}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}7.1.1 Presentación y disposición del informe de auditoría de procesos}{45}{subsubsection.7.1.1}%
-\contentsline {subsubsection}{\numberline {7.1.2}7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}{46}{subsubsection.7.1.2}%
-\contentsline {subsection}{\numberline {7.2}7.2 Registro de problemas en el código de software o en la documentación}{46}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}7.3 Informe de evaluación de herramientas de software}{46}{subsection.7.3}%
-\contentsline {section}{\numberline {8}SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}{49}{section.8}%
-\contentsline {section}{\numberline {9}SECCIÓN 9. CONTROL DEL CÓDIGO}{51}{section.9}%
-\contentsline {section}{\numberline {10}SECCIÓN 10. CONTROL DE INFORMACIÓN}{53}{section.10}%
-\contentsline {section}{\numberline {11}SECCIÓN 11. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}{55}{section.11}%
-\contentsline {section}{\numberline {12}SECCIÓN 12. PREPARACIÓN DEL PERSONAL}{57}{section.12}%
-\contentsline {section}{\numberline {13}SECCIÓN 13. GESTIÓN DE RIESGOS}{60}{section.13}%
-\contentsline {section}{\numberline {A}APÉNDICE A. LISTA DE ACRÓNIMOS}{64}{appendix.Alph1}%
-\contentsline {section}{\numberline {B}APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}{66}{appendix.Alph2}%
+\contentsline {subsection}{\numberline {5.2}5.2 MÉTRICAS DE CALIDAD EN USO }{40}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}5.2.1 Efectividad}{40}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}5.2.2 Eficiencia}{41}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}5.2.3 Satisfacción}{42}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}5.2.4 Libertad de Riesgo}{42}{subsubsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.5}5.2.5 Cobertura de Contexto}{43}{subsubsection.5.2.5}%
+\contentsline {section}{\numberline {6}SECCIÓN 6. TESTS}{45}{section.6}%
+\contentsline {section}{\numberline {7}SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}{48}{section.7}%
+\contentsline {subsection}{\numberline {7.1}7.1 PROCESO DE REPORTE DE AUDITORÍA}{48}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}7.1.1 Presentación y disposición del informe de auditoría de procesos}{48}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}{49}{subsubsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.2}7.2 Registro de problemas en el código de software o en la documentación}{49}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}7.3 Informe de evaluación de herramientas de software}{49}{subsection.7.3}%
+\contentsline {section}{\numberline {8}SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}{52}{section.8}%
+\contentsline {section}{\numberline {9}SECCIÓN 9. CONTROL DEL CÓDIGO}{54}{section.9}%
+\contentsline {section}{\numberline {10}SECCIÓN 10. CONTROL DE INFORMACIÓN}{56}{section.10}%
+\contentsline {section}{\numberline {11}SECCIÓN 11. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}{58}{section.11}%
+\contentsline {section}{\numberline {12}SECCIÓN 12. PREPARACIÓN DEL PERSONAL}{60}{section.12}%
+\contentsline {section}{\numberline {13}SECCIÓN 13. GESTIÓN DE RIESGOS}{63}{section.13}%
+\contentsline {section}{\numberline {A}APÉNDICE A. LISTA DE ACRÓNIMOS}{67}{appendix.Alph1}%
+\contentsline {section}{\numberline {B}APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}{69}{appendix.Alph2}%

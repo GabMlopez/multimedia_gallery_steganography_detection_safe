@@ -248,6 +248,7 @@ INPUT .\sections\section05.tex
 INPUT .\sections\section05.tex
 INPUT .\sections\section05.tex
 INPUT sections\section05.tex
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmtt12.tfm
 INPUT .\sections\section06.tex
 INPUT .\sections\section06.tex
 INPUT .\sections\section06.tex
@@ -319,3 +320,17 @@ INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\bitstrea\charter\b
 INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\bitstrea\charter\bchr8a.pfb
 INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\bitstrea\charter\bchri8a.pfb
 INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\bitstrea\charter\bchri8a.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr8.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmr8.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmtt12.pfb
+INPUT C:\Users\G300\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmtt12.pfb
