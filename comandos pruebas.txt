@@ -34,12 +34,49 @@ CP06 — Consultas de BD
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#existsByAlbumIdAndHash_notFound_returnsFalse
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#findByAlbumId_returnsAllImagesInAlbum
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#rejectedStatus_worksCorrectly
+CP07 — Panel de Supervisor, Auditoria y Proteccion XSS (CP30-CP39)
+# NOTA: en PowerShell hay que CITAR los argumentos -D que contienen puntos o comas,
+# o el shell los parte y Maven falla con "Unknown lifecycle phase".
+#   Correcto:   .\mvnw.cmd test "-Dtest=XssSanitizationTest,AlbumSanitizationJpaTest"
+#   Incorrecto: .\mvnw.cmd test -Dtest=XssSanitizationTest,AlbumSanitizationJpaTest
+
+# CP30-CP35 — Panel de supervisor y registros de auditoria
+.\mvnw.cmd test -Dtest=SupervisorPanelAuditTest
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#panelSupervisor_conRolSupervisor_devuelve200EnLosTresEndpoints"
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#auditLog_conRolUser_devuelve403SinExponerDatos"
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#aprobarAlbum_registraAuditLog"
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#rechazarAlbum_borraArchivosYRegistraAuditLog"
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#aprobarImagen_registraAuditLog"
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#rechazarImagen_registraAuditLog"
+
+# CP36 y CP38 — Sanitizacion XSS a nivel de endpoint
+.\mvnw.cmd test -Dtest=XssSanitizationTest
+
+# CP37 y CAL-01 — Sanitizacion en la capa de persistencia (@PreUpdate)
+.\mvnw.cmd test -Dtest=AlbumSanitizationJpaTest
+
+# SEC-01 — Hallazgo emergente: frontera de autorizacion de AlbumController
+.\mvnw.cmd test -Dtest=AlbumAuthorizationTest
+
+# Toda la seccion de golpe
+.\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest,XssSanitizationTest,AlbumSanitizationJpaTest,AlbumAuthorizationTest"
+
+# CP39 — Escaneo OWASP ZAP: FUERA DE ALCANCE (no implementado)
+# Motivo: springdoc-openapi no esta en el pom.xml, por lo que /v3/api-docs no existe
+# (hallazgo CFG-01), y los endpoints objetivo exigen rol USER + CSRF, que ZAP no maneja
+# sin un contexto autenticado. Justificacion completa en RESULTADOS_CP30_CP39.md
+
 O ejecutar toda una clase completa
 .\mvnw.cmd test -Dtest=FileStorageServiceTest
 .\mvnw.cmd test -Dtest=SupervisorControllerTest
 .\mvnw.cmd test -Dtest=ImageRepositoryTest
 O todos los tests de golpe
 .\mvnw.cmd test
+
+# NOTA: 'mvnw test' y 'mvnw verify' terminan en BUILD FAILURE por un fallo preexistente
+# en SupervisorControllerTest#getQuarantineGallery_withoutAuth_returnsForbidden (espera 403
+# y recibe 200). Para generar el reporte de JaCoCo pese a ese fallo:
+.\mvnw.cmd verify "-Dmaven.test.failure.ignore=true"
 Frontend (Cypress) — Pruebas E2E
 Requisito: Backend corriendo en localhost:8080 + Frontend en localhost:3001
 cd frontend
