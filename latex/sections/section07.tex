@@ -9,21 +9,21 @@ Las evidencias fueron obtenidas utilizando las herramientas JUnit 5, Spring Boot
 Como parte del proceso de auditoría del software, se ejecutaron los casos de prueba definidos en el Plan de Pruebas. La Tabla \ref{tab:ejecucion} presenta el resumen general de la ejecución.
 
 \begin{table}[H]
-\centering
-\begin{tabular}{|l|c|}
-\hline
-\textbf{Métrica} & \textbf{Resultado} \\
-\hline
-Pruebas ejecutadas & 40 \\
-Pruebas aprobadas & 39 \\
-Pruebas fallidas & 1 \\
-Errores de ejecución & 0 \\
-Pruebas omitidas & 2 \\
-Porcentaje de éxito & 97.5\% \\
-\hline
-\end{tabular}
-\caption{Resumen de ejecución de pruebas}
-\label{tab:ejecucion}
+    \centering
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Métrica}     & \textbf{Resultado} \\
+        \hline
+        Pruebas ejecutadas   & 40                 \\
+        Pruebas aprobadas    & 39                 \\
+        Pruebas fallidas     & 1                  \\
+        Errores de ejecución & 0                  \\
+        Pruebas omitidas     & 2                  \\
+        Porcentaje de éxito  & 97.5\%             \\
+        \hline
+    \end{tabular}
+    \caption{Resumen de ejecución de pruebas}
+    \label{tab:ejecucion}
 \end{table}
 
 Los resultados anteriores evidencian un alto nivel de cumplimiento de los criterios establecidos en el SQAP. Sin embargo, durante la auditoría se detectaron algunos defectos que fueron registrados para su seguimiento y corrección.
@@ -33,55 +33,54 @@ Los resultados anteriores evidencian un alto nivel de cumplimiento de los criter
 La Tabla \ref{tab:hallazgos} resume los principales defectos encontrados durante el proceso de aseguramiento de la calidad.
 
 \begin{table}[H]
-\centering
-\scriptsize
-\begin{tabular}{|p{1.5cm}|p{5.8cm}|p{2cm}|p{2.8cm}|p{2cm}|}
-\hline
-\textbf{ID} &
-\textbf{Hallazgo} &
-\textbf{Severidad} &
-\textbf{Herramienta} &
-\textbf{Estado} \\
-\hline
+    \centering
+    \scriptsize
+    \begin{tabular}{|p{1.5cm}|p{5.8cm}|p{2cm}|p{2.8cm}|p{2cm}|}
+        \hline
+        \textbf{ID}                                                                                                                                              &
+        \textbf{Hallazgo}                                                                                                                                        &
+        \textbf{Severidad}                                                                                                                                       &
+        \textbf{Herramienta}                                                                                                                                     &
+        \textbf{Estado}                                                                                                                                            \\
+        \hline
 
-SEC-01 &
-Ausencia de \texttt{@EnableMethodSecurity}, permitiendo que usuarios sin privilegios puedan ejecutar operaciones administrativas. &
-Crítica &
-JUnit / Spring Security &
-Pendiente \\
-\hline
+        SEC-01                                                                                                                                                   &
+        Ausencia de \texttt{@EnableMethodSecurity}, permitiendo que usuarios sin privilegios puedan ejecutar operaciones administrativas.                        &
+        Crítica                                                                                                                                                  &
+        JUnit / Spring Security                                                                                                                                  &
+        Pendiente                                                                                                                                                  \\
+        \hline
 
-XSS-01 &
-El campo \texttt{titulo} del álbum almacena código HTML y JavaScript sin sanitización, permitiendo una vulnerabilidad Cross-Site Scripting (XSS). &
-Alta &
-CP38 / JUnit &
-Confirmado \\
-\hline
+        XSS-01                                                                                                                                                   &
+        El campo \texttt{titulo} del álbum almacena código HTML y JavaScript sin sanitización, permitiendo una vulnerabilidad Cross-Site Scripting (XSS).        &
+        Alta                                                                                                                                                     &
+        CP38 / JUnit                                                                                                                                             &
+        Confirmado                                                                                                                                                 \\
+        \hline
 
-CAL-01 &
-La descripción del álbum aplica doble sanitización durante las actualizaciones, generando doble escape del contenido almacenado. &
-Baja &
-CP37 &
-Pendiente \\
-\hline
+        CAL-01                                                                                                                                                   &
+        La descripción del álbum aplica doble sanitización durante las actualizaciones, generando doble escape del contenido almacenado.                         &
+        Baja                                                                                                                                                     &
+        CP37                                                                                                                                                     &
+        Pendiente                                                                                                                                                  \\
+        \hline
 
-AUD-01 &
-El análisis mediante \texttt{npm audit} detectó veinte vulnerabilidades en dependencias del frontend, incluyendo Axios, React Router y Babel. &
-Alta &
-npm audit &
-Pendiente \\
-\hline
+        AUD-01                                                                                                                                                   &
+        El análisis mediante \texttt{npm audit} detectó veinte vulnerabilidades en dependencias del frontend, incluyendo Axios, React Router y Babel.            &
+        Alta                                                                                                                                                     &
+        npm audit                                                                                                                                                &
+        Pendiente                                                                                                                                                  \\
+        \hline
 
-CFG-01 &
-La configuración del escaneo automático de OWASP ZAP utiliza un endpoint OpenAPI inexistente, impidiendo completar la auditoría automática de seguridad. &
-Media &
-Auditoría DevSecOps &
-Pendiente \\
-\hline
-
-\end{tabular}
-\caption{Hallazgos detectados durante la auditoría SQA}
-\label{tab:hallazgos}
+        CFG-01                                                                                                                                                   &
+        La configuración del escaneo automático de OWASP ZAP utiliza un endpoint OpenAPI inexistente, impidiendo completar la auditoría automática de seguridad. &
+        Media                                                                                                                                                    &
+        Auditoría DevSecOps                                                                                                                                      &
+        Pendiente                                                                                                                                                  \\
+        \hline
+    \end{tabular}
+    \caption{Hallazgos detectados durante la auditoría SQA}
+    \label{tab:hallazgos}
 \end{table}
 
 \subsubsection{7.1.2 Relación de los hallazgos con las métricas de calidad}
@@ -89,49 +88,48 @@ Pendiente \\
 Con el fin de evaluar objetivamente el impacto de cada defecto, los hallazgos fueron relacionados con las métricas definidas en la Sección 5 del presente SQAP.
 
 \begin{table}[H]
-\centering
-\scriptsize
-\begin{tabular}{|p{1.5cm}|p{5cm}|p{4cm}|p{3cm}|}
-\hline
-\textbf{Hallazgo} &
-\textbf{Descripción} &
-\textbf{Métrica relacionada} &
-\textbf{Impacto} \\
-\hline
+    \centering
+    \scriptsize
+    \begin{tabular}{|p{1.5cm}|p{5cm}|p{4cm}|p{3cm}|}
+        \hline
+        \textbf{Hallazgo}                                 &
+        \textbf{Descripción}                              &
+        \textbf{Métrica relacionada}                      &
+        \textbf{Impacto}                                                   \\
+        \hline
 
-SEC-01 &
-Acceso no autorizado a funciones administrativas. &
-SRM, FE &
-Disminuye la seguridad del sistema. \\
-\hline
+        SEC-01                                            &
+        Acceso no autorizado a funciones administrativas. &
+        SRM, FE                                           &
+        Disminuye la seguridad del sistema.                                \\
+        \hline
 
-XSS-01 &
-Campo título vulnerable a ataques XSS. &
-SRM, FE, Calidad percibida &
-Compromete la integridad del sistema y la información del usuario. \\
-\hline
+        XSS-01                                            &
+        Campo título vulnerable a ataques XSS.            &
+        SRM, FE, Calidad percibida                        &
+        Compromete la integridad del sistema y la información del usuario. \\
+        \hline
 
-CAL-01 &
-Doble sanitización del contenido. &
-FE, Calidad percibida &
-Reduce la calidad del contenido mostrado al usuario. \\
-\hline
+        CAL-01                                            &
+        Doble sanitización del contenido.                 &
+        FE, Calidad percibida                             &
+        Reduce la calidad del contenido mostrado al usuario.               \\
+        \hline
 
-AUD-01 &
-Dependencias con vulnerabilidades conocidas. &
-DVD, SRM &
-Incrementa la superficie de ataque del sistema. \\
-\hline
+        AUD-01                                            &
+        Dependencias con vulnerabilidades conocidas.      &
+        DVD, SRM                                          &
+        Incrementa la superficie de ataque del sistema.                    \\
+        \hline
 
-CFG-01 &
-Configuración incorrecta del escaneo ZAP. &
-MA, CCP &
-Reduce la cobertura de las auditorías de seguridad. \\
-\hline
-
-\end{tabular}
-\caption{Relación entre los hallazgos encontrados y las métricas de calidad de la Sección 5}
-\label{tab:metricas}
+        CFG-01                                            &
+        Configuración incorrecta del escaneo ZAP.         &
+        MA, CCP                                           &
+        Reduce la cobertura de las auditorías de seguridad.                \\
+        \hline
+    \end{tabular}
+    \caption{Relación entre los hallazgos encontrados y las métricas de calidad de la Sección 5}
+    \label{tab:metricas}
 \end{table}
 
 Los resultados muestran que los principales defectos encontrados afectan principalmente las características de \textit{Libertad de Riesgo}, \textit{Efectividad} y \textit{Cobertura de Contexto} definidas en la norma ISO/IEC 25022, evidenciando la necesidad de fortalecer los mecanismos de control de acceso, sanitización de entradas y gestión segura de dependencias.
@@ -143,24 +141,24 @@ Cada problema identificado durante las actividades de aseguramiento de calidad f
 Los defectos fueron detectados utilizando diferentes mecanismos de evaluación:
 
 \begin{itemize}
-\item Pruebas unitarias e integración mediante JUnit 5 y Spring Boot Test.
-\item Medición de cobertura utilizando JaCoCo.
-\item Auditoría de dependencias mediante npm audit.
-\item Evaluación de rendimiento mediante Lighthouse.
-\item Pruebas de carga utilizando Apache JMeter.
+    \item Pruebas unitarias e integración mediante JUnit 5 y Spring Boot Test.
+    \item Medición de cobertura utilizando JaCoCo.
+    \item Auditoría de dependencias mediante npm audit.
+    \item Evaluación de rendimiento mediante Lighthouse.
+    \item Pruebas de carga utilizando Apache JMeter.
 \end{itemize}
 
 El procedimiento seguido para el tratamiento de cada defecto fue el siguiente:
 
 \begin{enumerate}
-\item Registro del hallazgo.
-\item Clasificación según severidad (Crítica, Alta, Media o Baja).
-\item Relación con la métrica de calidad correspondiente.
-\item Asignación al responsable del módulo afectado.
-\item Implementación de la corrección.
-\item Ejecución de pruebas de regresión.
-\item Verificación del cumplimiento de los criterios de aceptación.
-\item Cierre del reporte cuando el defecto ha sido corregido satisfactoriamente.
+    \item Registro del hallazgo.
+    \item Clasificación según severidad (Crítica, Alta, Media o Baja).
+    \item Relación con la métrica de calidad correspondiente.
+    \item Asignación al responsable del módulo afectado.
+    \item Implementación de la corrección.
+    \item Ejecución de pruebas de regresión.
+    \item Verificación del cumplimiento de los criterios de aceptación.
+    \item Cierre del reporte cuando el defecto ha sido corregido satisfactoriamente.
 \end{enumerate}
 
 Este procedimiento garantiza la trazabilidad de cada defecto detectado durante el proceso de aseguramiento de la calidad y facilita la toma de decisiones durante el desarrollo del proyecto.
@@ -170,48 +168,127 @@ Este procedimiento garantiza la trazabilidad de cada defecto detectado durante e
 Las herramientas empleadas durante el proceso SQA permitieron validar diferentes atributos de calidad del sistema, incluyendo funcionalidad, seguridad, cobertura, rendimiento y calidad del código.
 
 \begin{table}[H]
-\centering
-\scriptsize
-\begin{tabular}{|p{3cm}|p{5cm}|p{6cm}|}
-\hline
-\textbf{Herramienta} &
-\textbf{Propósito} &
-\textbf{Resultado obtenido} \\
-\hline
+    \centering
+    \scriptsize
+    \begin{tabular}{|p{3cm}|p{5cm}|p{6cm}|}
+        \hline
+        \textbf{Herramienta}                   &
+        \textbf{Propósito}                     &
+        \textbf{Resultado obtenido}                                                                                                                                        \\
+        \hline
 
-JUnit 5 &
-Pruebas unitarias e integración &
-40 pruebas ejecutadas, 39 aprobadas, 1 hallazgo confirmado y 2 pruebas de regresión pendientes. \\
-\hline
+        JUnit 5                                &
+        Pruebas unitarias e integración        &
+        40 pruebas ejecutadas, 39 aprobadas, 1 hallazgo confirmado y 2 pruebas de regresión pendientes.                                                                    \\
+        \hline
 
-Spring Boot Test &
-Validación funcional de servicios REST &
-Verificación correcta de autenticación, autorización, auditoría y sanitización de datos. \\
-\hline
+        Spring Boot Test                       &
+        Validación funcional de servicios REST &
+        Verificación correcta de autenticación, autorización, auditoría y sanitización de datos.                                                                           \\
+        \hline
 
-JaCoCo &
-Cobertura del código &
-Cobertura superior al 70\% en los componentes críticos del sistema, identificando oportunidades de mejora en módulos secundarios. \\
-\hline
+        JaCoCo                                 &
+        Cobertura del código                   &
+        Cobertura superior al 70\% en los componentes críticos del sistema, identificando oportunidades de mejora en módulos secundarios.                                  \\
+        \hline
 
-npm audit &
-Auditoría de dependencias &
-Detección de 20 vulnerabilidades (7 altas, 6 medias y 7 bajas) en dependencias del frontend. \\
-\hline
+        npm audit                              &
+        Auditoría de dependencias              &
+        Detección de 20 vulnerabilidades (7 altas, 6 medias y 7 bajas) en dependencias del frontend.                                                                       \\
+        \hline
 
-Lighthouse &
-Evaluación del frontend &
-Performance: 100, Accesibilidad: 100, SEO: 100 y Best Practices: 96. Se identificaron recomendaciones de optimización relacionadas con CSS, JavaScript e imágenes. \\
-\hline
+        Lighthouse                             &
+        Evaluación del frontend                &
+        Performance: 100, Accesibilidad: 100, SEO: 100 y Best Practices: 96. Se identificaron recomendaciones de optimización relacionadas con CSS, JavaScript e imágenes. \\
+        \hline
 
-Apache JMeter &
-Pruebas de carga &
-APDEX = 0.778. Los servicios REST respondieron por debajo de 100 ms, excepto el proceso de autenticación, cuyo tiempo promedio fue de 1600 ms. \\
-\hline
+        Apache JMeter                          &
+        Pruebas de carga                       &
+        APDEX = 0.778. Los servicios REST respondieron por debajo de 100 ms, excepto el proceso de autenticación, cuyo tiempo promedio fue de 1600 ms.                     \\
+        \hline
+    \end{tabular}
+    \caption{Evaluación de las herramientas utilizadas durante el aseguramiento de la calidad}
+    \label{tab:herramientas}
+\end{table}
 
-\end{tabular}
-\caption{Evaluación de las herramientas utilizadas durante el aseguramiento de la calidad}
-\label{tab:herramientas}
+\subsection{Trazabilidad de resultados a métricas de calidad}
+
+\begin{table}[H]
+    \centering
+    \scriptsize
+    \begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{5cm}|}
+        \hline
+        \textbf{Métrica de calidad}                        & \textbf{Valor obtenido} & \textbf{Estado} & \textbf{Interpretación}                                                         \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Efectividad}}                                                                                                                                       \\
+        \hline
+        Tasa de finalización de tareas (TCR)               & 97\%                    & Bueno           & Los usuarios completan la mayoría de tareas planificadas con éxito.             \\
+        \hline
+        Frecuencia de errores (FE)                         & 2\%                     & Adecuado        & Bajo índice de error en las ejecuciones auditadas.                              \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Eficiencia}}                                                                                                                                        \\
+        \hline
+        Tiempo de tarea (TT)                               & 1.2 s                   & Bueno       & El tiempo promedio de tarea es adecuado dentro de los umbrales operativos.      \\
+        \hline
+        Índice de eficiencia de carga (LEI)                & 1                       & Bueno           & La experiencia de carga es fluida y eficiente.                                  \\
+        \hline
+        Peso de recurso por elemento DOM (PR)              & 4 KiB                   & Bueno           & El peso por elemento DOM es bajo, lo que favorece la eficiencia de renderizado. \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Satisfacción}}                                                                                                                                      \\
+        \hline
+        Puntaje de satisfacción del usuario (USS)          & 4.2/5                   & Positivo        & La mayoría de los usuarios reporta satisfacción con el producto.                \\
+        \hline
+        Net Promoter Score (NPS)                           & 45                      & Adecuado        & Hay más promotores que detractores, aunque hay margen de mejora.                \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Libertad de Riesgo}}                                                                                                                                \\
+        \hline
+        Nivel de integridad del sistema                    & 82                      & Medio           & Identifica riesgos de integridad que deben ser mitigados.                       \\
+        \hline
+        Densidad de vulnerabilidades en dependencias (DVD) & 0.04                    & Bueno            & Unas pocas dependencias con vulnerabilidades moderadas, requieren actualización.           \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Cobertura de Contexto}}                                                                                                                             \\
+        \hline
+        Completitud de cobertura de pruebas (CCP)          & 78\%                    & Adecuado        & La mayor parte de los módulos está cubierta por pruebas automatizadas.          \\
+        \hline
+        Índice de accesibilidad (IA)                       & 1                       & Bueno           & El sistema es accesible para la mayoría de usuarios.                            \\
+        \hline
+    \end{tabular}
+    \caption{Trazabilidad de resultados a métricas de calidad definidas en la Sección 5}
+    \label{tab:trazabilidad_metricas}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \scriptsize
+    \begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{5cm}|}
+        \hline
+        \textbf{Métrica de calidad}        & \textbf{Valor obtenido} & \textbf{Estado} & \textbf{Interpretación}                                                             \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Eficiencia de rendimiento}}                                                                                                             \\
+        \hline
+        Tiempo medio por petición          & 120 ms                  & Bueno           & Respuesta media de endpoints aceptable para el uso esperado.                        \\
+        \hline
+        Cantidad de recursos usados        & 35\%                    & Adecuado        & El uso de recursos se mantiene dentro de límites controlados.                       \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Seguridad}}                                                                                                                             \\
+        \hline
+        Nivel de integridad del sistema    & 82                      & Medio           & Existen amenazas de integridad que deben mitigarse.                                 \\
+        \hline
+        Nivel de confidencialidad de datos & 88                      & Medio           & La confidencialidad es aceptable, pero requiere refuerzos.                          \\
+        \hline
+        Índice de riesgo frontend (IRF)    & 0.04                    & Positivo           & El puntaje bajo de riesgo frontend indica un nivel elevado de buenas prácticas.     \\
+        \hline
+        \multicolumn{4}{|l|}{\textbf{Mantenibilidad}}                                                                                                                        \\
+        \hline
+        Porcentaje de código duplicado     & 12\%                    & Medio           & Código duplicado moderado que debe reducirse para mejorar mantenibilidad.           \\
+        \hline
+        Deuda técnica promedio por módulo  & 5.12 h                   & Medio           & Deuda técnica balanceada con módulos que necesitan refactorización.                \\
+        \hline
+        Complejidad del código             & 16.2                     & Aceptable       & La complejidad ciclomática promedio es manejable, aunque hay módulos a simplificar. \\
+        \hline
+    \end{tabular}
+    \caption{Trazabilidad de resultados de métricas de calidad de producto definidas en la Sección 5}
+    \label{tab:trazabilidad_metricas_producto}
 \end{table}
 
 Los resultados obtenidos demuestran que el sistema presenta un alto nivel de cumplimiento funcional y de rendimiento. No obstante, la auditoría permitió identificar vulnerabilidades relacionadas con la seguridad del software, la gestión de dependencias y la configuración del proceso DevSecOps, las cuales deberán ser corregidas antes de la liberación definitiva del sistema. Asimismo, la relación de cada hallazgo con las métricas definidas en la Sección 5 permite cuantificar objetivamente su impacto sobre la calidad del producto y establecer prioridades para su resolución.

@@ -1,0 +1,16 @@
+{
+  "name": "LaTeX",
+  "image": "gzurowski/latex-devcontainer:full",
+  "customizations": {
+    "vscode": {
+      "extensions": ["James-Yu.latex-workshop"],
+      "settings": {
+        "latex-workshop.latex.autoBuild.run": "onSave",
+        "latex-workshop.view.pdf.viewer": "tab",
+        "latex-workshop.formatting.latex": "latexindent",
+        "editor.formatOnSave": true,
+        "latex-workshop.linting.chktex.enabled": true
+      }
+    }
+  }
+}
