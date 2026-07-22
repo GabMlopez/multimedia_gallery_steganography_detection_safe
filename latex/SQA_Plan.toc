@@ -6,57 +6,55 @@
 \contentsline {subsection}{\numberline {1.4}1.6 DOCUMENTOS DE REFERENCIA}{11}{subsection.1.4}%
 \contentsline {section}{\numberline {2}SECCIÓN 2. GESTIÓN}{14}{section.2}%
 \contentsline {subsection}{\numberline {2.1}2.1 ORGANIZACIÓN}{14}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}2.2 RECURSOS}{18}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}2.2.1 Instalaciones y Equipos}{18}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}2.2.2 Personal}{18}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2}2.2 RECURSOS}{17}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1} Instalaciones y Equipos}{17}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2} Personal}{18}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3} Calificaciones del Personal}{18}{subsubsection.2.2.3}%
 \contentsline {section}{\numberline {3}SECCIÓN 3. TAREAS DE SQA}{20}{section.3}%
 \contentsline {subsection}{\numberline {3.1}3.1 TAREA: REVISIÓN DE PRODUCTOS DE SOFTWARE}{20}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}3.2 TAREA: REVISIÓN DE HERRAMIENTAS DE SOFTWARE}{20}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}3.3 TAREA: EVALUAR PROCESO DE REVISIÓN DE PRODUCTOS DE SOFTWARE}{20}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}3.4 TAREA: EVALUAR PROCESOS DE PLANIFICACIÓN, MONITOREO Y SUPERVISIÓN DE PROYECTOS}{20}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}3.6 TAREA: EVALUAR PROCESOS DE ANÁLISIS DE REQUISITOS DEL SISTEMA}{21}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}3.7 TAREA: EVALUAR PROCESOS DE ANÁLISIS DE REQUISITOS DE SOFTWARE}{22}{subsection.3.6}%
-\contentsline {subsection}{\numberline {3.7}3.8 TAREA: EVALUAR PROCESOS DE PRUEBAS UNITARIAS E IMPLEMENTACIÓN DEL SISTEMA}{22}{subsection.3.7}%
-\contentsline {subsection}{\numberline {3.8}3.9 TAREA: EVALUAR PROCESOS DE PRUEBAS UNITARIAS Y DE INTEGRACIÓN, PRUEBAS DE CALIFICACIÓN DE CI, PRUEBAS DE INTEGRACIÓN CI/HWCI Y PRUEBAS DE CALIFICACIÓN DEL SISTEMA.}{23}{subsection.3.8}%
-\contentsline {subsection}{\numberline {3.9}3.20 TAREA: EVALUAR PROCESOS DE CONTROL DE LIBRERÍAS DE DESARROLLO DE SOFTWARE}{24}{subsection.3.9}%
-\contentsline {subsection}{\numberline {3.10}3.22 TAREA: VERIFICAR REVISIONES DE PROCESOS Y AUDITORÍAS}{25}{subsection.3.10}%
-\contentsline {subsubsection}{\numberline {3.10.1}3.22.1 Tarea: Verificar Revisiones Técnicas}{25}{subsubsection.3.10.1}%
-\contentsline {subsubsection}{\numberline {3.10.2}3.22.2 Tarea: Verificar Revisiones de Gestión}{28}{subsubsection.3.10.2}%
-\contentsline {subsubsection}{\numberline {3.10.3}3.22.3 Tarea: Conducir Auditorías de Procesos}{29}{subsubsection.3.10.3}%
-\contentsline {subsubsection}{\numberline {3.10.4}3.22.4 Tarea: Realizar Auditorías de Configuración}{29}{subsubsection.3.10.4}%
-\contentsline {subsection}{\numberline {3.11}3.24 RESPONSABILIDADES}{29}{subsection.3.11}%
-\contentsline {subsection}{\numberline {3.12}3.25 CRONOGRAMA}{34}{subsection.3.12}%
-\contentsline {section}{\numberline {4}SECCIÓN 4. DOCUMENTACIÓN}{36}{section.4}%
-\contentsline {section}{\numberline {5}SECCIÓN 5. ESTÁNDARES, PRÁCTICAS, CONVENCIONES Y MÉTRICAS}{39}{section.5}%
-\contentsline {subsection}{\numberline {5.1}5.1 MÉTRICAS}{39}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}5.2 MÉTRICAS DE CALIDAD EN USO }{40}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}5.2.1 Efectividad}{40}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}5.2.2 Eficiencia}{41}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}5.2.3 Satisfacción}{42}{subsubsection.5.2.3}%
-\contentsline {subsubsection}{\numberline {5.2.4}5.2.4 Libertad de Riesgo}{42}{subsubsection.5.2.4}%
-\contentsline {subsubsection}{\numberline {5.2.5}5.2.5 Cobertura de Contexto}{43}{subsubsection.5.2.5}%
-\contentsline {section}{\numberline {6}SECCIÓN 6. TESTS}{45}{section.6}%
-\contentsline {subsection}{\numberline {6.1}6.1 SISTEMA BAJO PRUEBA Y NIVELES DE PRUEBA}{46}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}6.2 MATRIZ DE TRAZABILIDAD}{47}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}6.3 CASOS DE PRUEBA}{49}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}6.3.1 RF-01: Registro y Autenticación Segura}{49}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}6.3.2 RF-02: Control de Acceso y Sesión}{51}{subsubsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.3}6.3.3 RF-03: Detección de Esteganografía}{53}{subsubsection.6.3.3}%
-\contentsline {subsubsection}{\numberline {6.3.4}6.3.4 RF-04: Cuarentena y Revisión Manual}{56}{subsubsection.6.3.4}%
-\contentsline {subsubsection}{\numberline {6.3.5}6.3.5 RF-05: Panel de Supervisor, Auditoría y Protección XSS}{61}{subsubsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.4}6.4 RESUMEN DE EJECUCIÓN}{66}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}6.5 HALLAZGOS DERIVADOS DE LA EJECUCIÓN}{66}{subsection.6.5}%
-\contentsline {section}{\numberline {7}SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}{69}{section.7}%
-\contentsline {subsection}{\numberline {7.1}7.1 PROCESO DE REPORTE DE AUDITORÍA}{69}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}7.1.1 Presentación y disposición del informe de auditoría de procesos}{69}{subsubsection.7.1.1}%
-\contentsline {subsubsection}{\numberline {7.1.2}7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}{70}{subsubsection.7.1.2}%
-\contentsline {subsection}{\numberline {7.2}7.2 Registro de problemas en el código de software o en la documentación}{70}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}7.3 Informe de evaluación de herramientas de software}{70}{subsection.7.3}%
-\contentsline {section}{\numberline {8}SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}{73}{section.8}%
-\contentsline {section}{\numberline {9}SECCIÓN 9. CONTROL DEL CÓDIGO}{75}{section.9}%
-\contentsline {section}{\numberline {10}SECCIÓN 10. CONTROL DE INFORMACIÓN}{77}{section.10}%
-\contentsline {section}{\numberline {11}SECCIÓN 11. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}{79}{section.11}%
-\contentsline {section}{\numberline {12}SECCIÓN 12. PREPARACIÓN DEL PERSONAL}{81}{section.12}%
-\contentsline {section}{\numberline {13}SECCIÓN 13. GESTIÓN DE RIESGOS}{84}{section.13}%
-\contentsline {section}{\numberline {A}APÉNDICE A. LISTA DE ACRÓNIMOS}{88}{appendix.Alph1}%
-\contentsline {section}{\numberline {B}APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}{90}{appendix.Alph2}%
+\contentsline {subsection}{\numberline {3.5}3.5 TAREA: EVALUAR PROCESOS DE IMPLEMENTACIÓN, PRUEBAS UNITARIAS E INTEGRACIÓN}{21}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}3.6 TAREA: EVALUAR PROCESOS DE CONTROL DE CÓDIGO}{22}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}3.7 TAREA: VERIFICAR REVISIONES DE PROCESOS Y AUDITORÍAS}{23}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1} Tarea: Verificar Revisiones Técnicas}{23}{subsubsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.2} Tarea: Verificar Revisiones de Gestión}{24}{subsubsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.3} Tarea: Conducir Auditorías de Procesos}{24}{subsubsection.3.7.3}%
+\contentsline {subsubsection}{\numberline {3.7.4} Tarea: Realizar Auditorías de Configuración}{24}{subsubsection.3.7.4}%
+\contentsline {subsection}{\numberline {3.8}3.8 RESPONSABILIDADES}{25}{subsection.3.8}%
+\contentsline {subsection}{\numberline {3.9}3.9 CRONOGRAMA}{27}{subsection.3.9}%
+\contentsline {section}{\numberline {4}SECCIÓN 4. DOCUMENTACIÓN}{29}{section.4}%
+\contentsline {section}{\numberline {5}SECCIÓN 5. ESTÁNDARES, PRÁCTICAS, CONVENCIONES Y MÉTRICAS}{32}{section.5}%
+\contentsline {subsection}{\numberline {5.1}5.1 MÉTRICAS}{32}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}5.2 MÉTRICAS DE CALIDAD EN USO }{33}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}5.2.1 Efectividad}{33}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}5.2.2 Eficiencia}{34}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}5.2.3 Satisfacción}{35}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}5.2.4 Libertad de Riesgo}{35}{subsubsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.5}5.2.5 Cobertura de Contexto}{36}{subsubsection.5.2.5}%
+\contentsline {section}{\numberline {6}SECCIÓN 6. TESTS}{38}{section.6}%
+\contentsline {subsection}{\numberline {6.1}6.1 SISTEMA BAJO PRUEBA Y NIVELES DE PRUEBA}{39}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}6.2 MATRIZ DE TRAZABILIDAD}{40}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}6.3 CASOS DE PRUEBA}{42}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}6.3.1 RF-01: Registro y Autenticación Segura}{42}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}6.3.2 RF-02: Control de Acceso y Sesión}{44}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}6.3.3 RF-03: Detección de Esteganografía}{46}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}6.3.4 RF-04: Cuarentena y Revisión Manual}{49}{subsubsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.5}6.3.5 RF-05: Panel de Supervisor, Auditoría y Protección XSS}{54}{subsubsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.4}6.4 RESUMEN DE EJECUCIÓN}{59}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}6.5 HALLAZGOS DERIVADOS DE LA EJECUCIÓN}{59}{subsection.6.5}%
+\contentsline {section}{\numberline {7}SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}{62}{section.7}%
+\contentsline {subsection}{\numberline {7.1}7.1 PROCESO DE REPORTE DE AUDITORÍA}{62}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}7.1.1 Presentación y disposición del informe de auditoría de procesos}{62}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}{63}{subsubsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.2}7.2 Registro de problemas en el código de software o en la documentación}{63}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}7.3 Informe de evaluación de herramientas de software}{63}{subsection.7.3}%
+\contentsline {section}{\numberline {8}SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}{66}{section.8}%
+\contentsline {section}{\numberline {9}SECCIÓN 9. CONTROL DEL CÓDIGO}{68}{section.9}%
+\contentsline {section}{\numberline {10}SECCIÓN 10. CONTROL DE INFORMACIÓN}{70}{section.10}%
+\contentsline {section}{\numberline {11}SECCIÓN 11. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}{72}{section.11}%
+\contentsline {section}{\numberline {12}SECCIÓN 12. PREPARACIÓN DEL PERSONAL}{74}{section.12}%
+\contentsline {section}{\numberline {13}SECCIÓN 13. GESTIÓN DE RIESGOS}{77}{section.13}%
+\contentsline {section}{\numberline {A}APÉNDICE A. LISTA DE ACRÓNIMOS}{81}{appendix.Alph1}%
+\contentsline {section}{\numberline {B}APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}{83}{appendix.Alph2}%

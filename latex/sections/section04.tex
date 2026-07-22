@@ -1,7 +1,7 @@
 ﻿\section{SECCIÓN 4. DOCUMENTACIÓN}
 La documentación que describe y respalda el software del proyecto o el proceso de desarrollo de software se creará y actualizará periódicamente durante todo el ciclo de desarrollo.
 
-La Tabla 4-1 es una lista de los productos de software entregables del proyecto y el estándar o pautas asociados utilizados para desarrollar y mantener los productos de software. Cualquier pauta de adaptación también se encuentra en la Tabla 4-1. La Tabla 4-2 es una lista de productos no entregables.
+La Tabla 4-1 es una lista de los productos de software entregables del proyecto y el estándar o pautas asociados utilizados para desarrollar y mantener los productos de software. La Tabla 4-2 es una lista de productos no entregables.
 
 Para los documentos de software del proyecto que se desarrollarán y que aún no figuran en las Tablas 4-1 y 4-2, SQA ayudará a identificar las especificaciones, estándares y Descripciones de Elementos de Datos (DIDs) que se seguirán en la preparación de la documentación requerida.
 
@@ -9,15 +9,19 @@ Para los documentos de software del proyecto que se desarrollarán y que aún no
 \centering
 \caption{Productos de Software Entregables}
 \label{tab:deliverable}
-\begin{tabular}{|p{3cm}|p{4cm}|p{6cm}|}
+\begin{tabular}{|p{4cm}|p{5.5cm}|p{5.5cm}|}
 \hline
 \textbf{NOMENCLATURA} & \textbf{DOCUMENTACIÓN ENTREGABLE} & \textbf{DID, ESTÁNDAR, PAUTA} \\
 \hline
-[Nombre del CI] & [TIPO DE DOCUMENTO, ej., SSS] & [DID, ej., DI-IPSC-81431 de MIL-STD-498] \\
+CI-01 & Plan de Aseguramiento de Calidad de Software (SQAP) --- secciones 1--14, apéndices A y B & IEEE Std 730-1998 \\
 \hline
-[Nombre del CI] & [TIPO DE DOCUMENTO] & [DID, ESTÁNDAR, PAUTA] \\
+CI-04 & Plan de Pruebas de Software (STP) --- CP01--CP38, matriz de trazabilidad, criterios de aceptación & DI-IPSC-81435 (MIL-STD-498) adaptado \\
 \hline
-[Nombre del CI] & [TIPO DE DOCUMENTO] & [DID, ESTÁNDAR, PAUTA] \\
+CI-05 & Informe de Pruebas de Software (STR) --- ejecución de CP, cobertura JaCoCo, hallazgos y análisis & DI-IPSC-81436 (MIL-STD-498) adaptado \\
+\hline
+CI-06 & Documentación de Usuario --- README.md, guía de instalación y configuración & IEEE Std 1063-2001 \\
+\hline
+CI-07 & Guía de Despliegue --- Dockerfile, docker-compose, instrucciones de producción & Interna, alineada a IEEE 12207 \\
 \hline
 \end{tabular}
 \end{table}
@@ -30,19 +34,39 @@ Para los documentos de software del proyecto que se desarrollarán y que aún no
 \hline
 \textbf{TÍTULO DEL DOCUMENTO} \\
 \hline
-[Título del documento] \\
+Código fuente backend (Java/Spring Boot) --- \texttt{src/main/java/} \\
 \hline
-[Título del documento] \\
+Código fuente frontend (React/Vite) --- \texttt{frontend/src/} \\
 \hline
-[Título del documento] \\
+Configuración de la aplicación --- \texttt{application.yaml}, \texttt{application-test.yaml} \\
+\hline
+Scripts de compilación y ejecución --- \texttt{mvnw}, \texttt{mvnw.cmd}, \texttt{pom.xml} \\
+\hline
+Scripts de prueba --- \texttt{comandos pruebas.txt}, \texttt{detect\_steganography.cmd} \\
+\hline
+Configuración de análisis estático --- \texttt{sonar-project.properties}, \texttt{docker-compose.sonar.yml} \\
+\hline
+Configuración de seguridad dinámica --- \texttt{zap-api-scan.bat}, \texttt{zap-api-scan.sh} \\
+\hline
+Configuración de despliegue --- \texttt{vercel.json}, \texttt{lighthouserc.js} \\
+\hline
+Plan de pruebas de carga --- \texttt{jmeter/quarantine-load-test.jmx} \\
+\hline
+Formularios de auditoría --- Apéndice B (listas de verificación) \\
+\hline
+Formulario de Reporte de Discrepancias/Cambios --- DCR Form \\
 \hline
 \end{tabular}
 \end{table}
 
-\textit{Indicar cómo se verificará la adecuación de los documentos. El proceso de revisión de documentos debe incluir los criterios y la identificación de la revisión o auditoría mediante la cual se confirmará la adecuación de cada documento.}
 
 \begin{enumerate}
     \item Todos los documentos se someterán a una revisión por pares de acuerdo con el Proceso de Revisión por Pares, referencia (n).
+    \item El SQAP (CI-01) será revisado por todo el equipo y aprobado por el Gerente de Proyecto antes de la fase de planificación.
+    \item El Plan de Pruebas (CI-04) será revisado antes de la ejecución de pruebas para verificar que los criterios de aceptación y la trazabilidad estén correctamente definidos.
+    \item El Informe de Pruebas (CI-05) será revisado tras la ejecución de pruebas, registrando hallazgos en el Formulario de Reporte de Discrepancias (DCR) del Apéndice.
+    \item La documentación de usuario (CI-06) y de despliegue (CI-07) serán verificadas mediante revisión por pares antes de su liberación.
+    \item Los productos no entregables (código fuente, configuraciones, scripts) serán verificados continuamente mediante revisiones de código, análisis estático (SonarQube, Qlty) y herramientas de cobertura (JaCoCo).
 \end{enumerate}
 
 Tras la finalización de una revisión por pares, SQA registra y reporta las mediciones de la revisión por pares (el elemento revisado, el número de errores detectados, la fase en la que se realizó la revisión por pares, el número de informes de error cerrados y el número de informes de error abiertos) a SEPO.
