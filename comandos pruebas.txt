@@ -1,9 +1,34 @@
-Backend (JUnit) — Cada prueba 1 a 1
-# Primero: setear JAVA_HOME (solo una vez por sesión)
+=========================================================
+  COMANDOS DE PRUEBAS — Galería de Imágenes Segura
+=========================================================
+
+
+=========================================================
+PARTE 0: PREPARAR ENTORNO
+Ejecutar estos pasos UNA VEZ por sesión de PowerShell.
+Si cierras la terminal, hay que repetirlos.
+=========================================================
+
+# Paso 1: Setear JAVA_HOME (requerido para mvnw)
 $env:JAVA_HOME = "C:\Java\jdk-25.0.1"
 $env:Path = "$env:JAVA_HOME\bin;" + $env:Path
+
+# Paso 2: Navegar al directorio raíz del proyecto
 cd "C:\Users\gmlop\Desktop\ESPE\Septimo\aseguramiento\parcial 3\multimedia_gallery_steganography_detection_safe"
-CP01 — Contenido oculto no dañino (EOF)
+
+# Paso 3: Verificar que Java funciona
+java -version
+
+
+=========================================================
+PARTE 1: BACKEND — Pruebas JUnit/Maven
+=========================================================
+PREREQUISITO: Solo haber ejecutado la Parte 0.
+Las pruebas usan H2 en memoria (application-test.yaml).
+NO necesitas PostgreSQL, ClamAV ni ningún servicio corriendo.
+=========================================================
+
+--- CP01 — Contenido oculto no dañino (EOF) ---
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withValidJPEG_returnsTrue
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#detectSteganography_withEOFAnomaly_returnsTrue
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#detectSteganography_withCleanJPEG_returnsFalse
@@ -11,22 +36,27 @@ CP01 — Contenido oculto no dañino (EOF)
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#hasEOFAnomaly_withNoDataAfterEOF_returnsFalse
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#getSteganographyReport_withEOFAnomaly_returnsReport
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#getSteganographyReport_withCleanJPEG_returnsNull
-CP02 — Contenido oculto dañino (Zip/EXE)
+
+--- CP02 — Contenido oculto dañino (Zip/EXE) ---
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#detectSteganography_withPKZipSignature_returnsTrue
-CP03 — Validación de archivos
+
+--- CP03 — Validación de archivos ---
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withValidJPEG_returnsTrue
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withEmptyFile_returnsFalse
 .\mvnw.cmd test -Dtest=FileStorageServiceTest#isValidImage_withInvalidFile_returnsFalse
-CP04 — Gestión de cuarentena (Approve/Reject)
+
+--- CP04 — Gestión de cuarentena (Approve/Reject) ---
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#approveImage_validId_returnsOk
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#approveImage_invalidId_returnsNotFound
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#rejectImage_validId_returnsOk
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#rejectImage_invalidId_returnsNotFound
-CP05 — Seguridad (Auth + Path Traversal)
+
+--- CP05 — Seguridad (Auth + Path Traversal) ---
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#getQuarantineGallery_withoutAuth_returnsForbidden
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#getQuarantineGallery_withSupervisorRole_returnsList
 .\mvnw.cmd test -Dtest=SupervisorControllerTest#serveQuarantinedImage_pathTraversal_returnsForbidden
-CP06 — Consultas de BD
+
+--- CP06 — Consultas de BD ---
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#findByEstado_quarantine_returnsOnlyQuarantineImages
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#findByAlbumIdAndEstado_clean_returnsOnlyCleanImages
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#countByEstado_quarantine_returnsCorrectCount
@@ -34,13 +64,13 @@ CP06 — Consultas de BD
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#existsByAlbumIdAndHash_notFound_returnsFalse
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#findByAlbumId_returnsAllImagesInAlbum
 .\mvnw.cmd test -Dtest=ImageRepositoryTest#rejectedStatus_worksCorrectly
-CP07 — Panel de Supervisor, Auditoria y Proteccion XSS (CP30-CP39)
+
+--- CP30-CP35 — Panel de supervisor y registros de auditoría ---
 # NOTA: en PowerShell hay que CITAR los argumentos -D que contienen puntos o comas,
 # o el shell los parte y Maven falla con "Unknown lifecycle phase".
 #   Correcto:   .\mvnw.cmd test "-Dtest=XssSanitizationTest,AlbumSanitizationJpaTest"
 #   Incorrecto: .\mvnw.cmd test -Dtest=XssSanitizationTest,AlbumSanitizationJpaTest
 
-# CP30-CP35 — Panel de supervisor y registros de auditoria
 .\mvnw.cmd test -Dtest=SupervisorPanelAuditTest
 .\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#panelSupervisor_conRolSupervisor_devuelve200EnLosTresEndpoints"
 .\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#auditLog_conRolUser_devuelve403SinExponerDatos"
@@ -49,82 +79,97 @@ CP07 — Panel de Supervisor, Auditoria y Proteccion XSS (CP30-CP39)
 .\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#aprobarImagen_registraAuditLog"
 .\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest#rechazarImagen_registraAuditLog"
 
-# CP36 y CP38 — Sanitizacion XSS a nivel de endpoint
+--- CP36 y CP38 — Sanitización XSS a nivel de endpoint ---
 .\mvnw.cmd test -Dtest=XssSanitizationTest
 
-# CP37 y CAL-01 — Sanitizacion en la capa de persistencia (@PreUpdate)
+--- CP37 y CAL-01 — Sanitización en la capa de persistencia (@PreUpdate) ---
 .\mvnw.cmd test -Dtest=AlbumSanitizationJpaTest
 
-# SEC-01 — Hallazgo emergente: frontera de autorizacion de AlbumController
+--- SEC-01 — Hallazgo emergente: frontera de autorización de AlbumController ---
 .\mvnw.cmd test -Dtest=AlbumAuthorizationTest
 
-# Toda la seccion de golpe
+--- Todos los tests de la sección de golpe ---
 .\mvnw.cmd test "-Dtest=SupervisorPanelAuditTest,XssSanitizationTest,AlbumSanitizationJpaTest,AlbumAuthorizationTest"
 
-# CP39 — Escaneo OWASP ZAP: FUERA DE ALCANCE (no implementado)
-# Motivo: springdoc-openapi no esta en el pom.xml, por lo que /v3/api-docs no existe
-# (hallazgo CFG-01), y los endpoints objetivo exigen rol USER + CSRF, que ZAP no maneja
-# sin un contexto autenticado. Justificacion completa en RESULTADOS_CP30_CP39.md
-
-O ejecutar toda una clase completa
+--- Ejecutar una clase completa ---
 .\mvnw.cmd test -Dtest=FileStorageServiceTest
 .\mvnw.cmd test -Dtest=SupervisorControllerTest
 .\mvnw.cmd test -Dtest=ImageRepositoryTest
-O todos los tests de golpe
+
+--- Todos los tests de golpe ---
 .\mvnw.cmd test
 
-# NOTA: 'mvnw test' y 'mvnw verify' terminan en BUILD FAILURE por un fallo preexistente
-# en SupervisorControllerTest#getQuarantineGallery_withoutAuth_returnsForbidden (espera 403
-# y recibe 200). Para generar el reporte de JaCoCo pese a ese fallo:
+--- Reporte JaCoCo (cobertura) ---
+# PREREQUISITO: Haber ejecutado los tests al menos una vez
+# NOTA: termina en BUILD FAILURE por un fallo preexistente en
+# SupervisorControllerTest#getQuarantineGallery_withoutAuth_returnsForbidden
+# (espera 403 y recibe 200). El flag ignora el fallo y genera el reporte.
 .\mvnw.cmd verify "-Dmaven.test.failure.ignore=true"
-Frontend (Cypress) — Pruebas E2E
-Requisito: Backend corriendo en localhost:8080 + Frontend en localhost:3001
+# Abrir: target\site\jacoco\index.html
+
+
+=========================================================
+PARTE 2: FRONTEND — Pruebas E2E (Cypress)
+=========================================================
+PREREQUISITO 1: npm install (ejecutar la primera vez o si
+  se modificó package.json)
+PREREQUISITO 2: Estos tests USAN MOCKS para simular la API.
+  NO necesitas el backend ni el frontend corriendo.
+  Solo necesitas Node.js instalado.
+=========================================================
+
 cd frontend
 
-# Instalar Cypress (1ra vez)
+# Instalar dependencias (solo primera vez)
 npm install
 
-# Abrir Cypress en modo interactivo (seleccionar test manualmente)
+# Cypress interactivo (abre navegador para seleccionar test)
 npx cypress open
 
-# Ejecutar solo el test de contenido no dañino
+# Cypress headless — contenido no dañino
 npx cypress run --spec "cypress/e2e/quarantine-harmless.cy.js"
 
-# Ejecutar solo el test de contenido dañino
+# Cypress headless — contenido dañino
 npx cypress run --spec "cypress/e2e/quarantine-harmful.cy.js"
 
-# Ejecutar TODOS los tests E2E
+# Cypress headless — todos
 npx cypress run
-Otras herramientas
-# JaCoCo (reporte de cobertura)
-.\mvnw.cmd verify
-# Abrir target\site\jacoco\index.html
 
-# SonarQube (requiere Docker)
+
+=========================================================
+PARTE 3: HERRAMIENTAS EXTERNAS
+=========================================================
+
+--- 3a. SonarQube (análisis estático) ---
+# PREREQUISITO: Docker corriendo en tu máquina
 docker compose -f docker-compose.sonar.yml up -d
+# Esperar ~30 segundos a que el contenedor esté listo
 .\mvnw.cmd sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
 
-# OWASP ZAP (requiere backend en :8080)
+--- 3b. OWASP ZAP (seguridad dinámica) ---
+# PREREQUISITO: Docker corriendo + backend en localhost:8080
 .\zap-api-scan.bat
 
-# JMeter
-//cmd
-docker run --rm -v "%cd%/jmeter:/tests" justb4/jmeter:latest -n -t /tests/quarantine-load-test.jmx
-//powershell
+--- 3c. JMeter (pruebas de carga) ---
+# PREREQUISITO: Docker corriendo + backend en localhost:8080
+# PowerShell:
 docker run --rm -v "${PWD}/jmeter:/tests" justb4/jmeter:latest -n -t /tests/quarantine-load-test.jmx
+# CMD:
+docker run --rm -v "%cd%/jmeter:/tests" justb4/jmeter:latest -n -t /tests/quarantine-load-test.jmx
 
-# npm audit
-cd frontend && npm audit --audit-level=high
-
-# Lighthouse (requiere Chrome/Chromium instalado)
-cd frontend && npm run build && npm run lighthouse
-
-# npm run lighthouse equivale a:
-#   lhci collect   -> inicia servidor (npm run preview), corre auditoria en localhost:4173/supervisor
-#   lhci assert    -> valida las metricas segun lighthouserc.js
-
-# visualizar 
+--- 3d. npm audit (dependencias) ---
+# PREREQUISITO: npm install en frontend/
 cd frontend
+npm audit --audit-level=high
+
+--- 3e. Lighthouse (performance/accessibility) ---
+# PREREQUISITO: npm install + npm run build en frontend/
+# Requiere Chrome/Chromium instalado
+cd frontend
+npm run build
+npm run lighthouse
+# Reporte en: frontend/lighthouse-reports/
+# Para visualizar:
 cd lighthouse-reports
 python -m http.server 5500
-selecccionar el archivo
+# Abrir http://localhost:5500 y seleccionar el archivo

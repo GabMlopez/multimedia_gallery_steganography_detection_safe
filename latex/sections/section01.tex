@@ -8,7 +8,7 @@ El sistema bajo prueba (SUT) es una Galería de Imágenes Segura (backend Spring
 Se realizará una identificación de puntos clave del sistema, herramientas y definición de mediciones para la correcta evaluación de las funcionalidades. Finalmente, se presentará un reporte de los hallazgos y posibles mejoras dentro del sistema.
 
 \subsection{1.2 VISIÓN GENERAL DEL SISTEMA}
-El sistema [Nombre del Sistema] \textit{completar la oración proporcionando una descripción del sistema y el uso previsto}. El sistema incluye [número de subsistemas, ej., 4] subsistema(s) dentro del sistema. La Figura 1-1 identifica los CI dentro de cada subsistema y destaca aquellos a los que se aplica este Plan SQA.
+La Galería de Imágenes Segura es una aplicación web que permite a los usuarios subir, organizar y compartir imágenes en álbumes, con la característica diferenciadora de detectar contenido oculto mediante análisis de esteganografía (anomalías EOF, firmas embebidas y metadatos EXIF). El sistema incluye 4 subsistemas principales: autenticación y autorización, gestión de imágenes y álbumes, motor de detección de esteganografía con cuarentena, y panel de supervisor para auditoría. La Figura 1-1 identifica los CI dentro de cada subsistema y destaca aquellos a los que se aplica este Plan SQA.
 
 \begin{table}[H]
 \centering
@@ -57,7 +57,15 @@ Mantenimiento del Ciclo de Vida \\
 \hline
 \textbf{NOMENCLATURA} & \textbf{ACRÓNIMO} & \textbf{NÚMERO DE CI} \\
 \hline
-[Doc 1] & [Acrónimo] & [ID del CI] \\
+Plan de Aseguramiento de Calidad & SQAP & CI-01 \\
+\hline
+Plan de Pruebas de Software & STP & CI-04 \\
+\hline
+Reporte de Pruebas de Software & STR & CI-05 \\
+\hline
+Documentación de Usuario & UDP & CI-06 \\
+\hline
+Guía de Despliegue & DEP & CI-07 \\
 \hline
 \end{tabular}
 \end{table}
@@ -72,7 +80,7 @@ La Sección 2 describe cada elemento principal de la organización que influye e
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{images/imagen1.png}
-\caption{Software de [Título del Sistema]}
+\caption{Software de Galería de Imágenes Segura}
 \label{fig:system}
 \end{figure}
 
@@ -87,7 +95,7 @@ La Sección 10 describe la evaluación de SQA del control de medios.
 La Sección 11 describe el control del software de proveedores.
 La Sección 12 describe los procedimientos de SQA para la recopilación, mantenimiento y retención de registros.
 La Sección 13 describe los requisitos de capacitación de SQA.
-La Sección 14 describe la revisión de SQA del proceso de Gestión de Riesgos.
+La Sección 12 describe la revisión de SQA del proceso de Gestión de Riesgos.
 El Apéndice A proporciona una lista de acrónimos.
 El Apéndice B proporciona listas de verificación que se utilizarán o adaptarán para verificar el cumplimiento de las mejores prácticas generales de ingeniería de software.
 
