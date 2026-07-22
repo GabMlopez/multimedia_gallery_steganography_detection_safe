@@ -8,7 +8,7 @@
 \contentsline {subsection}{\numberline {2.1}2.1 ORGANIZACIÓN}{14}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}2.2 RECURSOS}{17}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1} Instalaciones y Equipos}{17}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2} Personal}{18}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.2} Personal}{17}{subsubsection.2.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.3} Calificaciones del Personal}{18}{subsubsection.2.2.3}%
 \contentsline {section}{\numberline {3}SECCIÓN 3. TAREAS DE SQA}{20}{section.3}%
 \contentsline {subsection}{\numberline {3.1}3.1 TAREA: REVISIÓN DE PRODUCTOS DE SOFTWARE}{20}{subsection.3.1}%
@@ -28,32 +28,38 @@
 \contentsline {section}{\numberline {5}SECCIÓN 5. ESTÁNDARES, PRÁCTICAS, CONVENCIONES Y MÉTRICAS}{32}{section.5}%
 \contentsline {subsection}{\numberline {5.1}5.1 MÉTRICAS}{32}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}5.2 MÉTRICAS DE CALIDAD EN USO }{33}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}5.2.1 Efectividad}{33}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}5.2.2 Eficiencia}{34}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}5.2.3 Satisfacción}{35}{subsubsection.5.2.3}%
-\contentsline {subsubsection}{\numberline {5.2.4}5.2.4 Libertad de Riesgo}{35}{subsubsection.5.2.4}%
-\contentsline {subsubsection}{\numberline {5.2.5}5.2.5 Cobertura de Contexto}{36}{subsubsection.5.2.5}%
-\contentsline {section}{\numberline {6}SECCIÓN 6. TESTS}{38}{section.6}%
-\contentsline {subsection}{\numberline {6.1}6.1 SISTEMA BAJO PRUEBA Y NIVELES DE PRUEBA}{40}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}6.2 MATRIZ DE TRAZABILIDAD}{40}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}6.3 CASOS DE PRUEBA}{42}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}6.3.1 RF-01: Registro y Autenticación Segura}{42}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}6.3.2 RF-02: Control de Acceso y Sesión}{44}{subsubsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.3}6.3.3 RF-03: Detección de Esteganografía}{46}{subsubsection.6.3.3}%
-\contentsline {subsubsection}{\numberline {6.3.4}6.3.4 RF-04: Cuarentena y Revisión Manual}{49}{subsubsection.6.3.4}%
-\contentsline {subsubsection}{\numberline {6.3.5}6.3.5 RF-05: Panel de Supervisor, Auditoría y Protección XSS}{54}{subsubsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.4}6.4 RESUMEN DE EJECUCIÓN}{59}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}6.5 HALLAZGOS DERIVADOS DE LA EJECUCIÓN}{59}{subsection.6.5}%
-\contentsline {section}{\numberline {7}SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}{62}{section.7}%
-\contentsline {subsection}{\numberline {7.1}7.1 Proceso de reporte de auditoría}{62}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}7.1.1 Reporte de hallazgos}{62}{subsubsection.7.1.1}%
-\contentsline {subsubsection}{\numberline {7.1.2}7.1.2 Relación de los hallazgos con las métricas de calidad}{63}{subsubsection.7.1.2}%
-\contentsline {subsection}{\numberline {7.2}7.2 Registro de problemas en el software}{63}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}7.3 Informe de evaluación de herramientas de software}{64}{subsection.7.3}%
-\contentsline {section}{\numberline {8}SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}{68}{section.8}%
-\contentsline {section}{\numberline {9}SECCIÓN 9. CONTROL DEL CÓDIGO}{70}{section.9}%
-\contentsline {section}{\numberline {10}SECCIÓN 10. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}{72}{section.10}%
-\contentsline {section}{\numberline {11}SECCIÓN 11. PREPARACIÓN DEL PERSONAL}{74}{section.11}%
-\contentsline {section}{\numberline {12}SECCIÓN 12. GESTIÓN DE RIESGOS}{77}{section.12}%
-\contentsline {section}{\numberline {A}APÉNDICE A. LISTA DE ACRÓNIMOS}{81}{appendix.Alph1}%
-\contentsline {section}{\numberline {B}APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}{83}{appendix.Alph2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Efectividad}{33}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Eficiencia}{34}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Satisfacción}{35}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}Libertad de Riesgo}{35}{subsubsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.5}Cobertura de Contexto}{36}{subsubsection.5.2.5}%
+\contentsline {subsection}{\numberline {5.3}Métricas de Calidad de Producto}{36}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Eficiencia de rendimiento}{37}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Seguridad}{37}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Mantenibilidad}{37}{subsubsection.5.3.3}%
+\contentsline {section}{\numberline {6}SECCIÓN 6. TESTS}{40}{section.6}%
+\contentsline {subsection}{\numberline {6.1}6.1 SISTEMA BAJO PRUEBA Y NIVELES DE PRUEBA}{42}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}6.2 MATRIZ DE TRAZABILIDAD}{42}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}6.3 CASOS DE PRUEBA}{44}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}6.3.1 RF-01: Registro y Autenticación Segura}{44}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}6.3.2 RF-02: Control de Acceso y Sesión}{46}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}6.3.3 RF-03: Detección de Esteganografía}{48}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}6.3.4 RF-04: Cuarentena y Revisión Manual}{51}{subsubsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.5}6.3.5 RF-05: Panel de Supervisor, Auditoría y Protección XSS}{56}{subsubsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.4}6.4 RESUMEN DE EJECUCIÓN}{61}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}6.5 HALLAZGOS DERIVADOS DE LA EJECUCIÓN}{61}{subsection.6.5}%
+\contentsline {section}{\numberline {7}SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}{64}{section.7}%
+\contentsline {subsection}{\numberline {7.1}7.1 Proceso de reporte de auditoría}{64}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}7.1.1 Reporte de hallazgos}{64}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}7.1.2 Relación de los hallazgos con las métricas de calidad}{65}{subsubsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.2}7.2 Registro de problemas en el software}{65}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}7.3 Informe de evaluación de herramientas de software}{66}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Trazabilidad de resultados a métricas de calidad}{67}{subsection.7.4}%
+\contentsline {section}{\numberline {8}SECCIÓN 8. HERRAMIENTAS, TÉCNICAS Y METODOLOGÍAS}{71}{section.8}%
+\contentsline {section}{\numberline {9}SECCIÓN 9. CONTROL DEL CÓDIGO}{73}{section.9}%
+\contentsline {section}{\numberline {10}SECCIÓN 10. RECOPILACIÓN DE EVIDENCIAS, MANTENIMIENTO Y RETENCIÓN}{76}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Evidencias fotográficas}{76}{subsection.10.1}%
+\contentsline {section}{\numberline {11}SECCIÓN 11. PREPARACIÓN DEL PERSONAL}{79}{section.11}%
+\contentsline {section}{\numberline {12}SECCIÓN 12. GESTIÓN DE RIESGOS}{82}{section.12}%
+\contentsline {section}{\numberline {A}APÉNDICE A. LISTA DE ACRÓNIMOS}{86}{appendix.Alph1}%
+\contentsline {section}{\numberline {B}APÉNDICE B. LISTAS DE VERIFICACIÓN DE AUDITORÍA DE PROCESOS DE INGENIERÍA DE SOFTWARE GENERALES}{88}{appendix.Alph2}%

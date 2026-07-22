@@ -38,3 +38,10 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+###Latex###
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
