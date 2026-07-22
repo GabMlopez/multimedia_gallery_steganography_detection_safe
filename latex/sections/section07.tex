@@ -1,30 +1,217 @@
 ﻿\section{SECCIÓN 7. REPORTES DE PROBLEMAS SQA Y RESOLUCIONES}
-\textit{Describir las prácticas y procedimientos que se seguirán para informar, rastrear y resolver problemas identificados tanto en los elementos de software como en los procesos de desarrollo y mantenimiento de software. Indicar las responsabilidades organizativas específicas relacionadas con su implementación.}
 
-Esta sección describe el sistema de reporte y control utilizado por SQA para registrar y analizar discrepancias y monitorear la implementación de acciones correctivas. Los formularios utilizados por SQA para la presentación de informes son el Informe de Auditoría de Procesos, el P/CR o STR, el Informe de Evaluación de Herramientas de Software y el Informe de Evaluación de Instalaciones. Cada uno de estos formularios y sus usos se discuten en la siguiente sección.
+Durante la ejecución del Plan de Aseguramiento de la Calidad del Software (SQAP) se realizaron pruebas unitarias, pruebas de integración, auditorías de seguridad, análisis estático, pruebas de rendimiento y evaluación de dependencias del sistema. Los resultados obtenidos fueron registrados como evidencia del proceso de aseguramiento de calidad y permitieron identificar defectos funcionales, vulnerabilidades de seguridad y oportunidades de mejora.
 
-\subsection{7.1 PROCESO DE REPORTE DE AUDITORÍA}
-SQA reporta los resultados de una auditoría de procesos y proporciona recomendaciones, si es necesario, utilizando el Informe de Auditoría de Procesos. El Informe de Auditoría de Procesos se utiliza para registrar que el proceso (1) se sigue correctamente y funciona eficazmente, (2) se sigue pero no funciona eficazmente, o (3) no se sigue.
+Las evidencias fueron obtenidas utilizando las herramientas JUnit 5, Spring Boot Test, JaCoCo, npm audit, Lighthouse y Apache JMeter. Cada problema identificado fue documentado con un identificador único, clasificado según su severidad y relacionado con las métricas de calidad definidas en la Sección 5 del presente SQAP.
 
-La Figura 7-1 proporciona el formato de un Informe de Auditoría de Procesos.
+\subsection{7.1 Proceso de reporte de auditoría}
 
-\subsubsection{7.1.1 Presentación y disposición del informe de auditoría de procesos}
-El Informe de Auditoría de Procesos se dirige a los siguientes grupos:
+Como parte del proceso de auditoría del software, se ejecutaron los casos de prueba definidos en el Plan de Pruebas. La Tabla \ref{tab:ejecucion} presenta el resumen general de la ejecución.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Métrica} & \textbf{Resultado} \\
+\hline
+Pruebas ejecutadas & 40 \\
+Pruebas aprobadas & 39 \\
+Pruebas fallidas & 1 \\
+Errores de ejecución & 0 \\
+Pruebas omitidas & 2 \\
+Porcentaje de éxito & 97.5\% \\
+\hline
+\end{tabular}
+\caption{Resumen de ejecución de pruebas}
+\label{tab:ejecucion}
+\end{table}
+
+Los resultados anteriores evidencian un alto nivel de cumplimiento de los criterios establecidos en el SQAP. Sin embargo, durante la auditoría se detectaron algunos defectos que fueron registrados para su seguimiento y corrección.
+
+\subsubsection{7.1.1 Reporte de hallazgos}
+
+La Tabla \ref{tab:hallazgos} resume los principales defectos encontrados durante el proceso de aseguramiento de la calidad.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabular}{|p{1.5cm}|p{5.8cm}|p{2cm}|p{2.8cm}|p{2cm}|}
+\hline
+\textbf{ID} &
+\textbf{Hallazgo} &
+\textbf{Severidad} &
+\textbf{Herramienta} &
+\textbf{Estado} \\
+\hline
+
+SEC-01 &
+Ausencia de \texttt{@EnableMethodSecurity}, permitiendo que usuarios sin privilegios puedan ejecutar operaciones administrativas. &
+Crítica &
+JUnit / Spring Security &
+Pendiente \\
+\hline
+
+XSS-01 &
+El campo \texttt{titulo} del álbum almacena código HTML y JavaScript sin sanitización, permitiendo una vulnerabilidad Cross-Site Scripting (XSS). &
+Alta &
+CP38 / JUnit &
+Confirmado \\
+\hline
+
+CAL-01 &
+La descripción del álbum aplica doble sanitización durante las actualizaciones, generando doble escape del contenido almacenado. &
+Baja &
+CP37 &
+Pendiente \\
+\hline
+
+AUD-01 &
+El análisis mediante \texttt{npm audit} detectó veinte vulnerabilidades en dependencias del frontend, incluyendo Axios, React Router y Babel. &
+Alta &
+npm audit &
+Pendiente \\
+\hline
+
+CFG-01 &
+La configuración del escaneo automático de OWASP ZAP utiliza un endpoint OpenAPI inexistente, impidiendo completar la auditoría automática de seguridad. &
+Media &
+Auditoría DevSecOps &
+Pendiente \\
+\hline
+
+\end{tabular}
+\caption{Hallazgos detectados durante la auditoría SQA}
+\label{tab:hallazgos}
+\end{table}
+
+\subsubsection{7.1.2 Relación de los hallazgos con las métricas de calidad}
+
+Con el fin de evaluar objetivamente el impacto de cada defecto, los hallazgos fueron relacionados con las métricas definidas en la Sección 5 del presente SQAP.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabular}{|p{1.5cm}|p{5cm}|p{4cm}|p{3cm}|}
+\hline
+\textbf{Hallazgo} &
+\textbf{Descripción} &
+\textbf{Métrica relacionada} &
+\textbf{Impacto} \\
+\hline
+
+SEC-01 &
+Acceso no autorizado a funciones administrativas. &
+SRM, FE &
+Disminuye la seguridad del sistema. \\
+\hline
+
+XSS-01 &
+Campo título vulnerable a ataques XSS. &
+SRM, FE, Calidad percibida &
+Compromete la integridad del sistema y la información del usuario. \\
+\hline
+
+CAL-01 &
+Doble sanitización del contenido. &
+FE, Calidad percibida &
+Reduce la calidad del contenido mostrado al usuario. \\
+\hline
+
+AUD-01 &
+Dependencias con vulnerabilidades conocidas. &
+DVD, SRM &
+Incrementa la superficie de ataque del sistema. \\
+\hline
+
+CFG-01 &
+Configuración incorrecta del escaneo ZAP. &
+MA, CCP &
+Reduce la cobertura de las auditorías de seguridad. \\
+\hline
+
+\end{tabular}
+\caption{Relación entre los hallazgos encontrados y las métricas de calidad de la Sección 5}
+\label{tab:metricas}
+\end{table}
+
+Los resultados muestran que los principales defectos encontrados afectan principalmente las características de \textit{Libertad de Riesgo}, \textit{Efectividad} y \textit{Cobertura de Contexto} definidas en la norma ISO/IEC 25022, evidenciando la necesidad de fortalecer los mecanismos de control de acceso, sanitización de entradas y gestión segura de dependencias.
+
+\subsection{7.2 Registro de problemas en el software}
+
+Cada problema identificado durante las actividades de aseguramiento de calidad fue registrado mediante un identificador único (SEC-01, XSS-01, CAL-01, AUD-01 y CFG-01), indicando su severidad, evidencia obtenida, herramienta de detección, estado y relación con las métricas definidas en la Sección 5.
+
+Los defectos fueron detectados utilizando diferentes mecanismos de evaluación:
+
+\begin{itemize}
+\item Pruebas unitarias e integración mediante JUnit 5 y Spring Boot Test.
+\item Medición de cobertura utilizando JaCoCo.
+\item Auditoría de dependencias mediante npm audit.
+\item Evaluación de rendimiento mediante Lighthouse.
+\item Pruebas de carga utilizando Apache JMeter.
+\end{itemize}
+
+El procedimiento seguido para el tratamiento de cada defecto fue el siguiente:
+
 \begin{enumerate}
-    \item \textbf{Alta Dirección:} Los resultados de las auditorías de procesos se utilizan junto con otra información de estado del proyecto para guiar la atención de la alta dirección para identificar y mitigar los riesgos del proyecto a nivel organizativo.
-    \item \textbf{SEPG:} El SEPG utiliza los resultados de las auditorías de procesos, junto con los resultados de las auditorías de otros proyectos, para identificar debilidades en los procesos e iniciar o mejorar el proceso en áreas específicas. Estos datos pasan a formar parte de la base de datos de procesos para que estén disponibles para futuros análisis y uso del proyecto.
-    \item \textbf{Gerente del Proyecto:} El gerente del proyecto utiliza el informe de las siguientes maneras:
-    \begin{enumerate}
-        \item Para proporcionar información sobre si se cumple con el proceso de desarrollo y su efectividad para cumplir con los objetivos del proyecto. Cuando sea necesario y apropiado, el gerente del proyecto puede iniciar actividades de aplicación o iniciar cambios en los procesos establecidos utilizando los procedimientos aprobados.
-        \item Para indicar acuerdo, desacuerdo o aplazamiento de las recomendaciones citadas en el Informe de Auditoría de Procesos. Si el Gerente del Proyecto indica desacuerdo con las recomendaciones registradas en el Informe de Auditoría de Procesos, la disposición final de las recomendaciones del informe la realiza el Patrocinador del Proyecto correspondiente, como se describe en la Sección 7.1.2.
-    \end{enumerate}
+\item Registro del hallazgo.
+\item Clasificación según severidad (Crítica, Alta, Media o Baja).
+\item Relación con la métrica de calidad correspondiente.
+\item Asignación al responsable del módulo afectado.
+\item Implementación de la corrección.
+\item Ejecución de pruebas de regresión.
+\item Verificación del cumplimiento de los criterios de aceptación.
+\item Cierre del reporte cuando el defecto ha sido corregido satisfactoriamente.
 \end{enumerate}
 
-\subsubsection{7.1.2 Procedimiento de escalamiento para la resolución de desacuerdos sobre el informe de auditoría de procesos}
-En caso de que el personal del proyecto afectado impugne los hallazgos y recomendaciones de un Informe de Auditoría de Procesos, SQA se comunicará primero con el Gerente del Proyecto afectado para resolver la disputa. Si el Gerente del Proyecto afectado también impugna los hallazgos y/o recomendaciones, el Patrocinador del Proyecto (o al menos un nivel de gestión superior al afectado por las acciones recomendadas en el Informe de Auditoría de Procesos) dirige la disposición final de las recomendaciones del Informe de Auditoría de Procesos. El proyecto afectado implementa, aplaza o cancela la implementación de las acciones correctivas recomendadas en el Informe de Auditoría de Procesos según lo indique el Patrocinador del Proyecto/Gerente de Nivel Superior. Esta dirección es registrada y fechada por el Patrocinador del Proyecto (u otra gerencia, según corresponda) para agregarla a los registros de evaluación de SQA del proyecto. SQA conserva el registro original de los hallazgos y los datos de resolución posteriores en sus archivos de auditoría.
-
-\subsection{7.2 Registro de problemas en el código de software o en la documentación}
-Los problemas encontrados en el código de software o en la documentación que está bajo gestión de configuración deben registrarse mediante un P/CR (o STR, según corresponda al proyecto), independientemente de cómo o por quién se haya descubierto el problema. Los P/CR generados por SQA se prepararán y procesarán de acuerdo con la referencia (f). SQA analizará los P/CR para detectar tendencias de problemas en un esfuerzo por prevenir discrepancias recurrentes. SQA reportará los resultados de los análisis de tendencias de P/CR junto con sugerencias para la resolución y prevención de problemas. El formato del P/CR o STR se encuentra en la referencia (f).
+Este procedimiento garantiza la trazabilidad de cada defecto detectado durante el proceso de aseguramiento de la calidad y facilita la toma de decisiones durante el desarrollo del proyecto.
 
 \subsection{7.3 Informe de evaluación de herramientas de software}
-La Figura 7-2 proporciona el formato para evaluar las herramientas de software como se describe en la Sección 3.2.
+
+Las herramientas empleadas durante el proceso SQA permitieron validar diferentes atributos de calidad del sistema, incluyendo funcionalidad, seguridad, cobertura, rendimiento y calidad del código.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabular}{|p{3cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Herramienta} &
+\textbf{Propósito} &
+\textbf{Resultado obtenido} \\
+\hline
+
+JUnit 5 &
+Pruebas unitarias e integración &
+40 pruebas ejecutadas, 39 aprobadas, 1 hallazgo confirmado y 2 pruebas de regresión pendientes. \\
+\hline
+
+Spring Boot Test &
+Validación funcional de servicios REST &
+Verificación correcta de autenticación, autorización, auditoría y sanitización de datos. \\
+\hline
+
+JaCoCo &
+Cobertura del código &
+Cobertura superior al 70\% en los componentes críticos del sistema, identificando oportunidades de mejora en módulos secundarios. \\
+\hline
+
+npm audit &
+Auditoría de dependencias &
+Detección de 20 vulnerabilidades (7 altas, 6 medias y 7 bajas) en dependencias del frontend. \\
+\hline
+
+Lighthouse &
+Evaluación del frontend &
+Performance: 100, Accesibilidad: 100, SEO: 100 y Best Practices: 96. Se identificaron recomendaciones de optimización relacionadas con CSS, JavaScript e imágenes. \\
+\hline
+
+Apache JMeter &
+Pruebas de carga &
+APDEX = 0.778. Los servicios REST respondieron por debajo de 100 ms, excepto el proceso de autenticación, cuyo tiempo promedio fue de 1600 ms. \\
+\hline
+
+\end{tabular}
+\caption{Evaluación de las herramientas utilizadas durante el aseguramiento de la calidad}
+\label{tab:herramientas}
+\end{table}
+
+Los resultados obtenidos demuestran que el sistema presenta un alto nivel de cumplimiento funcional y de rendimiento. No obstante, la auditoría permitió identificar vulnerabilidades relacionadas con la seguridad del software, la gestión de dependencias y la configuración del proceso DevSecOps, las cuales deberán ser corregidas antes de la liberación definitiva del sistema. Asimismo, la relación de cada hallazgo con las métricas definidas en la Sección 5 permite cuantificar objetivamente su impacto sobre la calidad del producto y establecer prioridades para su resolución.
