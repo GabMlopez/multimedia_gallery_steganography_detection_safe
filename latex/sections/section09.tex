@@ -4,12 +4,24 @@
 El control del código incluye los siguientes elementos:
 \begin{enumerate}
     \item Identificar, etiquetar y catalogar el software a controlar.
-    \item Identificar la ubicación física del software bajo control.
+    \item Identificar la ubicación física y lógica del software bajo control.
     \item Identificar la ubicación, mantenimiento y uso de las copias de respaldo.
-    \item Distribuir copias del código.
+    \item Distribuir copias del código bajo procedimientos de control de versión.
     \item Identificar la documentación afectada por un cambio.
-    \item Establecer una nueva versión.
+    \item Establecer una nueva versión y etiquetado de lanzamientos.
     \item Regular el acceso de los usuarios al código.
 \end{enumerate}
 
-El proyecto utiliza [identificar el software de control de código CM] para el control del código. El método de control del código se describe en la referencia (f). SQA realizará evaluaciones continuas del proceso de control del código para verificar que el proceso de control del código sea efectivo y cumpla con la referencia (f). La Sección 3.19 describe más a fondo las actividades de SQA para verificar el proceso de SCM.
+El proyecto utiliza GitHub como herramienta de control de versiones y gestión de configuración del código fuente. El repositorio remoto del proyecto almacena la totalidad del código fuente del backend Spring Boot, el frontend React, los scripts de despliegue y los documentos de soporte, incluidos los archivos de la carpeta \texttt{latex}/ y el \texttt{README.md}.
+
+La ubicación principal del software bajo control es el repositorio GitHub del proyecto. Los desarrolladores trabajan con copias de trabajo locales sincronizadas con el repositorio remoto. El control de cambios se realiza mediante commits, ramas, pull requests y revisiones de código.
+
+Las copias de respaldo del código se mantienen mediante el propio almacenamiento de GitHub, que conserva el historial de commits y versiones. Además, se recomienda que los desarrolladores mantengan clones locales actualizados y, cuando sea necesario, copias de seguridad adicionales de los archivos de configuración y documentación en el entorno de desarrollo.
+
+La distribución de copias del código se realiza por medio de clones del repositorio y, cuando corresponda, mediante paquetes de entrega formal que incluyan artefactos versionados. La documentación afectada por los cambios en el código se identifica explícitamente en los commits y en los pull requests. Los documentos de diseño, pruebas y calidad vinculados al software se mantienen bajo el mismo control de versiones.
+
+El establecimiento de nuevas versiones se gestiona mediante el etiquetado de commits en Git y la creación de ramas de lanzamiento. Cada versión estable del proyecto debe contar con un tag descriptivo y una descripción de los cambios incorporados en el lanzamiento.
+
+El acceso de los usuarios al código se regula mediante los permisos de repositorio en GitHub. Se emplean controles de acceso para limitar quién puede leer, escribir o aprobar cambios, y se utilizan revisiones de pull requests para verificar que sólo se fusionen cambios autorizados y revisados.
+
+El método de control del código se describe en el Plan SCM del proyecto. SQA realizará evaluaciones continuas del proceso de control del código para verificar que el proceso sea efectivo y cumpla con el Plan SCM. La Sección 3.6 describe más a fondo las actividades de SQA para verificar el proceso de SCM.
