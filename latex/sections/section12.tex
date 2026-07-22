@@ -1,37 +1,52 @@
-﻿\section{SECCIÓN 12. PREPARACIÓN DEL PERSONAL}
-\textit{Identificar las actividades de capacitación necesarias para cumplir con los requisitos del Plan SQA.}
+\section{SECCIÓN 12. GESTIÓN DE RIESGOS}
+La gestión de riesgos tiene como objetivo identificar los posibles eventos que pueden afectar la calidad del software o el desarrollo del proceso de pruebas, estableciendo acciones preventivas y correctivas para minimizar su impacto.
 
-La Tabla 13-1 proporciona una matriz que identifica las habilidades requeridas para realizar las tareas de SQA para implementar este Plan SQA del proyecto. El cronograma de capacitación será compatible con el cronograma del proyecto. En algunos casos, la capacitación se llevará a cabo como capacitación en el puesto de trabajo (OJT).
+\subsection*{Riesgos del Producto}
+\begin{longtable}{|p{1.5cm}|p{3.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{4cm}|}
+\hline
+\textbf{ID} & \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel} & \textbf{Estrategia de Mitigación} \\
+\hline
+RP-01 & Acceso no autorizado por vulnerabilidades en JWT o RBAC & Media & Muy Alto & Crítico & Validar autenticación, autorización y expiración de tokens mediante pruebas de seguridad. \\
+\hline
+RP-02 & Ataques XSS mediante contenido enviado por el usuario & Media & Alto & Alto & Aplicar sanitización con OWASP Java HTML Sanitizer y realizar pruebas de penetración. \\
+\hline
+RP-03 & Ataques CSRF sobre operaciones protegidas & Baja & Alto & Medio & Implementar y verificar el funcionamiento del filtro CSRF con Double Submit Cookie. \\
+\hline
+RP-04 & Pérdida de registros de auditoría & Baja & Alto & Medio & Registrar todas las operaciones críticas mediante AuditLog y respaldar la base de datos periódicamente. \\
+\hline
+RP-05 & Fallos en el almacenamiento seguro de imágenes & Baja & Alto & Medio & Utilizar nombres UUID, directorios Safe y Quarantine y validar permisos de acceso. \\
+\hline
+RP-06 & Errores en la validación de archivos (tipo o tamaño) & Media & Medio & Medio & Verificar tamaño máximo de 50 MB, tipos MIME permitidos y reglas de validación antes del upload. \\
+\hline
+\end{longtable}
 
-\begin{table}[H]
-\centering
-\caption{Matriz de Capacitación SQA}
-\label{tab:training}
-\begin{tabular}{|p{4cm}|p{4cm}|p{2.5cm}|p{3.5cm}|}
+\subsection*{Riesgos del Proyecto de Pruebas}
+\begin{longtable}{|p{1.5cm}|p{3.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{4cm}|}
 \hline
-\textbf{TAREA} & \textbf{REQUISITOS DE HABILIDADES} & \textbf{TIPO} & \textbf{FUENTE} \\
+\textbf{ID} & \textbf{Riesgo} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Nivel} & \textbf{Estrategia de Mitigación} \\
 \hline
-Revisiones de Código & Lenguaje fuente, Revisiones por Pares & Aula/OJT & SEPO, Proceso y Taller de Revisión por Pares \\
+RPR-01 & Retrasos en el cronograma de pruebas & Media & Alto & Alto & Planificar las actividades por Sprint y realizar reuniones de seguimiento semanales. \\
 \hline
-Revisiones de Documentación & Estándares y pautas de desarrollo y documentación de software, Revisiones por Pares & Aula/OJT & SEPO, Proceso y Taller de Revisión por Pares \\
+RPR-02 & Casos de prueba incompletos & Media & Alto & Alto & Elaborar una matriz de trazabilidad entre requisitos y casos de prueba antes de iniciar la ejecución. \\
 \hline
-Auditorías de Procesos & Procesos del Ciclo de Vida del Desarrollo de Software, Técnicas de Auditoría & Aula/OJT & MIL-STD-498, IEEE/EIA 12207 \\
+RPR-03 & Cambios frecuentes en el código durante las pruebas & Alta & Medio & Alto & Utilizar GitHub con ramas de desarrollo y control de versiones para gestionar cambios. \\
 \hline
-Pruebas & Metodologías de Pruebas & OJT & \\
+RPR-04 & Indisponibilidad de PostgreSQL o ClamAV & Baja & Alto & Medio & Mantener un entorno de pruebas estable y verificar los servicios antes de ejecutar las pruebas. \\
 \hline
-Gestión de SQA & Gestión de Proyectos & Aula/OJT & SEPO, Curso de Gestión de Proyectos de Software (SPM) \\
+RPR-05 & Baja cobertura de pruebas automatizadas & Media & Medio & Medio & Implementar pruebas unitarias con JUnit y pruebas de API mediante Postman. \\
 \hline
-Métricas & Recopilación y Análisis de Datos & Aula/OJT & SEPO, Curso SPM \\
+RPR-06 & Defectos no registrados correctamente & Baja & Medio & Bajo & Mantener un registro centralizado de incidencias con evidencia, prioridad y estado. \\
 \hline
-Reporte de problemas y acción correctiva & Gestión de Configuración & Aula/OJT & SEPO, Capacitación de Practicante de CM \\
-\hline
-Herramientas & Capacitación proporcionada por el proveedor & Aula/OJT & Proveedor \\
-\hline
-Control de Código, Soportes y Proveedores & Gestión de Configuración & Aula/OJT & SEPO, Capacitación de Practicante de CM \\
-\hline
-Gestión de Riesgos y Análisis & Proceso de Gestión de Riesgos & Aula/OJT & SEPO, Curso SPM \\
-\hline
-Gestión de Software & Proceso de Gestión de Software & Aula/OJT & SEPO, Capacitación Software Management for Everyone (SME), Curso SPM \\
-\hline
-\end{tabular}
-\end{table}
+\end{longtable}
+
+\subsection*{Plan de Respuesta a los Riesgos}
+Para minimizar el impacto de los riesgos identificados durante el proceso de aseguramiento de la calidad, se implementarán las siguientes acciones utilizando las herramientas definidas en el proyecto:
+\begin{itemize}
+    \item Ejecutar análisis estáticos del código mediante SonarQube para identificar vulnerabilidades, code smells, errores potenciales y problemas de mantenibilidad antes de iniciar las pruebas dinámicas.
+    \item Medir la cobertura de las pruebas utilizando JaCoCo, con el fin de identificar componentes del sistema que no han sido suficientemente validados y mejorar la confiabilidad del software.
+    \item Analizar las dependencias del proyecto mediante npm audit para detectar bibliotecas vulnerables o desactualizadas y aplicar las actualizaciones o correcciones necesarias.
+    \item Ejecutar pruebas unitarias con JUnit para validar el correcto funcionamiento de los componentes críticos del backend, asegurando que la lógica de negocio opere de acuerdo con los requisitos establecidos.
+    \item Realizar pruebas de seguridad utilizando OWASP ZAP, con el objetivo de identificar vulnerabilidades en la aplicación web, como problemas de autenticación, control de acceso, inyección de código o configuraciones inseguras.
+    \item Evaluar el rendimiento, la accesibilidad y las buenas prácticas del frontend mediante Lighthouse, identificando oportunidades de mejora que contribuyan a una mejor experiencia de usuario.
+    \item Documentar todos los hallazgos, defectos y vulnerabilidades detectadas durante el proceso de pruebas, verificando posteriormente las correcciones mediante pruebas de regresión para asegurar que los cambios implementados no introduzcan nuevos errores.
+\end{itemize}
